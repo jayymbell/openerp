@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Employee:</strong>
+  <%= @employee_job.employee_id %>
+</p>
+
+<p>
+  <strong>Job:</strong>
+  <%= @employee_job.job_id %>
+</p>
+
+<p>
+  <strong>Is active:</strong>
+  <%= @employee_job.is_active %>
+</p>
+
+<p>
+  <strong>Is primary:</strong>
+  <%= @employee_job.is_primary %>
+</p>
+
+<%= link_to 'Edit', edit_employee_job_path(@employee_job) %> |
+<%= link_to 'Back', employee_jobs_path %>
