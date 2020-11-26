@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_26_201732) do
+ActiveRecord::Schema.define(version: 2020_11_26_202301) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,6 +182,16 @@ ActiveRecord::Schema.define(version: 2020_11_26_201732) do
     t.index ["purchase_order_id"], name: "index_purchase_order_product_assemblies_on_purchase_order_id"
   end
 
+  create_table "purchase_order_services", force: :cascade do |t|
+    t.bigint "purchase_order_id", null: false
+    t.bigint "service_id", null: false
+    t.decimal "total"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["purchase_order_id"], name: "index_purchase_order_services_on_purchase_order_id"
+    t.index ["service_id"], name: "index_purchase_order_services_on_service_id"
+  end
+
   create_table "purchase_orders", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -227,6 +237,8 @@ ActiveRecord::Schema.define(version: 2020_11_26_201732) do
   add_foreign_key "product_assembly_components", "product_assemblies"
   add_foreign_key "purchase_order_product_assemblies", "product_assemblies"
   add_foreign_key "purchase_order_product_assemblies", "purchase_orders"
+  add_foreign_key "purchase_order_services", "purchase_orders"
+  add_foreign_key "purchase_order_services", "services"
   add_foreign_key "purchase_orders", "customers"
   add_foreign_key "service_employees", "employees"
   add_foreign_key "service_employees", "services"

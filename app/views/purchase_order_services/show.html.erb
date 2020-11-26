@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Purchase order:</strong>
+  <%= @purchase_order_service.purchase_order_id %>
+</p>
+
+<p>
+  <strong>Service:</strong>
+  <%= @purchase_order_service.service_id %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @purchase_order_service.total %>
+</p>
+
+<%= link_to 'Edit', edit_purchase_order_service_path(@purchase_order_service) %> |
+<%= link_to 'Back', purchase_order_services_path %>
