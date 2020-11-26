@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :applicants
   resources :events
   resources :employee_departments
   resources :departments
