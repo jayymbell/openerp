@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Person:</strong>
+  <%= @user.person_id %>
+</p>
+
+<p>
+  <strong>Activation digest:</strong>
+  <%= @user.activation_digest %>
+</p>
+
+<p>
+  <strong>Activation sent at:</strong>
+  <%= @user.activation_sent_at %>
+</p>
+
+<p>
+  <strong>Activation at:</strong>
+  <%= @user.activation_at %>
+</p>
+
+<p>
+  <strong>Reset digest:</strong>
+  <%= @user.reset_digest %>
+</p>
+
+<p>
+  <strong>Reset sent at:</strong>
+  <%= @user.reset_sent_at %>
+</p>
+
+<p>
+  <strong>Reset at:</strong>
+  <%= @user.reset_at %>
+</p>
+
+<p>
+  <strong>Password digest:</strong>
+  <%= @user.password_digest %>
+</p>
+
+<p>
+  <strong>Is active:</strong>
+  <%= @user.is_active %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>

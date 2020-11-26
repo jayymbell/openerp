@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_26_204242) do
+ActiveRecord::Schema.define(version: 2020_11_26_205229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -241,6 +241,21 @@ ActiveRecord::Schema.define(version: 2020_11_26_204242) do
     t.decimal "base_rate"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.bigint "person_id", null: false
+    t.string "activation_digest"
+    t.datetime "activation_sent_at"
+    t.datetime "activation_at"
+    t.string "reset_digest"
+    t.datetime "reset_sent_at"
+    t.datetime "reset_at"
+    t.string "password_digest"
+    t.boolean "is_active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["person_id"], name: "index_users_on_person_id"
+  end
+
   add_foreign_key "applicant_jobs", "applicants"
   add_foreign_key "applicant_jobs", "jobs"
   add_foreign_key "applicants", "people"
@@ -266,4 +281,5 @@ ActiveRecord::Schema.define(version: 2020_11_26_204242) do
   add_foreign_key "purchase_orders", "customers"
   add_foreign_key "service_employees", "employees"
   add_foreign_key "service_employees", "services"
+  add_foreign_key "users", "people"
 end
