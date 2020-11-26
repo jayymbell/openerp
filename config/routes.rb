@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :invoice_lines
   resources :invoices
   resources :service_employees
   resources :services

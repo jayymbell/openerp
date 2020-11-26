@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Invoice:</strong>
+  <%= @invoice_line.invoice_id %>
+</p>
+
+<p>
+  <strong>Short description:</strong>
+  <%= @invoice_line.short_description %>
+</p>
+
+<p>
+  <strong>Long description:</strong>
+  <%= @invoice_line.long_description %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @invoice_line.total %>
+</p>
+
+<p>
+  <strong>Is invoiceable:</strong>
+  <%= @invoice_line.is_invoiceable %>
+</p>
+
+<%= link_to 'Edit', edit_invoice_line_path(@invoice_line) %> |
+<%= link_to 'Back', invoice_lines_path %>

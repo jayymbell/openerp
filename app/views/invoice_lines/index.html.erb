@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Invoice Lines</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Invoice</th>
+      <th>Short description</th>
+      <th>Long description</th>
+      <th>Total</th>
+      <th>Is invoiceable</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @invoice_lines.each do |invoice_line| %>
+      <tr>
+        <td><%= invoice_line.invoice_id %></td>
+        <td><%= invoice_line.short_description %></td>
+        <td><%= invoice_line.long_description %></td>
+        <td><%= invoice_line.total %></td>
+        <td><%= invoice_line.is_invoiceable %></td>
+        <td><%= link_to 'Show', invoice_line %></td>
+        <td><%= link_to 'Edit', edit_invoice_line_path(invoice_line) %></td>
+        <td><%= link_to 'Destroy', invoice_line, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Invoice Line', new_invoice_line_path %>
