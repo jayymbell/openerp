@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :employee_departments
   resources :departments
   resources :employee_jobs
   resources :jobs

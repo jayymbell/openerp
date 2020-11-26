@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_26_185050) do
+ActiveRecord::Schema.define(version: 2020_11_26_185437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 2020_11_26_185050) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["parent_department_id"], name: "index_departments_on_parent_department_id"
+  end
+
+  create_table "employee_departments", force: :cascade do |t|
+    t.bigint "employee_id", null: false
+    t.bigint "department_id", null: false
+    t.boolean "is_active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["department_id"], name: "index_employee_departments_on_department_id"
+    t.index ["employee_id"], name: "index_employee_departments_on_employee_id"
   end
 
   create_table "employee_jobs", force: :cascade do |t|
@@ -62,6 +72,8 @@ ActiveRecord::Schema.define(version: 2020_11_26_185050) do
   end
 
   add_foreign_key "departments", "departments", column: "parent_department_id"
+  add_foreign_key "employee_departments", "departments"
+  add_foreign_key "employee_departments", "employees"
   add_foreign_key "employee_jobs", "employees"
   add_foreign_key "employee_jobs", "jobs"
   add_foreign_key "employees", "people"
