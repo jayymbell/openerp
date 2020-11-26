@@ -8,8 +8,24 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 
-require("admin-lte")
+var jQuery = require("jquery")
+// import jQuery from "jquery";
+global.$ = global.jQuery = jQuery;
+window.$ = window.jQuery = jQuery;
 
+import "@fortawesome/fontawesome-free/js/all";
+import "datatables.net-dt/css/jquery.dataTables.min.css";
+import "select2/dist/css/select2.min.css"
+import "bootstrap4-toggle/css/bootstrap4-toggle.min.css"
+import "tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css"
+
+require('bootstrap')
+require('bootstrap4-toggle')
+require('admin-lte')
+require( 'datatables.net-dt' )
+require( 'select2' )
+require( 'moment' )
+require( 'tempusdominus-bootstrap-4' )
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.

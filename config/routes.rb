@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
-  get 'dashboards/show'
+
   root 'dashboards#show'
+
+  get '/login',   to: 'sessions#new'
+  post '/login',  to: 'sessions#create'
+  get '/logout',   to: 'sessions#destroy' 
+  
   resources :users
-  get 'sessions/new'
-  get 'sessions/create'
-  get 'sessions/destroy'
   resources :projects
   resources :purchase_order_efforts
   resources :purchase_order_services

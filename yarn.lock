@@ -1465,7 +1465,11 @@ bootstrap4-duallistbox@^4.0.1:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/bootstrap4-duallistbox/-/bootstrap4-duallistbox-4.0.2.tgz#c6942e34a39d0d05e436d51ebaf31c9349f119d3"
 
-bootstrap@>=4.0, bootstrap@^4.4.1, bootstrap@^4.5.2:
+bootstrap4-toggle@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/bootstrap4-toggle/-/bootstrap4-toggle-3.6.1.tgz#867f2c350727022e6358ec0d43e43b7cfb609f74"
+
+bootstrap@>=4.0, bootstrap@^4.4.1, bootstrap@^4.5.0, bootstrap@^4.5.2:
   version "4.5.3"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.5.3.tgz#c6a72b355aaf323920be800246a6e4ef30997fe6"
 
@@ -2380,6 +2384,13 @@ datatables.net-colreorder@1.5.2:
   resolved "https://registry.yarnpkg.com/datatables.net-colreorder/-/datatables.net-colreorder-1.5.2.tgz#c425cee1f88b3246be0363c67a152be743ca6bce"
   dependencies:
     datatables.net "^1.10.15"
+    jquery ">=1.7"
+
+datatables.net-dt@^1.10.21:
+  version "1.10.22"
+  resolved "https://registry.yarnpkg.com/datatables.net-dt/-/datatables.net-dt-1.10.22.tgz#476a5c07b790f4883b71b1db6a616709048d449c"
+  dependencies:
+    datatables.net "1.10.22"
     jquery ">=1.7"
 
 datatables.net-fixedcolumns-bs4@^3.3.0:
@@ -4629,7 +4640,7 @@ moment-timezone@^0.5.31:
   dependencies:
     moment ">= 2.9.0"
 
-"moment@>= 2.9.0", moment@^2.10.2, moment@^2.24.0, moment@^2.29.0, moment@^2.9.0:
+"moment@>= 2.9.0", moment@^2.10.2, moment@^2.24.0, moment@^2.27.0, moment@^2.29.0, moment@^2.9.0:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
 

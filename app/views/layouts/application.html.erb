@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Openerp</title>
+    <title>OpenERP</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -9,7 +9,73 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <%= yield %>
-  </body>
+  <body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+      <!-- Navbar -->
+      <%= render 'layouts/header'%>
+      <!-- /.navbar -->
+      <%= render 'layouts/toast'%>
+      <!-- Main Sidebar Container -->
+      <%= render 'layouts/main_sidebar'%>
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <div class="container-fluid">
+          <%= yield %>
+        </div>
+      </div>
+      <!-- /.content-wrapper -->
+
+      <!-- Control Sidebar -->
+    <%= render 'layouts/control_sidebar'%>
+      <!-- /.control-sidebar -->
+
+      <!-- Main Footer -->
+      <%= render 'layouts/footer'%>
+    </div>
+    <!-- ./wrapper -->
+    
+    <%= render '/layouts/modal' %>
+</body>
 </html>
+
+<script>
+  $(document).ready(function() {
+
+    $('.input-select2-basic').select2();
+
+    $(function () {
+        $('.input-datetimepicker').datetimepicker();
+    });
+
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    $('.input-toggle').bootstrapToggle({
+      on: 'Active',
+      off: 'Inactive'
+    });
+
+    $('.select2-basic').select2();
+      
+    $('.table-datatable').DataTable({
+      "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
+      language: { search: '', 
+      searchPlaceholder: "Search",
+      lengthMenu:     "_MENU_" }
+    });
+    
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+    
+    var activeTab = localStorage.getItem('activeTab');
+    if(activeTab){
+        $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+    }
+
+
+  } );
+</script>

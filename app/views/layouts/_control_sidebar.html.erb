@@ -1,0 +1,60 @@
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+       <nav class="mt-2">
+        <%if is_logged_in? %>
+          <ul class="nav nav-pills flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <%= link_to logout_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-power-off"></i>
+                Logout
+            <%end%>
+          </ul>
+        <%end%>
+        <br/>
+        <ul class="nav nav-pills flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <%= link_to people_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-user"></i>
+                People
+            <%end%>
+          </li>
+          <li class="nav-item">
+            <%= link_to departments_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-calendar"></i>
+                Departments
+            <%end%>
+          </li>
+          <li class="nav-item">
+            <%= link_to jobs_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-table"></i>
+                Jobs
+            <%end%>
+          </li>
+          <li class="nav-item">
+            <%= link_to products_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-portrait"></i>
+                Products
+            <%end%>
+          </li>
+          <li class="nav-item">
+            <%= link_to components_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-portrait"></i>
+                Components
+            <%end%>
+          </li>
+          <li class="nav-item">
+            <%= link_to services_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-portrait"></i>
+                Services
+            <%end%>
+          </li>
+          <li class="nav-item">
+            <%= link_to projects_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-portrait"></i>
+                Projects
+            <%end%>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
