@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :purchase_order_product_assemblies
   resources :purchase_orders
   resources :invoice_lines
   resources :invoices

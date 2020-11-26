@@ -1,0 +1,1 @@
+json.partial! "purchase_order_product_assemblies/purchase_order_product_assembly", purchase_order_product_assembly: @purchase_order_product_assembly
