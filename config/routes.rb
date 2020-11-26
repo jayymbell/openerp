@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :product_assembly_components
   resources :components
   resources :product_assemblies
   resources :products

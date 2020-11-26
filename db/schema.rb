@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_26_193712) do
+ActiveRecord::Schema.define(version: 2020_11_26_194140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,6 +129,18 @@ ActiveRecord::Schema.define(version: 2020_11_26_193712) do
     t.index ["product_id"], name: "index_product_assemblies_on_product_id"
   end
 
+  create_table "product_assembly_components", force: :cascade do |t|
+    t.bigint "product_assembly_id", null: false
+    t.bigint "component_id", null: false
+    t.decimal "quantity"
+    t.decimal "cost"
+    t.decimal "margin"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["component_id"], name: "index_product_assembly_components_on_component_id"
+    t.index ["product_assembly_id"], name: "index_product_assembly_components_on_product_assembly_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -149,4 +161,6 @@ ActiveRecord::Schema.define(version: 2020_11_26_193712) do
   add_foreign_key "employees", "employees", column: "supervisor_id"
   add_foreign_key "employees", "people"
   add_foreign_key "product_assemblies", "products"
+  add_foreign_key "product_assembly_components", "components"
+  add_foreign_key "product_assembly_components", "product_assemblies"
 end

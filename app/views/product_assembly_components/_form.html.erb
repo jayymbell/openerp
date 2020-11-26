@@ -1,0 +1,42 @@
+<%= form_with(model: product_assembly_component, local: true) do |form| %>
+  <% if product_assembly_component.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(product_assembly_component.errors.count, "error") %> prohibited this product_assembly_component from being saved:</h2>
+
+      <ul>
+        <% product_assembly_component.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :product_assembly_id %>
+    <%= form.text_field :product_assembly_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :component_id %>
+    <%= form.text_field :component_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :quantity %>
+    <%= form.text_field :quantity %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cost %>
+    <%= form.text_field :cost %>
+  </div>
+
+  <div class="field">
+    <%= form.label :margin %>
+    <%= form.text_field :margin %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

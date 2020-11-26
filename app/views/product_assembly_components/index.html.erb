@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Product Assembly Components</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product assembly</th>
+      <th>Component</th>
+      <th>Quantity</th>
+      <th>Cost</th>
+      <th>Margin</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @product_assembly_components.each do |product_assembly_component| %>
+      <tr>
+        <td><%= product_assembly_component.product_assembly_id %></td>
+        <td><%= product_assembly_component.component_id %></td>
+        <td><%= product_assembly_component.quantity %></td>
+        <td><%= product_assembly_component.cost %></td>
+        <td><%= product_assembly_component.margin %></td>
+        <td><%= link_to 'Show', product_assembly_component %></td>
+        <td><%= link_to 'Edit', edit_product_assembly_component_path(product_assembly_component) %></td>
+        <td><%= link_to 'Destroy', product_assembly_component, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Product Assembly Component', new_product_assembly_component_path %>

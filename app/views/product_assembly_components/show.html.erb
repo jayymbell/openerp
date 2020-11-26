@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Product assembly:</strong>
+  <%= @product_assembly_component.product_assembly_id %>
+</p>
+
+<p>
+  <strong>Component:</strong>
+  <%= @product_assembly_component.component_id %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @product_assembly_component.quantity %>
+</p>
+
+<p>
+  <strong>Cost:</strong>
+  <%= @product_assembly_component.cost %>
+</p>
+
+<p>
+  <strong>Margin:</strong>
+  <%= @product_assembly_component.margin %>
+</p>
+
+<%= link_to 'Edit', edit_product_assembly_component_path(@product_assembly_component) %> |
+<%= link_to 'Back', product_assembly_components_path %>
