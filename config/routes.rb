@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :product_assemblies
   resources :products
   resources :applicant_jobs
   resources :customers

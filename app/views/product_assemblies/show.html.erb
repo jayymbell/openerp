@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Product:</strong>
+  <%= @product_assembly.product_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @product_assembly.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @product_assembly.description %>
+</p>
+
+<p>
+  <strong>Is active:</strong>
+  <%= @product_assembly.is_active %>
+</p>
+
+<%= link_to 'Edit', edit_product_assembly_path(@product_assembly) %> |
+<%= link_to 'Back', product_assemblies_path %>
