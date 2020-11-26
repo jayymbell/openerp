@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Purchase order service:</strong>
+  <%= @purchase_order_effort.purchase_order_service_id %>
+</p>
+
+<p>
+  <strong>Employee:</strong>
+  <%= @purchase_order_effort.employee_id %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  <%= @purchase_order_effort.total %>
+</p>
+
+<%= link_to 'Edit', edit_purchase_order_effort_path(@purchase_order_effort) %> |
+<%= link_to 'Back', purchase_order_efforts_path %>

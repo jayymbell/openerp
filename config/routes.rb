@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :purchase_order_efforts
   resources :purchase_order_services
   resources :purchase_order_product_assemblies
   resources :purchase_orders

@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Purchase Order Efforts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Purchase order service</th>
+      <th>Employee</th>
+      <th>Total</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @purchase_order_efforts.each do |purchase_order_effort| %>
+      <tr>
+        <td><%= purchase_order_effort.purchase_order_service_id %></td>
+        <td><%= purchase_order_effort.employee_id %></td>
+        <td><%= purchase_order_effort.total %></td>
+        <td><%= link_to 'Show', purchase_order_effort %></td>
+        <td><%= link_to 'Edit', edit_purchase_order_effort_path(purchase_order_effort) %></td>
+        <td><%= link_to 'Destroy', purchase_order_effort, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Purchase Order Effort', new_purchase_order_effort_path %>

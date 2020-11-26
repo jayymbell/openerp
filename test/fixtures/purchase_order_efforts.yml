@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  purchase_order_service: one
+  employee: one
+  total: 9.99
+
+two:
+  purchase_order_service: two
+  employee: two
+  total: 9.99
