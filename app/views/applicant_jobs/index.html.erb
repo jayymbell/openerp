@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Applicant Jobs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Applicant</th>
+      <th>Job</th>
+      <th>Is active</th>
+      <th>Is primary</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @applicant_jobs.each do |applicant_job| %>
+      <tr>
+        <td><%= applicant_job.applicant_id %></td>
+        <td><%= applicant_job.job_id %></td>
+        <td><%= applicant_job.is_active %></td>
+        <td><%= applicant_job.is_primary %></td>
+        <td><%= link_to 'Show', applicant_job %></td>
+        <td><%= link_to 'Edit', edit_applicant_job_path(applicant_job) %></td>
+        <td><%= link_to 'Destroy', applicant_job, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Applicant Job', new_applicant_job_path %>

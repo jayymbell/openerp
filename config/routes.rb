@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :applicant_jobs
   resources :customers
   resources :applicants
   resources :events
