@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Employee:</strong>
+  <%= @service_employee.employee_id %>
+</p>
+
+<p>
+  <strong>Service:</strong>
+  <%= @service_employee.service_id %>
+</p>
+
+<p>
+  <strong>Is active:</strong>
+  <%= @service_employee.is_active %>
+</p>
+
+<p>
+  <strong>Is primary:</strong>
+  <%= @service_employee.is_primary %>
+</p>
+
+<%= link_to 'Edit', edit_service_employee_path(@service_employee) %> |
+<%= link_to 'Back', service_employees_path %>
