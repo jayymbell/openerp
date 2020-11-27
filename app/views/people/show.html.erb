@@ -45,7 +45,7 @@
   <%end%>
   <%if @person.customer%>
     <li class="nav-item">
-      <a class="nav-link" id="customer-tab" data-toggle="tab" href="#customer" role="tab" aria-controls="customer">Customer</a>
+      <a class="nav-link active" id="customer-tab" data-toggle="tab" href="#customer" role="tab" aria-controls="customer">Customer</a>
     </li>
   <%end%>
 </ul>
@@ -58,7 +58,7 @@
     </div>
   <%end%>
   <%if @person.customer%>
-    <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="customer-tab">
+    <div class="tab-pane fade show active" id="categories" role="tabpanel" aria-labelledby="customer-tab">
       <div class="container-fluid" style="padding-top: 10px;">
         <%= render 'customer'%>
       </div>

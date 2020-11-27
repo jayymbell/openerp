@@ -28,11 +28,14 @@ class CustomersController < ApplicationController
 
     respond_to do |format|
       if @customer.save
+        flash_message(:success, "Customer successfully created.")
         format.html { redirect_to @customer, notice: 'Customer was successfully created.' }
         format.json { render :show, status: :created, location: @customer }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @customer.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +45,14 @@ class CustomersController < ApplicationController
   def update
     respond_to do |format|
       if @customer.update(customer_params)
+        flash_message(:success, "Customer successfully updated.")
         format.html { redirect_to @customer, notice: 'Customer was successfully updated.' }
         format.json { render :show, status: :ok, location: @customer }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @customer.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +62,10 @@ class CustomersController < ApplicationController
   def destroy
     @customer.destroy
     respond_to do |format|
+      flash_message(:success, "Customer successfully deleted.")
       format.html { redirect_to customers_url, notice: 'Customer was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 
