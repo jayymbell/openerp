@@ -15,6 +15,7 @@ class PeopleController < ApplicationController
   # GET /people/new
   def new
     @person = Person.new
+    @person.is_active = true
   end
 
   # GET /people/1/edit
@@ -28,11 +29,15 @@ class PeopleController < ApplicationController
 
     respond_to do |format|
       if @person.save
+        flash_message(:success, "Person successfully created.")
+
         format.html { redirect_to @person, notice: 'Person was successfully created.' }
         format.json { render :show, status: :created, location: @person }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @person.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +47,14 @@ class PeopleController < ApplicationController
   def update
     respond_to do |format|
       if @person.update(person_params)
+        flash_message(:success, "Person successfully updated.")
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { render :show, status: :ok, location: @person }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @person.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +64,10 @@ class PeopleController < ApplicationController
   def destroy
     @person.destroy
     respond_to do |format|
+      flash_message(:success, "Person successfully deleted.")
       format.html { redirect_to people_url, notice: 'Person was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 

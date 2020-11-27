@@ -1,0 +1,9 @@
+$('#dialog h3').html("Edit Person");
+
+$('.modal-body').html('<%= j render("form", person: @person) %>');
+
+$('#dialog').modal("show");
+
+$('#dialog').on('shown.bs.modal', function () {
+    $('.first_input').focus()
+})

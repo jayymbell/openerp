@@ -28,11 +28,14 @@ class EmployeesController < ApplicationController
 
     respond_to do |format|
       if @employee.save
+        flash_message(:success, "Employee successfully created.")
         format.html { redirect_to @employee, notice: 'Employee was successfully created.' }
         format.json { render :show, status: :created, location: @employee }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @employee.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +45,14 @@ class EmployeesController < ApplicationController
   def update
     respond_to do |format|
       if @employee.update(employee_params)
+        flash_message(:success, "Employee successfully updated.")
         format.html { redirect_to @employee, notice: 'Employee was successfully updated.' }
         format.json { render :show, status: :ok, location: @employee }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @employee.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +62,10 @@ class EmployeesController < ApplicationController
   def destroy
     @employee.destroy
     respond_to do |format|
+      flash_message(:success, "Employee successfully deleted.")
       format.html { redirect_to employees_url, notice: 'Employee was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 
