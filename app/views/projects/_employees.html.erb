@@ -2,13 +2,15 @@
         <thead>
             <th>ID</th>
             <th>Name</th>
+            <th>Email</th>
             <th></th>
         </thead>
                 <tbody>
-    <%@person.employee.employee_departments.each do |d| %>
+    <%@project.project_employees.each do |d| %>
             <tr>
-                <td><%= link_to d.department.id, d.department%></td>
-                <td><%=d.department.name%></td>
+                <td><%= link_to d.employee.id, d.employee.person%></td>
+                <td><%=d.employee.person.name%></td>
+                <td><%=d.employee.person.email%></td>
                 <td><%=delete_btn(d)%></td>
             </tr>
         

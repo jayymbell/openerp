@@ -30,6 +30,9 @@
     <li class="nav-item">
       <a class="nav-link" id="purchase_orders-tab" data-toggle="tab" href="#purchase_orders" role="tab" aria-controls="purchase_orders" aria-selected="true">Purchase Orders</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" id="invoices-tab" data-toggle="tab" href="#invoices" role="tab" aria-controls="invoices" aria-selected="true">Invoices</a>
+    </li>
 </ul>
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="people" role="tabpanel" aria-labelledby="people-tab">
@@ -40,6 +43,11 @@
     <div class="tab-pane fade" id="purchase_orders" role="tabpanel" aria-labelledby="purchase_orders-tab">
       <div class="container-fluid" style="padding-top: 10px;">
         <%= render 'purchase_orders'%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="invoices" role="tabpanel" aria-labelledby="invoices-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'invoices'%>
       </div>
     </div>
 </div>

@@ -5,10 +5,10 @@
             <th></th>
         </thead>
         <tbody>
-    <%@person.employee.jobs.each do |j| %>
+    <%@person.employee.employee_jobs.each do |j| %>
             <tr>
-                <td><%= link_to j.id, j%></td>
-                <td><%=j.name%></td>
+                <td><%= link_to j.job.id, j.job%></td>
+                <td><%=j.job.name%></td>
                 <td><%=delete_btn(j)%></td>
             </tr>
         

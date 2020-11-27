@@ -17,6 +17,7 @@ class EmployeeJobsController < ApplicationController
   # GET /employee_jobs/new
   def new
     @employee_job = EmployeeJob.new
+    @employee_job.is_active = true
     @employee_job.employee = params[:employee_id].present? ? Employee.find(params[:employee_id]) : nil
     @employee_job.job = params[:job_id].present? ? Job.find(params[:job_id]) : nil
   end

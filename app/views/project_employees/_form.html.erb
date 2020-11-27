@@ -1,32 +1,33 @@
-<%= form_with(model: project_employee, local: true) do |form| %>
-  <% if project_employee.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(project_employee.errors.count, "error") %> prohibited this project_employee from being saved:</h2>
-
-      <ul>
-        <% project_employee.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<%= form_with(model: project_employee, remote: true) do |form| %>
+  <%= render 'layouts/form_errors', object: form.object %>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="field">
+        <%= form.hidden_field :is_active %>
+      </div>
     </div>
-  <% end %>
+    <div class="col-sm-4">
+        <%= submit_btn(form,"float:right;")%>
+    </div>
+  </div>
 
-  <div class="field">
+   <div class="field">
     <%= form.label :project_id %>
-    <%= form.text_field :project_id %>
+    <div class="field">
+      <%= form.select :project_id, 
+        @available_projects.map {|d| [d.name, d.id] }, 
+        {prompt: '', readonly: true},
+        {class: 'input-select2-basic'}%>
+    </div>
   </div>
 
-  <div class="field">
+   <div class="field">
     <%= form.label :employee_id %>
-    <%= form.text_field :employee_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :is_active %>
-    <%= form.check_box :is_active %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+    <div class="field">
+      <%= form.select :employee_id, 
+        @available_employees.map {|d| [d.person.name, d.id] }, 
+        {prompt: '', readonly: true},
+        {class: 'input-select2-basic'}%>
+    </div>
   </div>
 <% end %>

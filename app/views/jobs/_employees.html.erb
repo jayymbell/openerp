@@ -17,11 +17,12 @@
             <th>Is active</th>
         </thead>
         <tbody>
-    <%@job.employees.each do |e| %>
+    <%@job.employee_jobs.each do |e| %>
             <tr>
-                <td><%= link_to e.id, e.person%></td>
-                <td><%=e.person.name%></td>
+                <td><%= link_to e.employee.id, e.employee.person%></td>
+                <td><%=e.employee.person.name%></td>
                 <td><%=boolean_icon(e.is_active)%></td>
+                <td><%=delete_btn(e)%></td>
             </tr>
     <%end%>
     </tbody>

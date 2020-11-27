@@ -1,5 +1,7 @@
 class ProjectEmployeesController < ApplicationController
   before_action :set_project_employee, only: [:show, :edit, :update, :destroy]
+  before_action :set_available_employees, only: [:new, :create, :edit, :update]
+  before_action :set_available_projects, only: [:new, :create, :edit, :update]
 
   # GET /project_employees
   # GET /project_employees.json
@@ -15,6 +17,9 @@ class ProjectEmployeesController < ApplicationController
   # GET /project_employees/new
   def new
     @project_employee = ProjectEmployee.new
+    @project_employee.is_active = true
+    @project_employee.employee = params[:employee_id].present? ? Employee.find(params[:employee_id]) : nil
+    @project_employee.project = params[:project_id].present? ? Project.find(params[:project_id]) : nil
   end
 
   # GET /project_employees/1/edit
@@ -28,11 +33,14 @@ class ProjectEmployeesController < ApplicationController
 
     respond_to do |format|
       if @project_employee.save
+        flash_message(:success, "Project employee successfully created.")
         format.html { redirect_to @project_employee, notice: 'Project employee was successfully created.' }
         format.json { render :show, status: :created, location: @project_employee }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @project_employee.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +50,14 @@ class ProjectEmployeesController < ApplicationController
   def update
     respond_to do |format|
       if @project_employee.update(project_employee_params)
+        flash_message(:success, "Project employee successfully updated.")
         format.html { redirect_to @project_employee, notice: 'Project employee was successfully updated.' }
         format.json { render :show, status: :ok, location: @project_employee }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @project_employee.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +67,10 @@ class ProjectEmployeesController < ApplicationController
   def destroy
     @project_employee.destroy
     respond_to do |format|
+      flash_message(:success, "Project employee successfully deleted.")
       format.html { redirect_to project_employees_url, notice: 'Project employee was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 
@@ -70,5 +83,11 @@ class ProjectEmployeesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def project_employee_params
       params.require(:project_employee).permit(:project_id, :employee_id, :is_active)
+    end
+    def set_available_employees
+      @available_employees= params[:employee_id].present? ? Employee.where(id: params[:employee_id]) : Employee.all
+    end
+    def set_available_projects
+      @available_projects = params[:project_id].present? ? Project.where(id: params[:project_id]) : Project.all
     end
 end

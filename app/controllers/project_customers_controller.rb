@@ -1,5 +1,7 @@
 class ProjectCustomersController < ApplicationController
   before_action :set_project_customer, only: [:show, :edit, :update, :destroy]
+  before_action :set_available_customers, only: [:new, :create, :edit, :update]
+  before_action :set_available_projects, only: [:new, :create, :edit, :update]
 
   # GET /project_customers
   # GET /project_customers.json
@@ -15,6 +17,9 @@ class ProjectCustomersController < ApplicationController
   # GET /project_customers/new
   def new
     @project_customer = ProjectCustomer.new
+    @project_customer.is_active = true
+    @project_customer.customer = params[:customer_id].present? ? Customer.find(params[:customer_id]) : nil
+    @project_customer.project = params[:project_id].present? ? Project.find(params[:project_id]) : nil
   end
 
   # GET /project_customers/1/edit
@@ -28,11 +33,14 @@ class ProjectCustomersController < ApplicationController
 
     respond_to do |format|
       if @project_customer.save
+        flash_message(:success, "Project customer successfully created.")
         format.html { redirect_to @project_customer, notice: 'Project customer was successfully created.' }
         format.json { render :show, status: :created, location: @project_customer }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @project_customer.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +50,14 @@ class ProjectCustomersController < ApplicationController
   def update
     respond_to do |format|
       if @project_customer.update(project_customer_params)
+        flash_message(:success, "Project customer successfully updated.")
         format.html { redirect_to @project_customer, notice: 'Project customer was successfully updated.' }
         format.json { render :show, status: :ok, location: @project_customer }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @project_customer.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +67,10 @@ class ProjectCustomersController < ApplicationController
   def destroy
     @project_customer.destroy
     respond_to do |format|
+      flash_message(:success, "Project customer successfully deleted.")
       format.html { redirect_to project_customers_url, notice: 'Project customer was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 
@@ -70,5 +83,11 @@ class ProjectCustomersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def project_customer_params
       params.require(:project_customer).permit(:project_id, :customer_id, :is_active)
+    end
+    def set_available_customers
+      @available_customers = params[:customer_id].present? ? Customer.where(id: params[:customer_id]) : Customer.all
+    end
+    def set_available_projects
+      @available_projects = params[:project_id].present? ? Project.where(id: params[:project_id]) : Project.all
     end
 end

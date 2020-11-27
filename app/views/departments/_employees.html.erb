@@ -15,13 +15,15 @@
             <th>ID</th>
             <th>Name</th>
             <th>Is active</th>
+            <th></th>
         </thead>
         <tbody>
-    <%@department.employees.each do |e| %>
+    <%@department.employee_departments.each do |e| %>
             <tr>
-                <td><%= link_to e.id, e.person%></td>
-                <td><%=e.person.name%></td>
+                <td><%= link_to e.employee.id, e.employee.person%></td>
+                <td><%=e.employee.person.name%></td>
                 <td><%=boolean_icon(e.is_active)%></td>
+                <td><%=delete_btn(e)%></td>
             </tr>
     <%end%>
     </tbody>

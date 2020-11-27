@@ -17,6 +17,16 @@
   </div>
 
   <div class="field">
+  <%= form.label :base_rate %>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">$</div>
+      </div>
+      <%= form.number_field :base_rate %>
+    </div>
+  </div>
+
+  <div class="field">
     <%= form.label :description %>
     <%= form.text_area :description %>
   </div>

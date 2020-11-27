@@ -17,6 +17,7 @@ class ServiceEmployeesController < ApplicationController
   # GET /service_employees/new
   def new
     @service_employee = ServiceEmployee.new
+    @service_employee.is_active = true
     @service_employee.employee = params[:employee_id].present? ? Employee.find(params[:employee_id]) : nil
     @service_employee.service = params[:service_id].present? ? Service.find(params[:service_id]) : nil
   end

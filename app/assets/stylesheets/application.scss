@@ -50,6 +50,9 @@
   input[type=password]{
     @extend .form-control;
   }
+  input[type=number]{
+    @extend .form-control;
+  }
   select{
     @extend .form-control;
   }

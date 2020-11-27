@@ -1,0 +1,11 @@
+$('#dialog h3').html("Edit Project Employee");
+
+$('.modal-body').html('<%= j render("form", project_employee: @project_employee) %>');
+
+$('#dialog').modal("show");
+
+$('#dialog').on('shown.bs.modal', function () {
+    $('.first_input').focus()
+})
+
+$('.input-select2-basic').select2();

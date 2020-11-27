@@ -49,7 +49,7 @@
   <%if @person.customer%>
     <li class="nav-item">
               <span class="badge badge-pill badge-<%=is_active_style(@person.customer.is_active)%>"><%=is_active_text(@person.customer.is_active)%></span>
-      <a class="nav-link active" id="customer-tab" data-toggle="tab" href="#customer" role="tab" aria-controls="customer">Customer</a>
+      <a class="nav-link <%unless @person.employee%> active<%end%>" id="customer-tab" data-toggle="tab" href="#customer" role="tab" aria-controls="customer">Customer</a>
     </li>
   <%end%>
 </ul>
@@ -62,7 +62,7 @@
     </div>
   <%end%>
   <%if @person.customer%>
-    <div class="tab-pane fade show active" id="customer" role="tabpanel" aria-labelledby="customer-tab">
+    <div class="tab-pane fade<%unless @person.employee%> show active<%end%>" id="customer" role="tabpanel" aria-labelledby="customer-tab">
       <div class="container-fluid" style="padding-top: 10px;">
         <%= render 'customer'%>
       </div>
