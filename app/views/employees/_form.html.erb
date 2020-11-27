@@ -4,12 +4,12 @@
     <div class="col-sm-8">
       
   <div class="field">
-    <%= form.label :is_active %>
-    <%= form.check_box :is_active %>
+    <%= form.hidden_field :is_active %>
   </div>
     </div>
     <div class="col-sm-4">
-        <%= submit_btn(form,"float:right;")%>
+                <%= submit_btn(form,"float:right; margin-left: 10px;")%>
+        <%= delete_btn(employee)%>
     </div>
   </div>
 

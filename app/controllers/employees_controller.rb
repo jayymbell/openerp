@@ -83,6 +83,6 @@ class EmployeesController < ApplicationController
     end
 
     def set_available_supervisors
-      @available_supervisors = Employee.where.not(id:@employee.id)
+      @available_supervisors = @emplid.present? ? Employee.where.not(id:@employee.id) : Employee.all
     end
 end

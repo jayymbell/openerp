@@ -4,8 +4,8 @@ class Person < ApplicationRecord
     validates :first_name, :last_name, :presence => true
     validates :email, presence: true, length: {maximum: 255}, format: {with: VALID_EMAIL_REGEX}, uniqueness: {case_sensitive: false}
 
-    has_one :employee
-    has_one :customer
+    has_one :employee, dependent: :destroy
+    has_one :customer, dependent: :destroy
 
     def name
         "#{first_name} #{last_name}"

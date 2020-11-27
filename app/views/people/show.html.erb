@@ -6,28 +6,30 @@
           Actions
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <%= link_to 'Edit', edit_person_path(@person), class: 'dropdown-item', remote: true %>
+          <%= link_to 'Edit Person', edit_person_path(@person), class: 'dropdown-item', remote: true %>
           <%if @person.is_active%>
-            <%= form_for @person, remote: true do |form| %>
+           <%= form_for @person, remote: true do |form| %>
               <%= form.hidden_field :is_active, value: false %>
-              <%= form.submit 'Deactivate', class: 'dropdown-item text-danger', data: { confirm: 'Are you sure?' } %>
+              <%= form.submit 'Deactivate Person', class: 'dropdown-item text-danger', data: { confirm: 'Are you sure?' } %>
             <%end%>
           <%else%>
             <%= form_for @person, remote: true do |form| %>
               <%= form.hidden_field :is_active, value: true %>
-              <%= form.submit 'Activate', class: 'dropdown-item text-success', data: { confirm: 'Are you sure?' } %>
+              <%= form.submit 'Activate Person', class: 'dropdown-item text-success', data: { confirm: 'Are you sure?' } %>
             <%end%>
           <%end%>
           <div class="dropdown-divider"></div>
           <%unless @person.employee%>
             <%= form_for Employee.new, remote: true do |form| %>
               <%= form.hidden_field :person_id, value: @person.id %>
+              <%= form.hidden_field :is_active, value: true %>
               <%= form.submit 'Initialize Employee Record', class: 'dropdown-item', data: { confirm: 'Are you sure?' } %>
             <%end%>
           <%end%>
           <%unless @person.customer%>
             <%= form_for Customer.new, remote: true do |form| %>
               <%= form.hidden_field :person_id, value: @person.id %>
+              <%= form.hidden_field :is_active, value: true %>
               <%= form.submit 'Initialize Customer Record', class: 'dropdown-item', data: { confirm: 'Are you sure?' } %>
             <%end%>
           <%end%>
@@ -36,15 +38,17 @@
     </ul>
 </nav>
 <%= render 'profile'%>
-
+<%if @person.employee.present? || @person.customer.present?  %>
 <ul class="nav nav-tabs" id="myTab" role="tablist" style="padding-top: 10px;">
   <%if @person.employee%>
     <li class="nav-item">
+          <span class="badge badge-pill badge-<%=is_active_style(@person.employee.is_active)%>"><%=is_active_text(@person.employee.is_active)%></span>
       <a class="nav-link active" id="employee-tab" data-toggle="tab" href="#employee" role="tab" aria-controls="employee" aria-selected="true">Employee</a>
     </li>
   <%end%>
   <%if @person.customer%>
     <li class="nav-item">
+              <span class="badge badge-pill badge-<%=is_active_style(@person.customer.is_active)%>"><%=is_active_text(@person.customer.is_active)%></span>
       <a class="nav-link active" id="customer-tab" data-toggle="tab" href="#customer" role="tab" aria-controls="customer">Customer</a>
     </li>
   <%end%>
@@ -58,10 +62,11 @@
     </div>
   <%end%>
   <%if @person.customer%>
-    <div class="tab-pane fade show active" id="categories" role="tabpanel" aria-labelledby="customer-tab">
+    <div class="tab-pane fade show active" id="customer" role="tabpanel" aria-labelledby="customer-tab">
       <div class="container-fluid" style="padding-top: 10px;">
         <%= render 'customer'%>
       </div>
     </div>
   <%end%>
 </div>
+<%end%>

@@ -1,13 +1,15 @@
-<table class="table">
+<table class="table table-striped">
         <thead>
             <th>ID</th>
             <th>Name</th>
+            <th></th>
         </thead>
                 <tbody>
     <%@person.employee.departments.each do |d| %>
             <tr>
                 <td><%= link_to d.id, d%></td>
                 <td><%=d.name%></td>
+                <td><%=delete_btn(d)%></td>
             </tr>
         
     <%end%>

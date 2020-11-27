@@ -13,7 +13,7 @@ module ApplicationHelper
     end
 
     def delete_btn(object)
-        link_to 'Delete', object, method: :delete, data: { confirm: 'Are you sure?'}, class: 'btn btn-outline-danger btn-sm', remote: true, style: 'float:right;'
+        link_to 'Delete', object, method: :delete, data: { confirm: 'Are you sure you want to delete this?'}, class: 'btn btn-outline-danger btn-sm', remote: true, style: 'float:right;'
     end
 
     def view_btn(object)
@@ -25,7 +25,7 @@ module ApplicationHelper
     end
 
     def submit_btn(form, style)
-        form.submit 'Submit', class: 'btn btn-outline-primary', style: "#{style}"
+        form.submit 'Submit', class: 'btn btn-outline-primary btn-sm', style: "#{style}"
     end
 
     def is_active_toggle_style(is_active)

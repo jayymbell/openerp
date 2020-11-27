@@ -16,7 +16,6 @@
     <tr>
       <th>ID</th>
       <th>Name</th>
-      <th>Description</th>
       <th>Is active</th>
       <th></th>
     </tr>
@@ -27,7 +26,6 @@
       <tr>
         <td><%= link_to job.id, job %></td>
         <td><%= job.name %></td>
-        <td><%= job.description %></td>
         <td><%= boolean_icon(job.is_active) %></td>
         <td><%= delete_btn(job)%></td>
       </tr>

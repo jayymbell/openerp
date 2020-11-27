@@ -116,8 +116,8 @@
    width: 100% !important;
   }
 
-  .tab-badge {
-    position: relative;
-    top: -50px;
-    right: -60px;
+  .nav-tabs .badge{
+    float:right;
+    margin-bottom:-20px;
+    margin-right:-20px;
   }
