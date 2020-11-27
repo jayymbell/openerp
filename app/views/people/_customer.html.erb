@@ -1,4 +1,28 @@
-<%= delete_btn(@person.customer)%>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Actions
+        </a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <%= link_to 'Edit Employee', edit_customer_path(@person.customer), class: 'dropdown-item', remote: true %>
+          <%if @person.customer.is_active%>
+            <%= form_for @person.customer, remote: true do |form| %>
+              <%= form.hidden_field :is_active, value: false %>
+              <%= form.submit 'Deactivate customer', class: 'dropdown-item text-danger', data: { confirm: 'Are you sure?' } %>
+            <%end%>
+          <%else%>
+            <%= form_for @person.customer, remote: true do |form| %>
+              <%= form.hidden_field :is_active, value: true %>
+              <%= form.submit 'Activate Customer', class: 'dropdown-item text-success', data: { confirm: 'Are you sure?' } %>
+            <%end%>
+          <%end%>
+          <div class="dropdown-divider"></div>
+            <%= link_to 'New Project', new_project_customer_path(customer_id: @person.customer.id), class: "dropdown-item", remote: true%>
+        </div>
+      </li>
+    </ul>
+</nav>
 <br/>
 <div class="row">
   <div class="col-3">
@@ -9,7 +33,7 @@
   <div class="col-9">
     <div class="tab-content" id="v-pills-tabContent">
       <div class="tab-pane fade show active" id="v-pills-projects" role="tabpanel" aria-labelledby="v-pills-projects-tab">
-        <%= render 'projects'%>
+        <%= render 'customer_projects'%>
       </div>
     </div>
   </div>
