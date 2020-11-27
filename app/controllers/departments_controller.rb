@@ -4,7 +4,7 @@ class DepartmentsController < ApplicationController
   # GET /departments
   # GET /departments.json
   def index
-    @departments = Department.all
+    @departments = Department.all.where(parent_department_id: nil)
   end
 
   # GET /departments/1
@@ -15,6 +15,7 @@ class DepartmentsController < ApplicationController
   # GET /departments/new
   def new
     @department = Department.new
+    @department.is_active = true
   end
 
   # GET /departments/1/edit
@@ -28,11 +29,14 @@ class DepartmentsController < ApplicationController
 
     respond_to do |format|
       if @department.save
+        flash_message(:success, "Department successfully created.")
         format.html { redirect_to @department, notice: 'Department was successfully created.' }
         format.json { render :show, status: :created, location: @department }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @department.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +46,14 @@ class DepartmentsController < ApplicationController
   def update
     respond_to do |format|
       if @department.update(department_params)
+        flash_message(:success, "Department successfully updated.")
         format.html { redirect_to @department, notice: 'Department was successfully updated.' }
         format.json { render :show, status: :ok, location: @department }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @department.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +63,10 @@ class DepartmentsController < ApplicationController
   def destroy
     @department.destroy
     respond_to do |format|
+      flash_message(:success, "Department successfully deleted.")
       format.html { redirect_to departments_url, notice: 'Department was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 

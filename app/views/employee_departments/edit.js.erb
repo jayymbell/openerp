@@ -1,0 +1,11 @@
+$('#dialog h3').html("Edit Employee Department");
+
+$('.modal-body').html('<%= j render("form", employee_department: @employee_department) %>');
+
+$('#dialog').modal("show");
+
+$('#dialog').on('shown.bs.modal', function () {
+    $('.first_input').focus()
+})
+
+$('.input-select2-basic').select2();
