@@ -15,6 +15,7 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   def new
     @project = Project.new
+    @project.is_active = true
   end
 
   # GET /projects/1/edit
@@ -28,11 +29,14 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+        flash_message(:success, "Project successfully created.")
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
         format.json { render :show, status: :created, location: @project }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +46,14 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
+        flash_message(:success, "Project successfully updated.")
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +63,10 @@ class ProjectsController < ApplicationController
   def destroy
     @project.destroy
     respond_to do |format|
+      flash_message(:success, "Project successfully deleted.")
       format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 
