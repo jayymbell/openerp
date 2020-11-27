@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_27_182936) do
+ActiveRecord::Schema.define(version: 2020_11_27_183359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,6 +173,16 @@ ActiveRecord::Schema.define(version: 2020_11_27_182936) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "project_customer_roles", force: :cascade do |t|
+    t.bigint "project_customer_id", null: false
+    t.bigint "role_id", null: false
+    t.boolean "is_active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_customer_id"], name: "index_project_customer_roles_on_project_customer_id"
+    t.index ["role_id"], name: "index_project_customer_roles_on_role_id"
+  end
+
   create_table "project_customers", force: :cascade do |t|
     t.bigint "project_id", null: false
     t.bigint "customer_id", null: false
@@ -311,6 +321,8 @@ ActiveRecord::Schema.define(version: 2020_11_27_182936) do
   add_foreign_key "product_assemblies", "products"
   add_foreign_key "product_assembly_components", "components"
   add_foreign_key "product_assembly_components", "product_assemblies"
+  add_foreign_key "project_customer_roles", "project_customers"
+  add_foreign_key "project_customer_roles", "roles"
   add_foreign_key "project_customers", "customers"
   add_foreign_key "project_customers", "projects"
   add_foreign_key "project_employee_roles", "project_employees"

@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Project Customer Roles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Project customer</th>
+      <th>Role</th>
+      <th>Is active</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @project_customer_roles.each do |project_customer_role| %>
+      <tr>
+        <td><%= project_customer_role.project_customer_id %></td>
+        <td><%= project_customer_role.role_id %></td>
+        <td><%= project_customer_role.is_active %></td>
+        <td><%= link_to 'Show', project_customer_role %></td>
+        <td><%= link_to 'Edit', edit_project_customer_role_path(project_customer_role) %></td>
+        <td><%= link_to 'Destroy', project_customer_role, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Project Customer Role', new_project_customer_role_path %>

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_customer: one
+  role: one
+  is_active: false
+
+two:
+  project_customer: two
+  role: two
+  is_active: false
