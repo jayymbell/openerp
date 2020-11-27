@@ -11,30 +11,34 @@
     </li>
   </ul>
 </nav>
-<table class="table-datatable table table-striped">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th></th>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>Email</th>
-      <th>Is active</th>
-      <th></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @people.each do |person| %>
-      <tr>
-        <td><%= link_to person.id, person %></td>
-        <td><%= image_tag Identicon.data_url_for(person.id), size: "25"%></td>
-        <td><%= person.first_name %></td>
-        <td><%= person.last_name %></td>
-        <td><%= person.email %></td>
-        <td><%= boolean_icon(person.is_active) %></td>
-        <td><%= delete_btn(person) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<ul class="nav nav-tabs" id="myTab" role="tablist" style="padding-top: 10px;">
+    <li class="nav-item">
+      <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="employees-tab" data-toggle="tab" href="#employees" role="tab" aria-controls="employees" aria-selected="true">Employees</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="customers-tab" data-toggle="tab" href="#customers" role="tab" aria-controls="customers" aria-selected="true">Customers</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'all'%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="employees" role="tabpanel" aria-labelledby="employees-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'employees'%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="customers" role="tabpanel" aria-labelledby="customers-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'customers'%>
+      </div>
+    </div>
+</div>
+
+
