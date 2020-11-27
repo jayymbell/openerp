@@ -15,6 +15,7 @@ class JobsController < ApplicationController
   # GET /jobs/new
   def new
     @job = Job.new
+    @job.is_active = true
   end
 
   # GET /jobs/1/edit
@@ -28,11 +29,14 @@ class JobsController < ApplicationController
 
     respond_to do |format|
       if @job.save
+        flash_message(:success, "Job successfully created.")
         format.html { redirect_to @job, notice: 'Job was successfully created.' }
         format.json { render :show, status: :created, location: @job }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @job.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +46,14 @@ class JobsController < ApplicationController
   def update
     respond_to do |format|
       if @job.update(job_params)
+        flash_message(:success, "Job successfully updated.")
         format.html { redirect_to @job, notice: 'Job was successfully updated.' }
         format.json { render :show, status: :ok, location: @job }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @job.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +63,10 @@ class JobsController < ApplicationController
   def destroy
     @job.destroy
     respond_to do |format|
+      flash_message(:success, "Job successfully deleted.")
       format.html { redirect_to jobs_url, notice: 'Job was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 
