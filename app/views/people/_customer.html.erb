@@ -1,1 +1,16 @@
-customer
+<%= delete_btn(@person.customer)%>
+<br/>
+<div class="row">
+  <div class="col-3">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="v-pills-projects-tab" data-toggle="pill" href="#v-pills-projects" role="tab" aria-controls="v-pills-projects" aria-selected="true">Projects</a>
+    </div>
+  </div>
+  <div class="col-9">
+    <div class="tab-content" id="v-pills-tabContent">
+      <div class="tab-pane fade show active" id="v-pills-projects" role="tabpanel" aria-labelledby="v-pills-projects-tab">
+        <%= render 'projects'%>
+      </div>
+    </div>
+  </div>
+</div>

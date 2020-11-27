@@ -1,1 +1,24 @@
-employee
+<%= delete_btn(@person.employee)%>
+<br/>
+<div class="row">
+  <div class="col-3">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="v-pills-departments-tab" data-toggle="pill" href="#v-pills-departments" role="tab" aria-controls="v-pills-departments" aria-selected="true">Departments</a>
+      <a class="nav-link" id="v-pills-jobs-tab" data-toggle="pill" href="#v-pills-jobs" role="tab" aria-controls="v-pills-jobs" aria-selected="false">Jobs</a>
+      <a class="nav-link" id="v-pills-services-tab" data-toggle="pill" href="#v-pills-services" role="tab" aria-controls="v-pills-services" aria-selected="false">Services</a>
+    </div>
+  </div>
+  <div class="col-9">
+    <div class="tab-content" id="v-pills-tabContent">
+      <div class="tab-pane fade show active" id="v-pills-departments" role="tabpanel" aria-labelledby="v-pills-departments-tab">
+        <%= render 'departments'%>
+      </div>
+      <div class="tab-pane fade" id="v-pills-jobs" role="tabpanel" aria-labelledby="v-pills-jobs-tab">
+        <%= render 'jobs'%> 
+      </div>
+      <div class="tab-pane fade" id="v-pills-services" role="tabpanel" aria-labelledby="v-pills-services-tab">
+        <%= render 'services'%> 
+      </div>
+    </div>
+  </div>
+</div>

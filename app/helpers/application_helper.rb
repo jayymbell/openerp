@@ -13,7 +13,7 @@ module ApplicationHelper
     end
 
     def delete_btn(object)
-        link_to 'Delete', object, method: :delete, data: { confirm: 'Are you sure?'}, class: 'btn btn-outline-danger btn-sm', remote: true
+        link_to 'Delete', object, method: :delete, data: { confirm: 'Are you sure?'}, class: 'btn btn-outline-danger btn-sm', remote: true, style: 'float:right;'
     end
 
     def view_btn(object)
