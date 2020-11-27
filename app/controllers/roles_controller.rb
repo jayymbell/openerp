@@ -15,6 +15,7 @@ class RolesController < ApplicationController
   # GET /roles/new
   def new
     @role = Role.new
+    @role.is_active = true
   end
 
   # GET /roles/1/edit
@@ -28,11 +29,14 @@ class RolesController < ApplicationController
 
     respond_to do |format|
       if @role.save
+        flash_message(:success, "Service successfully created.")
         format.html { redirect_to @role, notice: 'Role was successfully created.' }
         format.json { render :show, status: :created, location: @role }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @role.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +46,14 @@ class RolesController < ApplicationController
   def update
     respond_to do |format|
       if @role.update(role_params)
+        flash_message(:success, "Service successfully updated.")
         format.html { redirect_to @role, notice: 'Role was successfully updated.' }
         format.json { render :show, status: :ok, location: @role }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @role.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +63,10 @@ class RolesController < ApplicationController
   def destroy
     @role.destroy
     respond_to do |format|
+      flash_message(:success, "Service successfully deleted.")
       format.html { redirect_to roles_url, notice: 'Role was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 

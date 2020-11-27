@@ -1,0 +1,21 @@
+<table class="table-datatable table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Is active</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @roles.where(category: 'service').each do |role| %>
+      <tr>
+        <td><%=link_to role.id, role%></td>
+        <td><%= role.name.capitalize %></td>
+        <td><%= boolean_icon(role.is_active) %></td>
+        <td><%= delete_btn(role) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

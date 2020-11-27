@@ -1,0 +1,11 @@
+$('#dialog h3').html("Edit Role");
+
+$('.modal-body').html('<%= j render("form", role: @role) %>');
+
+$('#dialog').modal("show");
+
+$('#dialog').on('shown.bs.modal', function () {
+    $('.first_input').focus()
+})
+
+$('.input-select2-basic').select2();

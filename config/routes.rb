@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :project_employee_roles
   resources :roles
   resources :project_customers
   resources :project_employees
