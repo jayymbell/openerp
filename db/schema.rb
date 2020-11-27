@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_26_205229) do
+ActiveRecord::Schema.define(version: 2020_11_27_153723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,6 +173,16 @@ ActiveRecord::Schema.define(version: 2020_11_26_205229) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "project_employees", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.bigint "employee_id", null: false
+    t.boolean "is_active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["employee_id"], name: "index_project_employees_on_employee_id"
+    t.index ["project_id"], name: "index_project_employees_on_project_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -272,6 +282,8 @@ ActiveRecord::Schema.define(version: 2020_11_26_205229) do
   add_foreign_key "product_assemblies", "products"
   add_foreign_key "product_assembly_components", "components"
   add_foreign_key "product_assembly_components", "product_assemblies"
+  add_foreign_key "project_employees", "employees"
+  add_foreign_key "project_employees", "projects"
   add_foreign_key "purchase_order_efforts", "employees"
   add_foreign_key "purchase_order_efforts", "purchase_order_services"
   add_foreign_key "purchase_order_product_assemblies", "product_assemblies"
