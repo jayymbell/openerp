@@ -15,6 +15,7 @@ class ServicesController < ApplicationController
   # GET /services/new
   def new
     @service = Service.new
+    @service.is_active = true
   end
 
   # GET /services/1/edit
@@ -28,11 +29,14 @@ class ServicesController < ApplicationController
 
     respond_to do |format|
       if @service.save
+        flash_message(:success, "Service successfully created.")
         format.html { redirect_to @service, notice: 'Service was successfully created.' }
         format.json { render :show, status: :created, location: @service }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @service.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +46,14 @@ class ServicesController < ApplicationController
   def update
     respond_to do |format|
       if @service.update(service_params)
+        flash_message(:success, "Service successfully updated.")
         format.html { redirect_to @service, notice: 'Service was successfully updated.' }
         format.json { render :show, status: :ok, location: @service }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @service.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +63,10 @@ class ServicesController < ApplicationController
   def destroy
     @service.destroy
     respond_to do |format|
+      flash_message(:success, "Service successfully deleted.")
       format.html { redirect_to services_url, notice: 'Service was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 

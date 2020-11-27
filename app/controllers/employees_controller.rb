@@ -1,5 +1,6 @@
 class EmployeesController < ApplicationController
   before_action :set_employee, only: [:show, :edit, :update, :destroy]
+  before_action :set_available_supervisors, only: [:new, :create, :edit, :update]
 
   # GET /employees
   # GET /employees.json
@@ -78,6 +79,10 @@ class EmployeesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def employee_params
-      params.require(:employee).permit(:person_id, :is_active)
+      params.require(:employee).permit(:person_id, :is_active, :supervisor_id)
+    end
+
+    def set_available_supervisors
+      @available_supervisors = Employee.where.not(id:@employee.id)
     end
 end

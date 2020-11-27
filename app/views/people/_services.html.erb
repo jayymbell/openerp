@@ -1,0 +1,16 @@
+<table class="table">
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+        </thead>
+        <tbody>
+    <%@person.employee.services.each do |j| %>
+        
+            <tr>
+                <td><%= link_to j.id, j%></td>
+                <td><%=j.name%></td>
+            </tr>
+        
+    <%end%>
+    </tbody>
+</table>

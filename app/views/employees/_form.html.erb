@@ -1,27 +1,30 @@
-<%= form_with(model: employee, local: true) do |form| %>
-  <% if employee.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(employee.errors.count, "error") %> prohibited this employee from being saved:</h2>
-
-      <ul>
-        <% employee.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :person_id %>
-    <%= form.text_field :person_id %>
-  </div>
-
+<%= form_with(model: employee, remote: true) do |form| %>
+  <%= render 'layouts/form_errors', object: form.object %>
+  <div class="row">
+    <div class="col-sm-8">
+      
   <div class="field">
     <%= form.label :is_active %>
     <%= form.check_box :is_active %>
   </div>
-
-  <div class="actions">
-    <%= form.submit %>
+    </div>
+    <div class="col-sm-4">
+        <%= submit_btn(form,"float:right;")%>
+    </div>
   </div>
+
+      <div class="field">
+    <%= form.label :supervisor_id %>
+    <div class="field">
+      <%= form.select :supervisor_id, 
+        @available_supervisors.map {|e| [e.person.name, e.id] }, 
+        {prompt: '', readonly: true},
+        {class: 'input-select2-basic'}%>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.hidden_field :person_id %>
+  </div>
+
 <% end %>

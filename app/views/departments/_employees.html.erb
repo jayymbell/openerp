@@ -11,18 +11,18 @@
     </ul>
 </nav>
 <table class="table">
-    <%@department.employees.each do |e| %>
         <thead>
             <th>ID</th>
             <th>Name</th>
             <th>Is active</th>
         </thead>
         <tbody>
+    <%@department.employees.each do |e| %>
             <tr>
                 <td><%= link_to e.id, e.person%></td>
                 <td><%=e.person.name%></td>
                 <td><%=boolean_icon(e.is_active)%></td>
             </tr>
-        </tbody>
     <%end%>
+    </tbody>
 </table>
