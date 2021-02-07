@@ -15,6 +15,7 @@ class OrganizationsController < ApplicationController
   # GET /organizations/new
   def new
     @organization = Organization.new
+    @organization.is_active = true
   end
 
   # GET /organizations/1/edit
@@ -28,11 +29,14 @@ class OrganizationsController < ApplicationController
 
     respond_to do |format|
       if @organization.save
+        flash_message(:success, "Organization successfully created.")
         format.html { redirect_to @organization, notice: 'Organization was successfully created.' }
         format.json { render :show, status: :created, location: @organization }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @organization.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +46,14 @@ class OrganizationsController < ApplicationController
   def update
     respond_to do |format|
       if @organization.update(organization_params)
+        flash_message(:success, "Organization successfully updated.")
         format.html { redirect_to @organization, notice: 'Organization was successfully updated.' }
         format.json { render :show, status: :ok, location: @organization }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @organization.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +63,10 @@ class OrganizationsController < ApplicationController
   def destroy
     @organization.destroy
     respond_to do |format|
+      flash_message(:success, "Organization successfully deleted.")
       format.html { redirect_to organizations_url, notice: 'Organization was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 

@@ -1,15 +1,15 @@
-<%= form_with(model: organization, local: true) do |form| %>
-  <% if organization.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
-
-      <ul>
-        <% organization.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<%= form_with(model: organization, remote: true) do |form| %>
+  <%= render 'layouts/form_errors', object: form.object %>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="field">
+        <%= form.hidden_field :is_active %>
+      </div>
     </div>
-  <% end %>
+    <div class="col-sm-4">
+        <%= submit_btn(form,"float:right;")%>
+    </div>
+  </div>
 
   <div class="field">
     <%= form.label :name %>
@@ -21,12 +21,4 @@
     <%= form.text_area :description %>
   </div>
 
-  <div class="field">
-    <%= form.label :is_active %>
-    <%= form.check_box :is_active %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>

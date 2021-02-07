@@ -1,0 +1,11 @@
+$('#dialog h3').html("New Customer Organization");
+
+$('.modal-body').html('<%= j render("form", customer_organization: @customer_organization) %>');
+
+$('#dialog').modal("show");
+
+$('#dialog').on('shown.bs.modal', function () {
+    $('.first_input').focus()
+})
+
+$('.input-select2-basic').select2();
