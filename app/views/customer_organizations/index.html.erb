@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Customer Organizations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Customer</th>
+      <th>Organization</th>
+      <th>Is active</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @customer_organizations.each do |customer_organization| %>
+      <tr>
+        <td><%= customer_organization.customer_id %></td>
+        <td><%= customer_organization.organization_id %></td>
+        <td><%= customer_organization.is_active %></td>
+        <td><%= link_to 'Show', customer_organization %></td>
+        <td><%= link_to 'Edit', edit_customer_organization_path(customer_organization) %></td>
+        <td><%= link_to 'Destroy', customer_organization, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Customer Organization', new_customer_organization_path %>

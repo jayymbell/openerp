@@ -1,0 +1,32 @@
+<%= form_with(model: customer_organization, local: true) do |form| %>
+  <% if customer_organization.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(customer_organization.errors.count, "error") %> prohibited this customer_organization from being saved:</h2>
+
+      <ul>
+        <% customer_organization.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :customer_id %>
+    <%= form.text_field :customer_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :organization_id %>
+    <%= form.text_field :organization_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :is_active %>
+    <%= form.check_box :is_active %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
