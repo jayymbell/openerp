@@ -1,0 +1,17 @@
+<table class="table table-striped">
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th></th>
+        </thead>
+                <tbody>
+    <%@person.customer.customer_organizations.each do |d| %>
+            <tr>
+                <td><%= link_to d.organization.id, d.organization%></td>
+                <td><%=d.organization.name%></td>
+                <td><%=delete_btn(d)%></td>
+            </tr>
+        
+    <%end%>
+    </tbody>
+</table>

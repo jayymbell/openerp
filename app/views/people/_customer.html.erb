@@ -19,6 +19,7 @@
           <%end%>
           <div class="dropdown-divider"></div>
             <%= link_to 'New Project', new_project_customer_path(customer_id: @person.customer.id), class: "dropdown-item", remote: true%>
+            <%= link_to 'New Organization', new_customer_organization_path(customer_id: @person.customer.id), class: "dropdown-item", remote: true%>
         </div>
       </li>
     </ul>
@@ -28,12 +29,16 @@
   <div class="col-3">
     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
       <a class="nav-link active" id="v-pills-projects-tab" data-toggle="pill" href="#v-pills-projects" role="tab" aria-controls="v-pills-projects" aria-selected="true">Projects</a>
+      <a class="nav-link" id="v-pills-organizations-tab" data-toggle="pill" href="#v-pills-organizations" role="tab" aria-controls="v-pills-organizations" aria-selected="false">Organizations</a>
     </div>
   </div>
   <div class="col-9">
     <div class="tab-content" id="v-pills-tabContent">
       <div class="tab-pane fade show active" id="v-pills-projects" role="tabpanel" aria-labelledby="v-pills-projects-tab">
         <%= render 'customer_projects'%>
+      </div>
+      <div class="tab-pane fade" id="v-pills-organizations" role="tabpanel" aria-labelledby="v-pills-organizations-tab">
+        <%= render 'customer_organizations'%> 
       </div>
     </div>
   </div>

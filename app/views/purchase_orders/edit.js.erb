@@ -1,0 +1,17 @@
+$('#dialog h3').html("Edit Purchase Order");
+
+$('.modal-body').html('<%= j render("form", purchase_order: @purchase_order) %>');
+
+$('#dialog').modal("show");
+
+$('#dialog').on('shown.bs.modal', function () {
+    $('.first_input').focus()
+})
+
+$('.modal-dialog').addClass( "modal-lg" )
+
+$('#dialog').on('hidden.bs.modal', function () {
+    $('.modal-dialog').removeClass( "modal-lg" )
+})
+
+$('.input-select2-basic').select2();

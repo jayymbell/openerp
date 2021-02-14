@@ -4,4 +4,5 @@ class Customer < ApplicationRecord
   has_many :organizations, through: :customer_organizations
   has_many :project_customers, dependent: :destroy
   has_many :projects, through: :project_customers
+  has_many :purchase_orders
 end

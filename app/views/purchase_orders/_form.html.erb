@@ -1,22 +1,132 @@
-<%= form_with(model: purchase_order, local: true) do |form| %>
-  <% if purchase_order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(purchase_order.errors.count, "error") %> prohibited this purchase_order from being saved:</h2>
-
-      <ul>
-        <% purchase_order.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<%= form_with(model: purchase_order, remote: true) do |form| %>
+  <%= render 'layouts/form_errors', object: form.object %>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="field">
+      </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :customer_id %>
-    <%= form.text_field :customer_id %>
+    <div class="col-sm-4">
+        <%= submit_btn(form,"float:right;")%>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
+  <%= form.hidden_field :project_id %>
+
+    <div class="field">
+    <%= form.label :customer_id %>
+    <div class="field">
+      <%= form.select :customer_id, 
+        @available_customers.map {|d| [d.person.name, d.id] }, 
+        {prompt: '', readonly: true},
+        {class: 'input-select2-basic'}%>
+    </div>
+    <br/>
+    <label>Services</label>
+    <div class="field">
+
+      <table class="table table-striped table-condensed" id="purchaseOrderServices">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Total</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+              <td>
+              <%= select_tag :service_id, 
+          options_from_collection_for_select(@services ,"id", "name"),
+          {class: 'input-select2-basic', id: 'pos-service'}%>
+              </td>
+              <td>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">$</div>
+                </div>
+                <input type="number" id="pos-total" class="pos-input form-control" step='0.01' value='0.00' placeholder='0.00'/>
+              </div>
+              </td>
+              <td><a class="btn btn-outline-success" onClick="addPurchaseOrderService()">Add</td>
+          </tr>
+          <% @purchase_order.purchase_order_services.each_with_index do |pos, index| %>
+            <tr id="pos-<%=index%>">
+              <td>
+              <%= hidden_field_tag 'purchase_order[purchase_order_services_attributes]['+index.to_s+'][id]',pos.id%>
+              <%= text_field_tag '', pos.service.name, readonly: true%>
+              </td>
+              <td>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">$</div>
+                </div>
+                <%= number_field_tag 'purchase_order[purchase_order_services_attributes]['+index.to_s+'][total]',number_with_precision(pos.total, precision: 2), readonly: true, step: '0.01'%>
+              </div>
+              </td>
+              <td>
+              <a class="btn btn-outline-danger", onclick="removePurchaseOrderService('pos-<%=index%>')">Delete</a></td>
+            </tr>
+          <%end%>
+        </tbody>
+      </table>
+    </div>
+    <label>Efforts</label>
+    <div class="field">
+    </div>
   </div>
 <% end %>
+
+<script>
+  function addPurchaseOrderService(){
+    var index = ($('#purchaseOrderServices tr').length - 2)
+    var id = 'pos-' +  index
+    $('#purchaseOrderServices').find('tbody')
+    .append($('<tr>')
+      .prop('id', id)
+        .append($('<td>')
+          .append($('<input>')
+          .prop('readonly', 'true')
+          .addClass('form-control')
+          .prop('name',"purchase_order[purchase_order_services_attributes]["+index+"][service_id]" )
+          .prop('type', 'hidden')
+          .val($('#pos-service option:selected').val())
+          )
+          .append($('<input>')
+          .prop('readonly', 'true')
+          .addClass('form-control')
+          .val($('#pos-service option:selected').text())
+          ))
+        
+        .append($('<td>')
+          .append($('<div>')
+          .addClass('input-group')
+          .append($('<div>')
+          .addClass('input-group-prepend')
+          .append($('<div>')
+          .text('$')
+          .addClass('input-group-text')))
+          .append($('<input>')
+          .prop('readonly', 'true')
+          .addClass('form-control')
+          .prop('name',"purchase_order[purchase_order_services_attributes]["+index+"][total]" )
+          .val($('#pos-total').val())
+          )))
+        
+
+        .append($('<td>')
+            .append($('<a>')
+            .text('Delete')
+            .addClass('btn btn-outline-danger')
+            .click(function() {
+              removePurchaseOrderService(id);
+          }))
+        
+    ))
+    $('.pos-input').val('')
+    $('#pos-total').val('0.00')
+  }
+
+  function removePurchaseOrderService(id){
+    $('#'+id).remove();
+  }

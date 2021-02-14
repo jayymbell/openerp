@@ -1,5 +1,6 @@
 class PurchaseOrdersController < ApplicationController
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_available_services, only: [:new, :edit, :update, :create]
 
   # GET /purchase_orders
   # GET /purchase_orders.json
@@ -15,24 +16,30 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders/new
   def new
     @purchase_order = PurchaseOrder.new
+    @purchase_order.project = params[:project_id].present? ? Project.find(params[:project_id]) : nil
+    set_available_customers
   end
 
   # GET /purchase_orders/1/edit
   def edit
+    set_available_customers
   end
 
   # POST /purchase_orders
   # POST /purchase_orders.json
   def create
     @purchase_order = PurchaseOrder.new(purchase_order_params)
-
     respond_to do |format|
       if @purchase_order.save
+        flash_message(:success, "Purchase order successfully created.")
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully created.' }
         format.json { render :show, status: :created, location: @purchase_order }
+        format.js {render js:'window.location.reload();'}
       else
+        set_available_customers
         format.html { render :new }
         format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -40,13 +47,18 @@ class PurchaseOrdersController < ApplicationController
   # PATCH/PUT /purchase_orders/1
   # PATCH/PUT /purchase_orders/1.json
   def update
+    delete_purchase_order_services
     respond_to do |format|
       if @purchase_order.update(purchase_order_params)
+        flash_message(:success, "Purchase order successfully updated.")
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully updated.' }
         format.json { render :show, status: :ok, location: @purchase_order }
+        format.js {render js:'window.location.reload();'}
       else
+        set_available_customers
         format.html { render :edit }
         format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +68,10 @@ class PurchaseOrdersController < ApplicationController
   def destroy
     @purchase_order.destroy
     respond_to do |format|
+      flash_message(:success, "Purchase order successfully deleted.")
       format.html { redirect_to purchase_orders_url, notice: 'Purchase order was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 
@@ -69,6 +83,36 @@ class PurchaseOrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def purchase_order_params
-      params.require(:purchase_order).permit(:customer_id)
+      params.require(:purchase_order).permit(:customer_id, :project_id, purchase_order_services_attributes: [:id, :service_id, :total,])
+    end
+
+    def set_available_customers
+      @available_customers = @purchase_order.project.present? ? @purchase_order.project.customers : Customer.all
+    end
+
+    def set_available_services
+      @services = Service.all
+    end
+
+    def delete_purchase_order_services
+      @purchase_order.purchase_order_services.each do |pos|
+        remove_pos = true
+        puts purchase_order_params.inspect
+        if purchase_order_params[:purchase_order_services_attributes].present?
+          purchase_order_params[:purchase_order_services_attributes].each do |p|
+            puts "pos: " + pos.id.to_s 
+            puts "p: " + p[1][:id].to_s
+            if p[1][:id].to_s == pos.id.to_s 
+              remove_pos = false
+            end
+          end
+          if remove_pos
+            puts "remove: " + pos.id.to_s
+            @purchase_order.purchase_order_services.delete(pos)
+          end
+        else
+          @purchase_order.purchase_order_services.delete_all
+        end
+      end
     end
 end
