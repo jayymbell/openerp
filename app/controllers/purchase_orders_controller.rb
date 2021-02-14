@@ -18,11 +18,13 @@ class PurchaseOrdersController < ApplicationController
     @purchase_order = PurchaseOrder.new
     @purchase_order.project = params[:project_id].present? ? Project.find(params[:project_id]) : nil
     set_available_customers
+    set_available_employees
   end
 
   # GET /purchase_orders/1/edit
   def edit
     set_available_customers
+    set_available_employees
   end
 
   # POST /purchase_orders
@@ -37,6 +39,7 @@ class PurchaseOrdersController < ApplicationController
         format.js {render js:'window.location.reload();'}
       else
         set_available_customers
+        set_available_employees
         format.html { render :new }
         format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
         format.js {render 'new'}
@@ -48,6 +51,7 @@ class PurchaseOrdersController < ApplicationController
   # PATCH/PUT /purchase_orders/1.json
   def update
     delete_purchase_order_services
+    delete_purchase_order_efforts
     respond_to do |format|
       if @purchase_order.update(purchase_order_params)
         flash_message(:success, "Purchase order successfully updated.")
@@ -56,6 +60,7 @@ class PurchaseOrdersController < ApplicationController
         format.js {render js:'window.location.reload();'}
       else
         set_available_customers
+        set_available_employees
         format.html { render :edit }
         format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
         format.js {render 'edit'}
@@ -83,7 +88,7 @@ class PurchaseOrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def purchase_order_params
-      params.require(:purchase_order).permit(:customer_id, :project_id, purchase_order_services_attributes: [:id, :service_id, :total,])
+      params.require(:purchase_order).permit(:customer_id, :project_id, purchase_order_services_attributes: [:id, :service_id, :total], purchase_order_efforts_attributes: [:id, :employee_id, :total])
     end
 
     def set_available_customers
@@ -91,27 +96,49 @@ class PurchaseOrdersController < ApplicationController
     end
 
     def set_available_services
-      @services = Service.all
+      @availabe_services = Service.where(is_active: true)
+    end
+
+    def set_available_employees
+      @available_employees = @purchase_order.project.present? ? @purchase_order.project.employees : Employee.all
     end
 
     def delete_purchase_order_services
       @purchase_order.purchase_order_services.each do |pos|
         remove_pos = true
-        puts purchase_order_params.inspect
         if purchase_order_params[:purchase_order_services_attributes].present?
           purchase_order_params[:purchase_order_services_attributes].each do |p|
-            puts "pos: " + pos.id.to_s 
-            puts "p: " + p[1][:id].to_s
             if p[1][:id].to_s == pos.id.to_s 
               remove_pos = false
             end
           end
           if remove_pos
-            puts "remove: " + pos.id.to_s
             @purchase_order.purchase_order_services.delete(pos)
           end
         else
           @purchase_order.purchase_order_services.delete_all
+        end
+      end
+    end
+
+    def delete_purchase_order_efforts
+      @purchase_order.purchase_order_efforts.each do |poe|
+        remove_poe = true
+        puts purchase_order_params.inspect
+        if purchase_order_params[:purchase_order_efforts_attributes].present?
+          purchase_order_params[:purchase_order_efforts_attributes].each do |p|
+            puts "poe: " + poe.id.to_s 
+            puts "p: " + p[1][:id].to_s
+            if p[1][:id].to_s == poe.id.to_s 
+              remove_poe = false
+            end
+          end
+          if remove_poe
+            puts "remove: " + poe.id.to_s
+            @purchase_order.purchase_order_efforts.delete(poe)
+          end
+        else
+          @purchase_order.purchase_order_efforts.delete_all
         end
       end
     end

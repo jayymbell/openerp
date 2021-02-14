@@ -69,6 +69,6 @@ class PurchaseOrderEffortsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def purchase_order_effort_params
-      params.require(:purchase_order_effort).permit(:purchase_order_service_id, :employee_id, :total)
+      params.require(:purchase_order_effort).permit(:purchase_order_id, :employee_id, :total)
     end
 end

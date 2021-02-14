@@ -1,4 +1,4 @@
 class PurchaseOrderEffort < ApplicationRecord
-  belongs_to :purchase_order_service
+  belongs_to :purchase_order, optional: true
   belongs_to :employee
 end
