@@ -1,5 +1,5 @@
 class PurchaseOrderServicesController < ApplicationController
-  before_action :set_purchase_order_service, only: [:show, :edit, :update, :destroy]
+  before_action :set_purchase_order_service, only: [:show, :edit, :update, :destroy, :download_tos]
 
   # GET /purchase_order_services
   # GET /purchase_order_services.json
@@ -59,6 +59,10 @@ class PurchaseOrderServicesController < ApplicationController
       format.html { redirect_to purchase_order_services_url, notice: 'Purchase order service was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def download_tos
+    send_data @purchase_order_service.tos_file, filename: @purchase_order_service.service.name+"_TOS", disposition: 'attachment'
   end
 
   private

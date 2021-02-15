@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :projects
   resources :purchase_order_efforts
   resources :purchase_order_services
+  get 'purchase_order_services/:id/download_tos', to: 'purchase_order_services#download_tos', as: :purchase_order_services_download_tos
   resources :purchase_order_product_assemblies
   resources :purchase_orders
   resources :invoice_lines

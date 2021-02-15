@@ -19,12 +19,14 @@ class PurchaseOrdersController < ApplicationController
     @purchase_order.project = params[:project_id].present? ? Project.find(params[:project_id]) : nil
     set_available_customers
     set_available_employees
+    set_available_jobs
   end
 
   # GET /purchase_orders/1/edit
   def edit
     set_available_customers
     set_available_employees
+    set_available_jobs
   end
 
   # POST /purchase_orders
@@ -32,6 +34,7 @@ class PurchaseOrdersController < ApplicationController
   def create
     @purchase_order = PurchaseOrder.new(purchase_order_params)
     respond_to do |format|
+      set_file_uploads
       if @purchase_order.save
         flash_message(:success, "Purchase order successfully created.")
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully created.' }
@@ -40,6 +43,7 @@ class PurchaseOrdersController < ApplicationController
       else
         set_available_customers
         set_available_employees
+        set_available_jobs
         format.html { render :new }
         format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
         format.js {render 'new'}
@@ -52,6 +56,7 @@ class PurchaseOrdersController < ApplicationController
   def update
     delete_purchase_order_services
     delete_purchase_order_efforts
+    set_available_jobs
     respond_to do |format|
       if @purchase_order.update(purchase_order_params)
         flash_message(:success, "Purchase order successfully updated.")
@@ -81,18 +86,23 @@ class PurchaseOrdersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # Use callbacks to share common setup or constraints between actions. 
     def set_purchase_order
       @purchase_order = PurchaseOrder.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def purchase_order_params
-      params.require(:purchase_order).permit(:customer_id, :project_id, purchase_order_services_attributes: [:id, :service_id, :total], purchase_order_efforts_attributes: [:id, :employee_id, :total])
+      if params[:purchase_order].has_key?(:purchase_order_services_attributes)
+        params[:purchase_order][:purchase_order_services_attributes].each do |p|
+          p[1][:tos_file] = p[1][:tos_file].read unless p[1][:tos_file].blank? || p[1][:tos_file].instance_of?(String)
+        end
+      end
+      params.require(:purchase_order).permit(:customer_id, :project_id, purchase_order_services_attributes: [:id, :service_id, :total, :tos_file, :tos_file_type, :tos_file_data], purchase_order_efforts_attributes: [:id, :employee_id, :total, :job_id, :hours])
     end
 
     def set_available_customers
-      @available_customers = @purchase_order.project.present? ? @purchase_order.project.customers : Customer.all
+      @available_customers = @purchase_order.project.present? ? @purchase_order.project.customers : nil
     end
 
     def set_available_services
@@ -100,7 +110,11 @@ class PurchaseOrdersController < ApplicationController
     end
 
     def set_available_employees
-      @available_employees = @purchase_order.project.present? ? @purchase_order.project.employees : Employee.all
+      @available_employees = @purchase_order.project.present? ? @purchase_order.project.employees : nil
+    end
+
+    def set_available_jobs
+      @available_jobs = @purchase_order.project.present? ? Job.where(is_active: true, id: EmployeeJob.where(employee_id:  @purchase_order.project.employees.pluck(:id)).pluck(:job_id)) : nil
     end
 
     def delete_purchase_order_services
@@ -127,14 +141,11 @@ class PurchaseOrdersController < ApplicationController
         puts purchase_order_params.inspect
         if purchase_order_params[:purchase_order_efforts_attributes].present?
           purchase_order_params[:purchase_order_efforts_attributes].each do |p|
-            puts "poe: " + poe.id.to_s 
-            puts "p: " + p[1][:id].to_s
             if p[1][:id].to_s == poe.id.to_s 
               remove_poe = false
             end
           end
           if remove_poe
-            puts "remove: " + poe.id.to_s
             @purchase_order.purchase_order_efforts.delete(poe)
           end
         else
@@ -142,4 +153,10 @@ class PurchaseOrdersController < ApplicationController
         end
       end
     end
+
+    def set_file_uploads
+      puts "DEBUG"
+      puts purchase_order_params[:purchase_order_services_attributes].inspect
+        
+  end
 end

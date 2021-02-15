@@ -4,7 +4,9 @@
       <table class="table table-striped table-condensed" id="purchaseOrderEfforts">
         <thead>
           <tr>
+            <th>Job</th>
             <th>Employee</th>
+            <th>Hours</th>
             <th>Total</th>
             <th></th>
           </tr>
@@ -12,10 +14,23 @@
 
         <tbody>
           <tr>
-              <td style="width: 50%;">
+              <td style="width: 25%;">
+              <%= select_tag :job_id, 
+          options_for_select(@available_jobs.map {|d| [d.name, d.id] }), 
+        {class: 'input-select2-basic', id: 'poe-job'}%>
+              </td>
+              <td style="width: 20%;">
               <%= select_tag :employee_id, 
           options_for_select(@available_employees.map {|d| [d.person.name, d.id] }), 
-        {class: 'input-select2-basic', id: 'poe-employee'}%>
+        {class: 'input-select2-basic', id: 'poe-employee', prompt: ''}%>
+              </td>
+              <td>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-clock"></i></div>
+                </div>
+                <input type="number" id="poe-hours" class="poe-input form-control" step='0.01' value='0.00' placeholder='0.00'/>
+              </div>
               </td>
               <td>
                 <div class="input-group">
@@ -25,13 +40,24 @@
                 <input type="number" id="poe-total" class="poe-input form-control" step='0.01' value='0.00' placeholder='0.00'/>
               </div>
               </td>
-              <td><a class="btn btn-outline-success" onClick="addPurchaseOrderEffort()">Add</td>
+              <td><a class="btn btn-outline-success form-control" onClick="addPurchaseOrderEffort()">Add</td>
           </tr>
           <% @purchase_order.purchase_order_efforts.each_with_index do |poe, index| %>
             <tr id="poe-<%=index%>">
-              <td style="width: 50;">
+              <td style="width: 25%;">
+              <%= text_field_tag '', poe.job.name, readonly: true%>
+              </td>
+              <td style="width: 20%;">
               <%= hidden_field_tag 'purchase_order[purchase_order_efforts_attributes]['+index.to_s+'][id]',poe.id%>
-              <%= text_field_tag '', poe.employee.person.name, readonly: true%>
+              <%= text_field_tag '', poe.employee.present? ? poe.employee.person.name : '', readonly: true%>
+              </td>
+              <td>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-clock"></i></div>
+                </div>
+                <%= number_field_tag 'purchase_order[purchase_order_efforts_attributes]['+index.to_s+'][hours]',number_with_precision(poe.hours, precision: 2), readonly: true, step: '0.01'%>
+              </div>
               </td>
               <td>
                 <div class="input-group">
@@ -42,7 +68,7 @@
               </div>
               </td>
               <td>
-              <a class="btn btn-outline-danger", onclick="removePurchaseOrderEffort('poe-<%=index%>')">Delete</a></td>
+              <a class="btn btn-outline-danger form-control", onclick="removePurchaseOrderEffort('poe-<%=index%>')">Delete</a></td>
             </tr>
           <%end%>
         </tbody>
@@ -60,6 +86,19 @@
           .append($('<input>')
           .prop('readonly', 'true')
           .addClass('form-control')
+          .prop('name',"purchase_order[purchase_order_efforts_attributes]["+index+"][job_id]" )
+          .prop('type', 'hidden')
+          .val($('#poe-job option:selected').val())
+          )
+          .append($('<input>')
+          .prop('readonly', 'true')
+          .addClass('form-control')
+          .val($('#poe-job option:selected').text())
+          ))
+        .append($('<td>')
+          .append($('<input>')
+          .prop('readonly', 'true')
+          .addClass('form-control')
           .prop('name',"purchase_order[purchase_order_efforts_attributes]["+index+"][employee_id]" )
           .prop('type', 'hidden')
           .val($('#poe-employee option:selected').val())
@@ -69,6 +108,22 @@
           .addClass('form-control')
           .val($('#poe-employee option:selected').text())
           ))
+
+        .append($('<td>')
+          .append($('<div>')
+          .addClass('input-group')
+          .append($('<div>')
+          .addClass('input-group-prepend')
+          .append($('<div>')
+          .append($('<i>')
+            .addClass('fa fa-clock'))
+          .addClass('input-group-text')))
+          .append($('<input>')
+          .prop('readonly', 'true')
+          .addClass('form-control')
+          .prop('name',"purchase_order[purchase_order_efforts_attributes]["+index+"][hours]" )
+          .val($('#poe-hours').val())
+          )))
         
         .append($('<td>')
           .append($('<div>')
@@ -89,7 +144,7 @@
         .append($('<td>')
             .append($('<a>')
             .text('Delete')
-            .addClass('btn btn-outline-danger')
+            .addClass('btn btn-outline-danger form-control')
             .click(function() {
               removePurchaseOrderEffort(id);
           }))
