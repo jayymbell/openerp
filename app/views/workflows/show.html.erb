@@ -1,24 +1,46 @@
-<p id="notice"><%= notice %></p>
+<h1>Workflows</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Actions
+        </a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <%= link_to 'Edit', edit_workflow_path(@workflow), class: 'dropdown-item', remote: true %>
+          <%if @workflow.is_active%>
+            <%= form_for @workflow, remote: true do |form| %>
+              <%= form.hidden_field :is_active, value: false %>
+              <%= form.submit 'Deactivate', class: 'dropdown-item text-danger', data: { confirm: 'Are you sure?' } %>
+            <%end%>
+          <%else%>
+            <%= form_for @workflow, remote: true do |form| %>
+              <%= form.hidden_field :is_active, value: true %>
+              <%= form.submit 'Activate', class: 'dropdown-item text-success', data: { confirm: 'Are you sure?' } %>
+            <%end%>
+          <%end%>
+        </div>
+      </li>
+    </ul>
+</nav>
+<%= render 'profile'%>
+<ul class="nav nav-tabs" id="myTab" role="tablist" style="padding-top: 10px;">
+    <li class="nav-item">
+      <a class="nav-link active" id="states-tab" data-toggle="tab" href="#states" role="tab" aria-controls="states" aria-selected="true">States</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="transitions-tab" data-toggle="tab" href="#transitions" role="tab" aria-controls="transitions" aria-selected="true">Transitions</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="states" role="tabpanel" aria-labelledby="states-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'states'%>
+      </div>
+    </div>
+    <div class="tab-pane fade show" id="transitions" role="tabpanel" aria-labelledby="transitions-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'transitions'%>
+      </div>
+    </div>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @workflow.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @workflow.description %>
-</p>
-
-<p>
-  <strong>Category:</strong>
-  <%= @workflow.category %>
-</p>
-
-<p>
-  <strong>Is active:</strong>
-  <%= @workflow.is_active %>
-</p>
-
-<%= link_to 'Edit', edit_workflow_path(@workflow) %> |
-<%= link_to 'Back', workflows_path %>
