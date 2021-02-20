@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_14_192037) do
+ActiveRecord::Schema.define(version: 2021_02_20_182633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -326,6 +326,15 @@ ActiveRecord::Schema.define(version: 2021_02_14_192037) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["person_id"], name: "index_users_on_person_id"
+  end
+
+  create_table "workflows", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "category"
+    t.boolean "is_active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "applicant_jobs", "applicants"
