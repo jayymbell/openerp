@@ -1,0 +1,42 @@
+<%= form_with(model: workflow_transition, local: true) do |form| %>
+  <% if workflow_transition.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(workflow_transition.errors.count, "error") %> prohibited this workflow_transition from being saved:</h2>
+
+      <ul>
+        <% workflow_transition.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :workflow_id %>
+    <%= form.text_field :workflow_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :source_state_id %>
+    <%= form.text_field :source_state_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :target_state_id %>
+    <%= form.text_field :target_state_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
