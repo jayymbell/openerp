@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :workflow_states
   resources :workflows
   resources :customer_organizations
   resources :organizations
