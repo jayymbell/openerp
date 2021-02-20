@@ -2,16 +2,19 @@
         <thead>
             <th>ID</th>
             <th>Name</th>
-            <th>Email</th>
-            <th></th>
+            <th style="width: 20%;"></th>
         </thead>
                 <tbody>
     <%@project.project_customers.each do |d| %>
             <tr>
                 <td><%= link_to d.customer.id, d.customer.person%></td>
-                <td><%=d.customer.person.name%></td>
-                <td><%=d.customer.person.email%></td>
-                <td><%=delete_btn(d)%></td>
+                <td>
+                    <%=d.customer.person.name%>
+                    <% d.project_customer_roles.each do |pcr|%>
+                        <span class="badge badge-pill badge-primary"><%=pcr.role.name%></span>
+                    <%end%>
+                </td>
+                <td><%= link_to 'Edit', edit_project_customer_path(d), remote: true, class: 'btn btn-outline-primary btn-sm'%> <%=delete_btn(d)%></td>
             </tr>
         
     <%end%>

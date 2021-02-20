@@ -149,7 +149,7 @@ class PurchaseOrdersController < ApplicationController
             @purchase_order.purchase_order_efforts.delete(poe)
           end
         else
-          @purchase_order.purchase_order_efforts.delete_all
+          @purchase_order.purchase_order_efforts.destroy_all
         end
       end
     end

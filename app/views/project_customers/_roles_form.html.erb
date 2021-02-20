@@ -1,0 +1,98 @@
+<label>Roles</label>
+    <div class="field">
+
+      <table class="table table-striped table-condensed" id="projectCustomerRoles">
+
+
+        <tbody>
+          <tr>
+              <td>
+              <%= select_tag :role_id, 
+          options_from_collection_for_select(@available_roles,"id", "name"),
+          {class: 'form-control', id: 'pos-role'}%>
+              </td>
+              <td><a class="btn btn-outline-success form-control" onClick="addProjectCustomerRole()">Add</td>
+          </tr>
+          <% @project_customer.project_customer_roles.each_with_index do |pos, index| %>
+            <tr id="pos-<%=index%>">
+              <td style="width: 50;">
+              <%= hidden_field_tag 'project_customer[project_customer_roles_attributes]['+index.to_s+'][id]',pos.id, id: "pos-"+index.to_s+"-id"%>
+              <%= text_field_tag '', pos.role.name, id: "pos-"+index.to_s+"-name",readonly: true%>
+              </td>
+              <td>
+              <a class="btn btn-outline-danger form-control", onclick="removeProjectCustomerRole('pos-<%=index%>')">Delete</a></td>
+            </tr>
+          <%end%>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+  function addProjectCustomerRole(){
+    var valid =  false
+
+    if($('#pos-role').find('option:selected').val()){
+        valid = true
+    }
+
+    if(valid){
+    var index = ($('#projectCustomerRoles tr').length - 1)
+    var id = 'pos-' +  index
+    $('#projectCustomerRoles').find('tbody')
+    .append($('<tr>')
+      .prop('id', id)
+        .append($('<td>')
+          .append($('<input>')
+          .prop('readonly', 'true')
+          .addClass('form-control')
+          .prop('id', id+'-id')
+          .prop('name',"project_customer[project_customer_roles_attributes]["+index+"][role_id]" )
+          .prop('type', 'hidden')
+          .val($('#pos-role option:selected').val())
+          )
+          .append($('<input>')
+          .prop('id', id+'-name')
+          .prop('readonly', 'true')
+          .addClass('form-control')
+          .val($('#pos-role option:selected').text())
+          ))
+        
+
+        .append($('<td>')
+            .append($('<a>')
+            .text('Delete')
+            .addClass('btn btn-outline-danger form-control')
+            .click(function() {
+              removeProjectCustomerRole(id);
+          })))
+        
+    )
+    
+    $('#pos-role').find('option:selected').remove()
+    }
+    else{
+      console.log('invalid')
+    }
+  }
+
+  function removeProjectCustomerRole(id){
+    $('#pos-role').append($('<option>', {
+    value: $("#"+id+"-id").val(),
+    text: $("#"+id+"-name").val()
+    }))
+
+    $('#'+id).remove();
+
+    var selectList = $('#pos-role option');
+
+    selectList.sort(function(a,b){
+        a = a.value;
+        b = b.value;
+
+        return a-b;
+    });
+
+    $('#pos-role').html(selectList);
+    $("#pos-role").val($("#pos-role option:first").val());
+  }
+</script>

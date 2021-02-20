@@ -2,15 +2,18 @@
         <thead>
             <th>ID</th>
             <th>Name</th>
-            <th>Email</th>
             <th></th>
         </thead>
                 <tbody>
     <%@project.project_employees.each do |d| %>
             <tr>
                 <td><%= link_to d.employee.id, d.employee.person%></td>
-                <td><%=d.employee.person.name%></td>
-                <td><%=d.employee.person.email%></td>
+                <td>
+                    <%=d.employee.person.name%>
+                    <% d.employee.employee_jobs.each do |ej|%>
+                        <span class="badge badge-pill badge-primary"><%=ej.job.name%></span>
+                    <%end%>
+                </td>
                 <td><%=delete_btn(d)%></td>
             </tr>
         
