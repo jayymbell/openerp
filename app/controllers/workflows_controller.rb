@@ -15,6 +15,7 @@ class WorkflowsController < ApplicationController
   # GET /workflows/new
   def new
     @workflow = Workflow.new
+    @workflow.is_active = true
   end
 
   # GET /workflows/1/edit
@@ -28,11 +29,14 @@ class WorkflowsController < ApplicationController
 
     respond_to do |format|
       if @workflow.save
+        flash_message(:success, "Workflow successfully created.")
         format.html { redirect_to @workflow, notice: 'Workflow was successfully created.' }
         format.json { render :show, status: :created, location: @workflow }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @workflow.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +46,14 @@ class WorkflowsController < ApplicationController
   def update
     respond_to do |format|
       if @workflow.update(workflow_params)
+        flash_message(:success, "Workflow successfully updated.")
         format.html { redirect_to @workflow, notice: 'Workflow was successfully updated.' }
         format.json { render :show, status: :ok, location: @workflow }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @workflow.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +63,10 @@ class WorkflowsController < ApplicationController
   def destroy
     @workflow.destroy
     respond_to do |format|
+      flash_message(:success, "Workflow successfully deleted.")
       format.html { redirect_to workflows_url, notice: 'Workflow was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 

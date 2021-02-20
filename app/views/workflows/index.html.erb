@@ -1,31 +1,34 @@
 <h1>Workflows</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" workflow="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Actions
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <%= link_to 'New Workflow', new_workflow_path, class: "dropdown-item", remote: true%>
+      </div>
+    </li>
+  </ul>
+</nav>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Category</th>
-      <th>Is active</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @workflows.each do |workflow| %>
-      <tr>
-        <td><%= workflow.name %></td>
-        <td><%= workflow.description %></td>
-        <td><%= workflow.category %></td>
-        <td><%= workflow.is_active %></td>
-        <td><%= link_to 'Show', workflow %></td>
-        <td><%= link_to 'Edit', edit_workflow_path(workflow) %></td>
-        <td><%= link_to 'Destroy', workflow, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Workflow', new_workflow_path %>
+<ul class="nav nav-tabs" id="myTab" workflow="tablist" style="padding-top: 10px;">
+    <li class="nav-item">
+      <a class="nav-link active" id="purchase-order-tab" data-toggle="tab" href="#purchase-order" workflow="tab" aria-controls="purchase-order" aria-selected="true">Purchase Order</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="invoice-tab" data-toggle="tab" href="#invoice" workflow="tab" aria-controls="invoice" aria-selected="true">Invoice</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="purchase-order" workflow="tabpanel" aria-labelledby="purchase-order-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'purchase_order'%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="invoice" workflow="tabpanel" aria-labelledby="invoice-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'invoice'%>
+      </div>
+    </div>
+</div>
