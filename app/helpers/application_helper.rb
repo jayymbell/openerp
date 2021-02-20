@@ -40,4 +40,9 @@ module ApplicationHelper
         options = [["Active","true"], ["Inactive", "false"], ["All", "all"]]
         content_tag("select", options_for_select(options, value), name: name, class: 'is_active_filter')
     end
+
+    def random_color(string)
+        require 'digest/md5'
+        color = Digest::MD5.hexdigest(string)[0..5]
+    end
 end

@@ -11,7 +11,7 @@
                 <td>
                     <%=d.customer.person.name%>
                     <% d.project_customer_roles.each do |pcr|%>
-                        <span class="badge badge-pill badge-primary"><%=pcr.role.name%></span>
+                        <span class="badge badge-pill badge-primary" style="background-color: #<%=random_color(pcr.role.name)%>"><%=pcr.role.name%></span>
                     <%end%>
                 </td>
                 <td><%= link_to 'Edit', edit_project_customer_path(d), remote: true, class: 'btn btn-outline-primary btn-sm'%> <%=delete_btn(d)%></td>
