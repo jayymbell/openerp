@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_20_194258) do
+ActiveRecord::Schema.define(version: 2021_05_09_023326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,13 +125,12 @@ ActiveRecord::Schema.define(version: 2021_02_20_194258) do
 
   create_table "invoices", force: :cascade do |t|
     t.bigint "customer_id", null: false
-    t.string "starts_on"
-    t.string "date"
     t.date "ends_on"
     t.decimal "total"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "purchase_order_id"
+    t.date "starts_on"
     t.index ["customer_id"], name: "index_invoices_on_customer_id"
     t.index ["purchase_order_id"], name: "index_invoices_on_purchase_order_id"
   end
@@ -280,6 +279,7 @@ ActiveRecord::Schema.define(version: 2021_02_20_194258) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "project_id"
+    t.string "name"
     t.index ["customer_id"], name: "index_purchase_orders_on_customer_id"
     t.index ["project_id"], name: "index_purchase_orders_on_project_id"
   end
