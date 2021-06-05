@@ -15,17 +15,21 @@
         <thead>
             <th>ID</th>
             <th>Created At</th>
+            <th>Name</th>
             <th>Customer</th>
             <th>Total</th>
             <th></th>
+            <th></th>
         </thead>
                 <tbody>
-    <%@project.purchase_orders.each do |d| %>
+    <%@project.purchase_orders.order(:name).each do |d| %>
             <tr>
                 <td><%= link_to d.id, edit_purchase_order_path(d), remote: true%></td>
                 <td><%=d.created_at%></td>
+                <td><%=d.name%></td>
                 <td><%=d.customer.person.name%></td>
                 <td><%= number_to_currency(d.total)%></td>
+                <td><%=duplicate_btn(d)%></td>
                 <td><%=delete_btn(d)%></td>
             </tr>
         

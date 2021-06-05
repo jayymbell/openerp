@@ -20,6 +20,10 @@ module ApplicationHelper
         link_to 'View', object, class: 'btn btn-outline-primary btn-sm'
     end
 
+    def duplicate_btn(object)
+        link_to 'Duplicate', send("#{object.class.to_s.pluralize(2).underscore}_duplicate_path", object), class: 'btn btn-outline-primary btn-sm', remote: true, data: { confirm: "Are you sure you want to duplicate #{defined?(object.name) ? object.name : 'this'}"}
+    end
+
     def edit_btn(object)
         link_to 'Edit', send("edit_#{object.class.to_s.underscore}_path", object), class: 'btn btn-outline-primary', remote: true
     end

@@ -13,6 +13,12 @@
   <%= form.hidden_field :project_id %>
 
     <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name%>
+  </div>
+
+
+    <div class="field">
     <%= form.label :customer_id %>
     <div class="field">
       <%= form.select :customer_id, 

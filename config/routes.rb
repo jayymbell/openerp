@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get 'purchase_order_services/:id/download_tos', to: 'purchase_order_services#download_tos', as: :purchase_order_services_download_tos
   resources :purchase_order_product_assemblies
   resources :purchase_orders
+  get 'purchase_orders/:id/duplicate', to: 'purchase_orders#duplicate', as: :purchase_orders_duplicate
   resources :invoice_lines
   resources :invoices
   resources :service_employees

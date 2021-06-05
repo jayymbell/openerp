@@ -31,25 +31,25 @@
               </td>
               <td><a class="btn btn-outline-success form-control" onClick="addPurchaseOrderService()">Add</td>
           </tr>
-          <% @purchase_order.purchase_order_services.each_with_index do |pos, index| %>
+          <% @purchase_order.purchase_order_services.order(:id).each_with_index do |pos, index| %>
             <tr id="pos-<%=index%>">
               <td style="width: 50;">
               <%= hidden_field_tag 'purchase_order[purchase_order_services_attributes]['+index.to_s+'][id]',pos.id%>
               <%= text_field_tag '', pos.service.name, readonly: true%>
               </td>
               <td>
+              <div class="row">
               <%if pos.tos_file.present?%>
-                <%=link_to 'Download', purchase_order_services_download_tos_path(id: pos.id), class: 'btn btn-outline-primary form-control'%>
-              <%else%>
-                <%= file_field_tag 'purchase_order[purchase_order_services_attributes]['+index.to_s+'][tos_file]',class: "form-control-file pos-input"%>
+                <%=link_to 'Download', purchase_order_services_download_tos_path(id: pos.id), class: 'btn btn-outline-primary form-control', download: true%>
               <%end%>
+              <%= file_field_tag 'purchase_order[purchase_order_services_attributes]['+index.to_s+'][tos_file]',class: "form-control-file pos-input"%>
               </td>
               <td>
                 <div class="input-group">
                 <div class="input-group-prepend">
                   <div class="input-group-text">$</div>
                 </div>
-                <%= number_field_tag 'purchase_order[purchase_order_services_attributes]['+index.to_s+'][total]',number_with_precision(pos.total, precision: 2), readonly: true, step: '0.01'%>
+                <%= number_field_tag 'purchase_order[purchase_order_services_attributes]['+index.to_s+'][total]',number_with_precision(pos.total, precision: 2), step: '0.01'%>
               </div>
               </td>
               <td>

@@ -1,5 +1,5 @@
 class PurchaseOrdersController < ApplicationController
-  before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_purchase_order, only: [:show, :edit, :update, :destroy, :duplicate]
   before_action :set_available_services, only: [:new, :edit, :update, :create]
 
   # GET /purchase_orders
@@ -85,6 +85,27 @@ class PurchaseOrdersController < ApplicationController
     end
   end
 
+  def duplicate
+    @purchase_order_dup = @purchase_order.duplicate
+    puts @purchase_order_dup.inspect
+    respond_to do |format|
+      set_file_uploads
+      if @purchase_order_dup.save
+        flash_message(:success, "Purchase order successfully duplicated.")
+        format.html { redirect_to @purchase_order_dup, notice: 'Purchase order was successfully duplicated.' }
+        format.json { render :show, status: :created, location: @purchase_order_dup }
+        format.js {render js:'window.location.reload();'}
+      else
+        set_available_customers
+        set_available_employees
+        set_available_jobs
+        format.html { render :new }
+        format.json { render json: @purchase_order_dup.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions. 
     def set_purchase_order
@@ -98,7 +119,7 @@ class PurchaseOrdersController < ApplicationController
           p[1][:tos_file] = p[1][:tos_file].read unless p[1][:tos_file].blank? || p[1][:tos_file].instance_of?(String)
         end
       end
-      params.require(:purchase_order).permit(:customer_id, :project_id, purchase_order_services_attributes: [:id, :service_id, :total, :tos_file, :tos_file_type, :tos_file_data], purchase_order_efforts_attributes: [:id, :employee_id, :total, :job_id, :hours])
+      params.require(:purchase_order).permit(:customer_id, :project_id, :name, purchase_order_services_attributes: [:id, :service_id, :total, :tos_file, :tos_file_type, :tos_file_data], purchase_order_efforts_attributes: [:id, :employee_id, :total, :job_id, :hours])
     end
 
     def set_available_customers
@@ -155,8 +176,7 @@ class PurchaseOrdersController < ApplicationController
     end
 
     def set_file_uploads
-      puts "DEBUG"
-      puts purchase_order_params[:purchase_order_services_attributes].inspect
+      
         
   end
 end
