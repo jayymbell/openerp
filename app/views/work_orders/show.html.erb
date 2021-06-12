@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @work_order.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @work_order.description %>
+</p>
+
+<p>
+  <strong>Project:</strong>
+  <%= @work_order.project_id %>
+</p>
+
+<%= link_to 'Edit', edit_work_order_path(@work_order) %> |
+<%= link_to 'Back', work_orders_path %>

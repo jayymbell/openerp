@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :work_orders
   resources :workflow_transitions
   resources :workflow_states
   resources :workflows
