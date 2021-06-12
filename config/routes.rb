@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :work_order_comments
   resources :work_order_efforts
   resources :work_orders
   resources :workflow_transitions

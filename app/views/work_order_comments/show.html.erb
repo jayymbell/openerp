@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @work_order_comment.user_id %>
+</p>
+
+<p>
+  <strong>Work order:</strong>
+  <%= @work_order_comment.work_order_id %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @work_order_comment.comment %>
+</p>
+
+<%= link_to 'Edit', edit_work_order_comment_path(@work_order_comment) %> |
+<%= link_to 'Back', work_order_comments_path %>

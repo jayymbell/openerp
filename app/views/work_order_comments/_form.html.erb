@@ -1,0 +1,32 @@
+<%= form_with(model: work_order_comment, local: true) do |form| %>
+  <% if work_order_comment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(work_order_comment.errors.count, "error") %> prohibited this work_order_comment from being saved:</h2>
+
+      <ul>
+        <% work_order_comment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.text_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :work_order_id %>
+    <%= form.text_field :work_order_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :comment %>
+    <%= form.text_field :comment %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

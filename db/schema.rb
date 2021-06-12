@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_12_184614) do
+ActiveRecord::Schema.define(version: 2021_06_12_201848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -329,6 +329,16 @@ ActiveRecord::Schema.define(version: 2021_06_12_184614) do
     t.index ["person_id"], name: "index_users_on_person_id"
   end
 
+  create_table "work_order_comments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "work_order_id", null: false
+    t.text "comment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_work_order_comments_on_user_id"
+    t.index ["work_order_id"], name: "index_work_order_comments_on_work_order_id"
+  end
+
   create_table "work_order_efforts", force: :cascade do |t|
     t.bigint "work_order_id", null: false
     t.string "short_description"
@@ -417,6 +427,8 @@ ActiveRecord::Schema.define(version: 2021_06_12_184614) do
   add_foreign_key "service_employees", "employees"
   add_foreign_key "service_employees", "services"
   add_foreign_key "users", "people"
+  add_foreign_key "work_order_comments", "users"
+  add_foreign_key "work_order_comments", "work_orders"
   add_foreign_key "work_order_efforts", "employees"
   add_foreign_key "work_order_efforts", "work_orders"
   add_foreign_key "work_orders", "projects"
