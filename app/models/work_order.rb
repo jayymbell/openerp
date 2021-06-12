@@ -5,4 +5,8 @@ class WorkOrder < ApplicationRecord
   validates :name, :description, :presence => true
 
   accepts_nested_attributes_for :work_order_efforts, :allow_destroy => true
+
+  amoeba do
+    enable
+  end
 end
