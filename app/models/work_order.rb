@@ -1,6 +1,6 @@
 class WorkOrder < ApplicationRecord
   belongs_to :project
-  has_many :work_order_efforts
+  has_many :work_order_efforts, dependent: :destroy
 
   validates :name, :description, :presence => true
 
