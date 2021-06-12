@@ -1,0 +1,18 @@
+$('#dialog h3').html("New Work Order");
+
+$('.modal-body').html('<%= j render("form", work_order: @work_order) %>');
+
+$('#dialog').modal("show");
+
+$('.modal-dialog').addClass( "modal-lg" )
+
+$('#dialog').on('hidden.bs.modal', function () {
+    $('.modal-dialog').removeClass( "modal-lg" )
+})
+
+
+$('#dialog').on('shown.bs.modal', function () {
+    $('.first_input').focus()
+})
+
+$('.input-select2-basic').select2();

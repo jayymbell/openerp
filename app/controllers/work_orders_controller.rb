@@ -1,5 +1,5 @@
 class WorkOrdersController < ApplicationController
-  before_action :set_work_order, only: %i[ show edit update destroy ]
+  before_action :set_work_order, only: [:show, :edit, :update, :destroy, :duplicate]
 
   # GET /work_orders or /work_orders.json
   def index
@@ -13,6 +13,7 @@ class WorkOrdersController < ApplicationController
   # GET /work_orders/new
   def new
     @work_order = WorkOrder.new
+    @work_order.project = Project.find(params[:project_id])
   end
 
   # GET /work_orders/1/edit
@@ -25,11 +26,14 @@ class WorkOrdersController < ApplicationController
 
     respond_to do |format|
       if @work_order.save
+        flash_message(:success, "Work order was successfully created.'")
         format.html { redirect_to @work_order, notice: "Work order was successfully created." }
         format.json { render :show, status: :created, location: @work_order }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @work_order.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -38,11 +42,14 @@ class WorkOrdersController < ApplicationController
   def update
     respond_to do |format|
       if @work_order.update(work_order_params)
+        flash_message(:success, "Work order was successfully updated.'")
         format.html { redirect_to @work_order, notice: "Work order was successfully updated." }
         format.json { render :show, status: :ok, location: @work_order }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @work_order.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -51,8 +58,27 @@ class WorkOrdersController < ApplicationController
   def destroy
     @work_order.destroy
     respond_to do |format|
+      flash_message(:success, "Work order was successfully deleted.'")
       format.html { redirect_to work_orders_url, notice: "Work order was successfully destroyed." }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
+    end
+  end
+
+  def duplicate
+    @work_order_dup = @work_order.duplicate
+    puts @work_order_dup.inspect
+    respond_to do |format|
+      if @work_order_dup.save
+        flash_message(:success, "Work order successfully duplicated.")
+        format.html { redirect_to @work_order_dup, notice: 'Work order was successfully duplicated.' }
+        format.json { render :show, status: :created, location: @work_order_dup }
+        format.js {render js:'window.location.reload();'}
+      else
+        format.html { render :new }
+        format.json { render json: @work_order_dup.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
+      end
     end
   end
 

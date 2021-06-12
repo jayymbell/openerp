@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :purchase_orders
   get 'purchase_orders/:id/duplicate', to: 'purchase_orders#duplicate', as: :purchase_orders_duplicate
   get 'invoices/:id/duplicate', to: 'invoices#duplicate', as: :invoices_duplicate
+  get 'work_orders/:id/duplicate', to: 'work_orders#duplicate', as: :work_orders_duplicate
   resources :invoice_lines
   resources :invoices
   resources :service_employees
