@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Work order:</strong>
+  <%= @work_order_effort.work_order_id %>
+</p>
+
+<p>
+  <strong>Short description:</strong>
+  <%= @work_order_effort.short_description %>
+</p>
+
+<p>
+  <strong>Long description:</strong>
+  <%= @work_order_effort.long_description %>
+</p>
+
+<p>
+  <strong>Employee:</strong>
+  <%= @work_order_effort.employee_id %>
+</p>
+
+<p>
+  <strong>Hours:</strong>
+  <%= @work_order_effort.hours %>
+</p>
+
+<%= link_to 'Edit', edit_work_order_effort_path(@work_order_effort) %> |
+<%= link_to 'Back', work_order_efforts_path %>

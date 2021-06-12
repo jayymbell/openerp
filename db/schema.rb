@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_12_171434) do
+ActiveRecord::Schema.define(version: 2021_06_12_184614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -329,6 +329,19 @@ ActiveRecord::Schema.define(version: 2021_06_12_171434) do
     t.index ["person_id"], name: "index_users_on_person_id"
   end
 
+  create_table "work_order_efforts", force: :cascade do |t|
+    t.bigint "work_order_id", null: false
+    t.string "short_description"
+    t.text "long_description"
+    t.bigint "employee_id", null: false
+    t.decimal "hours"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.date "completed_on"
+    t.index ["employee_id"], name: "index_work_order_efforts_on_employee_id"
+    t.index ["work_order_id"], name: "index_work_order_efforts_on_work_order_id"
+  end
+
   create_table "work_orders", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -404,6 +417,8 @@ ActiveRecord::Schema.define(version: 2021_06_12_171434) do
   add_foreign_key "service_employees", "employees"
   add_foreign_key "service_employees", "services"
   add_foreign_key "users", "people"
+  add_foreign_key "work_order_efforts", "employees"
+  add_foreign_key "work_order_efforts", "work_orders"
   add_foreign_key "work_orders", "projects"
   add_foreign_key "workflow_states", "workflows"
   add_foreign_key "workflow_transitions", "workflow_states", column: "source_state_id"

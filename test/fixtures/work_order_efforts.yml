@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  work_order: one
+  short_description: MyString
+  long_description: MyText
+  employee: one
+  hours: 9.99
+
+two:
+  work_order: two
+  short_description: MyString
+  long_description: MyText
+  employee: two
+  hours: 9.99

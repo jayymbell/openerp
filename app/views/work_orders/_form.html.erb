@@ -20,4 +20,25 @@
     <%= form.label :description %>
     <%= form.text_area :description %>
   </div>
+
+  <ul class="nav nav-tabs" id="modalTab" role="tablist" style="padding-top: 10px;">
+    <li class="nav-item">
+      <a class="nav-link active" id="efforts-tab" data-toggle="tab" href="#efforts" role="tab" aria-controls="efforts" aria-selected="true">Efforts</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="invoice-form-tab" data-toggle="tab" href="#invoice-form" role="tab" aria-controls="invoice-form" aria-selected="true">Invoices</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabModalContent">
+    <div class="tab-pane fade show active" id="efforts" role="tabpanel" aria-labelledby="efforts-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'efforts_form'%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="invoice-form" role="tabpanel" aria-labelledby="invoice-form-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'invoices_form'%>
+      </div>
+    </div>
+</div>
 <% end %>

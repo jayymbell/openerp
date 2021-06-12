@@ -15,6 +15,7 @@
         <thead>
             <th>ID</th>
             <th>Name</th>
+            <th>Total Efforts</th>
             <th></th>
             <th></th>
         </thead>
@@ -23,6 +24,7 @@
             <tr>
                 <td><%= link_to d.id, edit_work_order_path(d), remote: true%></td>
                 <td><%= d.name %></td>
+                <td><%= d.work_order_efforts.sum(:hours) %></td>
                 <td><%=duplicate_btn(d)%></td>
                 <td><%=delete_btn(d)%></td>
             </tr>

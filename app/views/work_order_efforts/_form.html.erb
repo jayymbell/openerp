@@ -1,0 +1,42 @@
+<%= form_with(model: work_order_effort, local: true) do |form| %>
+  <% if work_order_effort.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(work_order_effort.errors.count, "error") %> prohibited this work_order_effort from being saved:</h2>
+
+      <ul>
+        <% work_order_effort.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :work_order_id %>
+    <%= form.text_field :work_order_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :short_description %>
+    <%= form.text_field :short_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :long_description %>
+    <%= form.text_area :long_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :employee_id %>
+    <%= form.text_field :employee_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :hours %>
+    <%= form.text_field :hours %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
