@@ -1,5 +1,6 @@
 class InvoicesController < ApplicationController
-  before_action :set_invoice, only: [:show, :edit, :update, :destroy]
+  before_action :set_invoice, only: [:show, :edit, :update, :destroy, :duplicate]
+  before_action :set_available_purchase_orders, only: [:edit, :update]
 
   # GET /invoices
   # GET /invoices.json
@@ -15,6 +16,8 @@ class InvoicesController < ApplicationController
   # GET /invoices/new
   def new
     @invoice = Invoice.new
+    @invoice.project = Project.find(params[:project_id])
+    set_available_purchase_orders
   end
 
   # GET /invoices/1/edit
@@ -25,14 +28,18 @@ class InvoicesController < ApplicationController
   # POST /invoices.json
   def create
     @invoice = Invoice.new(invoice_params)
+    set_available_purchase_orders
 
     respond_to do |format|
       if @invoice.save
+        flash_message(:success, "Invoice was successfully created.'")
         format.html { redirect_to @invoice, notice: 'Invoice was successfully created.' }
         format.json { render :show, status: :created, location: @invoice }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +49,14 @@ class InvoicesController < ApplicationController
   def update
     respond_to do |format|
       if @invoice.update(invoice_params)
+        flash_message(:success, "Invoice was successfully updated.'")
         format.html { redirect_to @invoice, notice: 'Invoice was successfully updated.' }
         format.json { render :show, status: :ok, location: @invoice }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +66,28 @@ class InvoicesController < ApplicationController
   def destroy
     @invoice.destroy
     respond_to do |format|
+      flash_message(:success, "Invoice was successfully deleted.'")
       format.html { redirect_to invoices_url, notice: 'Invoice was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
+    end
+  end
+
+  def duplicate
+    @invoice_dup = @invoice.duplicate
+    puts @invoice_dup.inspect
+    respond_to do |format|
+      if @invoice_dup.save
+        flash_message(:success, "Invoice successfully duplicated.")
+        format.html { redirect_to @invoice_dup, notice: 'Invoice was successfully duplicated.' }
+        format.json { render :show, status: :created, location: @invoice_dup }
+        format.js {render js:'window.location.reload();'}
+      else
+        set_available_purchase_orders
+        format.html { render :new }
+        format.json { render json: @invoice_dup.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
+      end
     end
   end
 
@@ -67,8 +97,12 @@ class InvoicesController < ApplicationController
       @invoice = Invoice.find(params[:id])
     end
 
+    def set_available_purchase_orders
+      @available_purchase_orders = @invoice.project.present? ? @invoice.project.purchase_orders : nil
+    end
+
     # Only allow a list of trusted parameters through.
     def invoice_params
-      params.require(:invoice).permit(:customer_id, :starts_on, :date, :ends_on, :total)
+      params.require(:invoice).permit(:name, :starts_on, :date, :ends_on, :total, :project_id, :purchase_order_id,  invoice_lines_attributes: [:id, :short_description, :long_description, :total])
     end
 end

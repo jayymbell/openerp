@@ -3,7 +3,9 @@ class ApplicationRecord < ActiveRecord::Base
 
   def duplicate
     dup_object = self.amoeba_dup   
-    dup_object.name = "Copy of " + self.name unless self.name.nil?
+    if defined? self.name 
+      dup_object.name = "Copy of " + self.name
+    end
     return dup_object
   end
 end

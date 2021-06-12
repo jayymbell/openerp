@@ -41,6 +41,9 @@
   input[type=text]{
     @extend .form-control;
   }
+  input[type=date]{
+    @extend .form-control;
+  }
   input[type=email]{
     @extend .form-control;
   }

@@ -1,42 +1,53 @@
-<%= form_with(model: invoice, local: true) do |form| %>
-  <% if invoice.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(invoice.errors.count, "error") %> prohibited this invoice from being saved:</h2>
-
-      <ul>
-        <% invoice.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<%= form_with(model: invoice, remote: true) do |form| %>
+  <%= render 'layouts/form_errors', object: form.object %>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="field">
+        <%= form.hidden_field :project_id %>
+      </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :customer_id %>
-    <%= form.text_field :customer_id %>
+    <div class="col-sm-4">
+        <%= submit_btn(form,"float:right;")%>
+    </div>
   </div>
 
+  <div class="field">
+    <%= form.label :purchase_order_id %>
+        <div class="field">
+        <%= form.select :purchase_order_id, 
+        @available_purchase_orders.order(name: :desc).map {|d| ["##{d.id} - #{d.name} #{d.customer.person.name}", d.id] }, 
+        {prompt: '', readonly: true},
+        {class: 'input-select2-basic'}%>
+    </div>
+  </div>
+    <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name%>
+  </div>
+<div class="row">
+  <div class="col-sm-6">
   <div class="field">
     <%= form.label :starts_on %>
-    <%= form.text_field :starts_on %>
+    <%= form.date_field :starts_on%>
   </div>
-
-  <div class="field">
-    <%= form.label :date %>
-    <%= form.text_field :date %>
   </div>
-
+<div class="col-sm-6">
   <div class="field">
     <%= form.label :ends_on %>
-    <%= form.date_select :ends_on %>
+    <%= form.date_field :ends_on %>
   </div>
+  </div>
+  </div>
+
+  <%= render 'invoice_lines_form', form: form%>
 
   <div class="field">
     <%= form.label :total %>
-    <%= form.text_field :total %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+    <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">$</div>
+                </div>
+                <%= form.number_field :total, step: '0.01' %>
+              </div>
   </div>
 <% end %>

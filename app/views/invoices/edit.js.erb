@@ -1,0 +1,18 @@
+$('#dialog h3').html("Edit Invoice");
+
+$('.modal-dialog').addClass( "modal-lg" )
+
+$('#dialog').on('hidden.bs.modal', function () {
+    $('.modal-dialog').removeClass( "modal-lg" )
+})
+
+$('.modal-body').html('<%= j render("form", invoice: @invoice) %>');
+
+$('#dialog').modal("show");
+
+
+$('#dialog').on('shown.bs.modal', function () {
+    $('.first_input').focus()
+})
+
+$('.input-datetimepicker').datetimepicker();
