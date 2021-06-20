@@ -99,6 +99,6 @@ class WorkOrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def work_order_params
-      params.require(:work_order).permit(:name, :description, :project_id, work_order_efforts_attributes: [:id, :employee_id, :hours, :short_description, :long_description, :completed_on])
+      params.require(:work_order).permit(:name, :description, :project_id, work_order_efforts_attributes: [:id, :employee_id, :hours, :short_description, :long_description, :completed_on], work_order_comments_attributes: [:id, :comment, :user_id])
     end
 end

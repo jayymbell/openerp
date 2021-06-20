@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-sm-10">
+        <textarea style="height: 100px;" id="woc-comment"></textarea>
+    </div>
+    <div class="col-sm-2">
+        <button type="button" class="btn btn-outline-success form-control" onClick="addComment()" style="height: 100%;">Add</button>
+    </div>
+</div>
+<br/>
+<div id="comments-wrapper">
+    <% @work_order.work_order_comments.each_with_index do |woc, index| %>
+        <div id="woc-<%=index%>" class="card mb-3">
+            <div class="card-body">
+            <%= hidden_field_tag 'work_order[work_order_comments_attributes]['+index.to_s+'][id]',woc.id%>
+            <p class="card-text">
+                <%= woc.comment%>
+            </p>
+            </div>
+        </div>
+    <%end%>
+</div>
+<script>
+function addComment() {
+    var index = ($('#comments-wrapper div').length)
+    var id = 'woc-' +  index
+    $('#comments-wrapper')
+        .prepend($('<div>')
+        .addClass('card mb-3')
+            .append($('<div>')
+                .addClass('card-body')
+                .append($('<p>')
+                .addClass('card-text')
+                .text($('#woc-comment').val())
+                )
+            )
+            .append($('<input>')
+            .prop('readonly', 'true')
+            .addClass('form-control')
+            .prop('name',"work_order[work_order_comments_attributes]["+index+"][comment]" )
+            .prop('type', 'hidden')
+            .val($('#woc-comment').val())
+          )
+            .append($('<div>')
+                .addClass('card-footer')
+                .css('text-align', 'right')
+                .text('<%=@current_user.present? ? @current_user.person.name : 'none'%>'))
+        )
+    $('#woc-comment').val('')
+}
+</script>

@@ -13,6 +13,10 @@
                     <% d.employee.employee_jobs.each do |ej|%>
                         <span class="badge badge-pill badge-primary" style="background-color: #<%=random_color(ej.job.name)%>"><%=ej.job.name%></span>
                     <%end%>
+                                         <br/>
+                    <% d.employee.employee_departments.each do |pcr|%>
+                        <span class="text-muted"><%=pcr.department.name%></span>
+                    <%end%>
                 </td>
                 <td><%=delete_btn(d)%></td>
             </tr>

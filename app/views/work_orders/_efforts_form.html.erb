@@ -34,7 +34,7 @@
                 <input type="number" id="poe-hours" class="poe-input form-control" step='0.01' value='0.00' placeholder='0.00'/>
               </div>
               </td>
-              <td><a class="btn btn-outline-success form-control" onClick="addWorkOrderEffort()">Add</td>
+              <td><a class="btn btn-outline-success form-control" onClick="addWorkOrderEffort()">Add</a></td>
           </tr>
           <% @work_order.work_order_efforts.each_with_index do |poe, index| %>
             <tr id="poe-<%=index%>">
