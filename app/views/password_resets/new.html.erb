@@ -1,2 +1,25 @@
-<h1>PasswordResets#new</h1>
-<p>Find me in app/views/password_resets/new.html.erb</p>
+<div class="login-box">
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Password Reset</p>
+
+      <%= form_for(:password_reset, url: password_resets_path) do |f| %>
+        <div class="input-group mb-3">
+          <%= f.email_field :email, placeholder: 'Email' %>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <!-- /.col -->
+
+        <%= f.submit 'Submit', class: 'btn btn-outline-primary form-control', style: 'float: right;' %>
+   
+      <%end%>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->

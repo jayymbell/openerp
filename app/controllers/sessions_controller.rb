@@ -1,11 +1,10 @@
 class SessionsController < ApplicationController
   def new
-    render layout: false
   end
 
   def create
-    user = Person.find_by_email(params[:email]).user
-    if !user.is_active
+    user = Person.find_by_email(params[:email]).present? ? Person.find_by_email(params[:email]).user : nil
+    if Person.find_by_email(params[:email]).present? && !user.is_active
       flash_message(:alert, "This account is inactive. Contact support to reactivate.")
       redirect_to root_url
     elsif user && user.password_digest.present? && user.authenticate(params[:password])

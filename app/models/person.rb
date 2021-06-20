@@ -6,6 +6,7 @@ class Person < ApplicationRecord
 
     has_one :employee, dependent: :destroy
     has_one :customer, dependent: :destroy
+    has_one :user, dependent: :destroy
 
     def name
         "#{first_name} #{last_name}"
