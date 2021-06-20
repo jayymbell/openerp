@@ -28,7 +28,9 @@
       <!-- /.content-wrapper -->
 
       <!-- Control Sidebar -->
+    <%if is_logged_in?%>
     <%= render 'layouts/control_sidebar'%>
+    <%end%>
       <!-- /.control-sidebar -->
 
       <!-- Main Footer -->
