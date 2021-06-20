@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_20_084055) do
+ActiveRecord::Schema.define(version: 2021_06_20_175013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -361,7 +361,11 @@ ActiveRecord::Schema.define(version: 2021_06_20_084055) do
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "initial_estimate"
     t.decimal "remaining_estimate"
+    t.bigint "requester_id"
+    t.bigint "assignee_id"
+    t.index ["assignee_id"], name: "index_work_orders_on_assignee_id"
     t.index ["project_id"], name: "index_work_orders_on_project_id"
+    t.index ["requester_id"], name: "index_work_orders_on_requester_id"
   end
 
   create_table "workflow_states", force: :cascade do |t|
@@ -435,6 +439,8 @@ ActiveRecord::Schema.define(version: 2021_06_20_084055) do
   add_foreign_key "work_order_efforts", "employees"
   add_foreign_key "work_order_efforts", "work_orders"
   add_foreign_key "work_orders", "projects"
+  add_foreign_key "work_orders", "users", column: "assignee_id"
+  add_foreign_key "work_orders", "users", column: "requester_id"
   add_foreign_key "workflow_states", "workflows"
   add_foreign_key "workflow_transitions", "workflow_states", column: "source_state_id"
   add_foreign_key "workflow_transitions", "workflow_states", column: "target_state_id"

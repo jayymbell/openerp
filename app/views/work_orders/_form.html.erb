@@ -10,6 +10,31 @@
         <%= submit_btn(form,"float:right;")%>
     </div>
   </div>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="field">
+    <%= form.label :requester_id %>
+    <div class="field">
+      <%= form.select :requester_id, 
+        @work_order.project.users.map {|d| [d.name, d.user.id] }, 
+        { readonly: true},
+        {class: 'input-select2-basic'}%>
+    </div>
+    </div>
+    </div>
+    <div class="col-sm-6">
+
+    <div class="field">
+      <%= form.label :assignee_id %>
+      <div class="field">
+        <%= form.select :assignee_id, 
+          @work_order.project.users.map {|d| [d.name, d.user.id] }, 
+          {prompt: '', readonly: true},
+          {class: 'input-select2-basic'}%>
+      </div>
+    </div>
+    </div>
+    </div>
 
   <div class="field">
     <%= form.label :name %>
@@ -19,6 +44,11 @@
   <div class="field">
     <%= form.label :description %>
     <%= form.text_area :description, style: "height: 200px" %>
+  </div>
+
+    <div class="field">
+    <%= form.label :initial_estimate %>
+    <%= form.number_field :initial_estimate %>
   </div>
 
   <ul class="nav nav-tabs" id="modalTab" role="tablist" style="padding-top: 10px;">
