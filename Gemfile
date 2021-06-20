@@ -56,3 +56,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'identicon'
 
 gem 'amoeba'
+
+# used for auth cyptography
+gem 'bcrypt'

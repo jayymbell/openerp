@@ -1,0 +1,9 @@
+<p>Hi <%= @user.person.first_name %>,</p>
+
+<p>
+Welcome to the OpenERP! Click on the link below to activate your account:
+</p>
+
+<%= link_to "Activate", edit_account_activation_url(@user.activation_token, email: @user.person.email) %>
+
+<p>This link will expire in two days.</p>

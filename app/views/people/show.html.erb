@@ -33,6 +33,9 @@
               <%= form.submit 'Initialize Customer Record', class: 'dropdown-item', data: { confirm: 'Are you sure?' } %>
             <%end%>
           <%end%>
+          <%if @person.user.nil? || @person.user.is_active.nil?%>
+            <%= button_to 'Activate User Record', account_activations_path(id: @person.id), class: 'dropdown-item', remote: true, method: :post %>
+          <%end%>
         </div>
       </li>
     </ul>

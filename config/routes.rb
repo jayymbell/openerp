@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'account_activations/create'
-  get 'account_activations/edit'
+  resources :account_activations, only: [:create, :edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :work_order_comments
   resources :work_order_efforts

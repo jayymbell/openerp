@@ -3,11 +3,11 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = Person.find_by_email(params[:email]).present? ? Person.find_by_email(params[:email]).user : nil
-    if Person.find_by_email(params[:email]).present? && !user.is_active
+    user = Person.find_by_email(params[:session][:email]).present? ? Person.find_by_email(params[:session][:email]).user : nil
+    if Person.find_by_email(params[:session][:email]).present? && !user.is_active
       flash_message(:alert, "This account is inactive. Contact support to reactivate.")
       redirect_to root_url
-    elsif user && user.password_digest.present? && user.authenticate(params[:password])
+    elsif user && user.password_digest.present? && user.authenticate(params[:session][:password])
       log_in user
       redirect_to root_url
     else
