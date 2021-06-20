@@ -8,13 +8,24 @@
 </div>
 <br/>
 <div id="comments-wrapper">
-    <% @work_order.work_order_comments.each_with_index do |woc, index| %>
+    <% @work_order.work_order_comments.order(created_at: :desc).each_with_index do |woc, index| %>
         <div id="woc-<%=index%>" class="card mb-3">
             <div class="card-body">
-            <%= hidden_field_tag 'work_order[work_order_comments_attributes]['+index.to_s+'][id]',woc.id%>
+            <%= hidden_field_tag 'work_order[work_order_comments_attributes]['+index.to_s+'][id]',woc.id, readonly: true%>
+            <%= hidden_field_tag 'work_order[work_order_comments_attributes]['+index.to_s+'][user_id]',woc.user_id, readonly: true%>
             <p class="card-text">
                 <%= woc.comment%>
             </p>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <i class="fa fa-check-circle text-success"></i>
+                    </div>
+                    <div class="col-sm-6" style="text-align: right;">
+                        <%= woc.created_at%> <%=@current_user.present? ? @current_user.person.name : 'none'%>
+                    </div>
+                </div>
             </div>
         </div>
     <%end%>
@@ -40,10 +51,28 @@ function addComment() {
             .prop('type', 'hidden')
             .val($('#woc-comment').val())
           )
+          .append($('<input>')
+            .prop('readonly', 'true')
+            .addClass('form-control')
+            .prop('name',"work_order[work_order_comments_attributes]["+index+"][user_id]" )
+            .prop('type', 'hidden')
+            .val(<%=@current_user.present? ? @current_user.id : ''%>))
             .append($('<div>')
                 .addClass('card-footer')
-                .css('text-align', 'right')
-                .text('<%=@current_user.present? ? @current_user.person.name : 'none'%>'))
+                .append($('<div>')
+                    .addClass('row')
+                    .append($('<div>')
+                        .addClass('col-sm-6')
+                        .append($('<i>')
+                            .addClass('fa fa-check-circle text-primary'))
+                    )
+                    .append($('<div>')
+                        .addClass('col-sm-6')
+                        .css('text-align', 'right')
+                        .text('<%=DateTime.now%> <%=@current_user.present? ? @current_user.person.name : 'none'%>')
+                    )
+                )
+            )
         )
     $('#woc-comment').val('')
 }
