@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Work Order Invoices</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Work order</th>
+      <th>Invoice</th>
+      <th>Allocation</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @work_order_invoices.each do |work_order_invoice| %>
+      <tr>
+        <td><%= work_order_invoice.work_order_id %></td>
+        <td><%= work_order_invoice.invoice_id %></td>
+        <td><%= work_order_invoice.allocation %></td>
+        <td><%= link_to 'Show', work_order_invoice %></td>
+        <td><%= link_to 'Edit', edit_work_order_invoice_path(work_order_invoice) %></td>
+        <td><%= link_to 'Destroy', work_order_invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Work Order Invoice', new_work_order_invoice_path %>

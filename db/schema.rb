@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_20_175013) do
+ActiveRecord::Schema.define(version: 2021_06_20_190646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -353,6 +353,16 @@ ActiveRecord::Schema.define(version: 2021_06_20_175013) do
     t.index ["work_order_id"], name: "index_work_order_efforts_on_work_order_id"
   end
 
+  create_table "work_order_invoices", force: :cascade do |t|
+    t.bigint "work_order_id", null: false
+    t.bigint "invoice_id", null: false
+    t.decimal "allocation"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["invoice_id"], name: "index_work_order_invoices_on_invoice_id"
+    t.index ["work_order_id"], name: "index_work_order_invoices_on_work_order_id"
+  end
+
   create_table "work_orders", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -438,6 +448,8 @@ ActiveRecord::Schema.define(version: 2021_06_20_175013) do
   add_foreign_key "work_order_comments", "work_orders"
   add_foreign_key "work_order_efforts", "employees"
   add_foreign_key "work_order_efforts", "work_orders"
+  add_foreign_key "work_order_invoices", "invoices"
+  add_foreign_key "work_order_invoices", "work_orders"
   add_foreign_key "work_orders", "projects"
   add_foreign_key "work_orders", "users", column: "assignee_id"
   add_foreign_key "work_orders", "users", column: "requester_id"

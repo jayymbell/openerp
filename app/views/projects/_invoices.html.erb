@@ -26,7 +26,7 @@
     <%@project.invoices.order(starts_on: :desc).each do |d| %>
             <tr>
                 <td><%= link_to d.id, edit_invoice_path(d), remote: true%></td>
-                <td>#<%=d.purchase_order.id%> - <%=d.purchase_order.name%> (<%=d.purchase_order.customer.person.name%>)</td>
+                <td>#<%=d.purchase_order.id%> - <%=d.purchase_order.customer.person.name%> <%= d.purchase_order.name%></td>
                 <td><%=d.name%></td>
                 <td><%=d.starts_on%></td>
                 <td><%=d.ends_on%></td>

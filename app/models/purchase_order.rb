@@ -8,7 +8,7 @@ class PurchaseOrder < ApplicationRecord
   accepts_nested_attributes_for :purchase_order_services, :allow_destroy => true
   accepts_nested_attributes_for :purchase_order_efforts, :allow_destroy => true
 
-  validates_uniqueness_of :name, :scope => [:customer_id]
+  validates_uniqueness_of :name, :scope => [:customer_id, :project_id]
 
   amoeba do
     enable

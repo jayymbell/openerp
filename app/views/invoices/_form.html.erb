@@ -15,7 +15,7 @@
     <%= form.label :purchase_order_id %>
         <div class="field">
         <%= form.select :purchase_order_id, 
-        @available_purchase_orders.order(name: :desc).map {|d| ["##{d.id} - #{d.name} #{d.customer.person.name}", d.id] }, 
+        @available_purchase_orders.order(name: :desc).map {|d| ["##{d.id} - #{d.customer.person.name} #{d.name}", d.id] }, 
         {prompt: '', readonly: true},
         {class: 'input-select2-basic'}%>
     </div>

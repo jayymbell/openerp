@@ -1,0 +1,32 @@
+<%= form_with(model: work_order_invoice, local: true) do |form| %>
+  <% if work_order_invoice.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(work_order_invoice.errors.count, "error") %> prohibited this work_order_invoice from being saved:</h2>
+
+      <ul>
+        <% work_order_invoice.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :work_order_id %>
+    <%= form.text_field :work_order_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :invoice_id %>
+    <%= form.text_field :invoice_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :allocation %>
+    <%= form.text_field :allocation %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

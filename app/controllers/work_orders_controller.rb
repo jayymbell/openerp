@@ -15,11 +15,13 @@ class WorkOrdersController < ApplicationController
     @work_order = WorkOrder.new
     @work_order.project = Project.find(params[:project_id])
     set_available_employees
+    set_available_invoices
   end
 
   # GET /work_orders/1/edit
   def edit
     set_available_employees
+    set_available_invoices
   end
 
   # POST /work_orders or /work_orders.json
@@ -34,6 +36,7 @@ class WorkOrdersController < ApplicationController
         format.js {render js:'window.location.reload();'}
       else
         set_available_employees
+        set_available_invoices
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @work_order.errors, status: :unprocessable_entity }
         format.js {render 'new'}
@@ -44,6 +47,8 @@ class WorkOrdersController < ApplicationController
   # PATCH/PUT /work_orders/1 or /work_orders/1.json
   def update
     respond_to do |format|
+      delete_work_order_efforts
+      delete_work_order_invoices
       if @work_order.update(work_order_params)
         flash_message(:success, "Work order was successfully updated.'")
         format.html { redirect_to @work_order, notice: "Work order was successfully updated." }
@@ -51,6 +56,7 @@ class WorkOrdersController < ApplicationController
         format.js {render js:'window.location.reload();'}
       else
         set_available_employees
+        set_available_invoices
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @work_order.errors, status: :unprocessable_entity }
         format.js {render 'edit'}
@@ -96,9 +102,51 @@ class WorkOrdersController < ApplicationController
       @available_employees = @work_order.project.present? ? @work_order.project.employees : nil
     end
 
+    def set_available_invoices
+      @available_invoices= @work_order.project.present? ? @work_order.project.invoices : nil
+    end
+
+    def delete_work_order_efforts
+      @work_order.work_order_efforts.each do |woe|
+        remove_woe = true
+        puts work_order_params.inspect
+        if work_order_params[:work_order_efforts_attributes].present?
+          work_order_params[:work_order_efforts_attributes].each do |p|
+            if p[1][:id].to_s == woe.id.to_s 
+              remove_woe = false
+            end
+          end
+          if remove_woe
+            @work_order.work_order_efforts.delete(woe)
+          end
+        else
+          @work_order.work_order_efforts.destroy_all
+        end
+      end
+    end
+
+    def delete_work_order_invoices
+      @work_order.work_order_invoices.each do |woe|
+        remove_woi = true
+        puts work_order_params.inspect
+        if work_order_params[:work_order_invoices_attributes].present?
+          work_order_params[:work_order_invoices_attributes].each do |p|
+            if p[1][:id].to_s == woe.id.to_s 
+              remove_woi = false
+            end
+          end
+          if remove_woi
+            @work_order.work_order_invoices.delete(woe)
+          end
+        else
+          @work_order.work_order_invoices.destroy_all
+        end
+      end
+    end
+
 
     # Only allow a list of trusted parameters through.
     def work_order_params
-      params.require(:work_order).permit(:name, :description, :project_id, :requester_id, :assignee_id, :initial_estimate,work_order_efforts_attributes: [:id, :employee_id, :hours, :short_description, :long_description, :completed_on], work_order_comments_attributes: [:id, :comment, :user_id])
+      params.require(:work_order).permit(:name, :description, :project_id, :requester_id, :assignee_id, :initial_estimate,work_order_efforts_attributes: [:id, :employee_id, :hours, :short_description, :long_description, :completed_on], work_order_comments_attributes: [:id, :comment, :user_id], work_order_invoices_attributes: [:id, :invoice_id, :allocation])
     end
 end

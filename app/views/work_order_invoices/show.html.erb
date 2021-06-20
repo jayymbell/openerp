@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Work order:</strong>
+  <%= @work_order_invoice.work_order_id %>
+</p>
+
+<p>
+  <strong>Invoice:</strong>
+  <%= @work_order_invoice.invoice_id %>
+</p>
+
+<p>
+  <strong>Allocation:</strong>
+  <%= @work_order_invoice.allocation %>
+</p>
+
+<%= link_to 'Edit', edit_work_order_invoice_path(@work_order_invoice) %> |
+<%= link_to 'Back', work_order_invoices_path %>
