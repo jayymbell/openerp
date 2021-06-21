@@ -20,6 +20,7 @@ class PurchaseOrdersController < ApplicationController
     set_available_customers
     set_available_employees
     set_available_jobs
+    set_available_workflows
   end
 
   # GET /purchase_orders/1/edit
@@ -27,6 +28,7 @@ class PurchaseOrdersController < ApplicationController
     set_available_customers
     set_available_employees
     set_available_jobs
+    set_available_workflows
   end
 
   # POST /purchase_orders
@@ -44,6 +46,7 @@ class PurchaseOrdersController < ApplicationController
         set_available_customers
         set_available_employees
         set_available_jobs
+        set_available_workflows
         format.html { render :new }
         format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
         format.js {render 'new'}
@@ -66,6 +69,7 @@ class PurchaseOrdersController < ApplicationController
       else
         set_available_customers
         set_available_employees
+        set_available_workflows
         format.html { render :edit }
         format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
         format.js {render 'edit'}
@@ -119,7 +123,7 @@ class PurchaseOrdersController < ApplicationController
           p[1][:tos_file] = p[1][:tos_file].read unless p[1][:tos_file].blank? || p[1][:tos_file].instance_of?(String)
         end
       end
-      params.require(:purchase_order).permit(:customer_id, :project_id, :name, purchase_order_services_attributes: [:id, :service_id, :total, :tos_file, :tos_file_type, :tos_file_data], purchase_order_efforts_attributes: [:id, :employee_id, :total, :job_id, :hours])
+      params.require(:purchase_order).permit(:customer_id, :project_id, :name, :workflow_id, :workflow_state_id, purchase_order_services_attributes: [:id, :service_id, :total, :tos_file, :tos_file_type, :tos_file_data], purchase_order_efforts_attributes: [:id, :employee_id, :total, :job_id, :hours])
     end
 
     def set_available_customers
@@ -136,6 +140,10 @@ class PurchaseOrdersController < ApplicationController
 
     def set_available_jobs
       @available_jobs = @purchase_order.project.present? ? Job.where(is_active: true, id: EmployeeJob.where(employee_id:  @purchase_order.project.employees.pluck(:id)).pluck(:job_id)) : nil
+    end
+
+    def set_available_workflows
+      @available_workflows = Workflow.where(category: 'purchase order')
     end
 
     def delete_purchase_order_services

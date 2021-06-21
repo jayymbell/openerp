@@ -1,5 +1,5 @@
 class WorkflowsController < ApplicationController
-  before_action :set_workflow, only: [:show, :edit, :update, :destroy]
+  before_action :set_workflow, only: [:show, :edit, :update, :destroy, :duplicate]
 
   # GET /workflows
   # GET /workflows.json
@@ -67,6 +67,22 @@ class WorkflowsController < ApplicationController
       format.html { redirect_to workflows_url, notice: 'Workflow was successfully destroyed.' }
       format.json { head :no_content }
       format.js {render js:'window.location.reload();'}
+    end
+  end
+
+  def duplicate
+    @workflow_dup = @workflow.duplicate
+    respond_to do |format|
+      if @workflow_dup.save
+        flash_message(:success, "Purchase order successfully duplicated.")
+        format.html { redirect_to @workflow_dup, notice: 'Purchase order was successfully duplicated.' }
+        format.json { render :show, status: :created, location: @workflow_dup }
+        format.js {render js:'window.location.reload();'}
+      else
+        format.html { render :new }
+        format.json { render json: @workflow_dup.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
+      end
     end
   end
 

@@ -1,5 +1,6 @@
 class WorkOrder < ApplicationRecord
   belongs_to :project
+  belongs_to :workflow_state
   has_many :work_order_efforts, dependent: :destroy
   has_many :work_order_comments, dependent: :destroy
   has_many :work_order_invoices, dependent: :destroy

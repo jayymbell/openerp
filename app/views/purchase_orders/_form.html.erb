@@ -1,16 +1,38 @@
 <%= form_with(model: purchase_order, remote: true, html: { multipart: true }) do |form| %>
   <%= render 'layouts/form_errors', object: form.object %>
   <div class="row">
-    <div class="col-sm-8">
-      <div class="field">
+    <div class="col-sm-10">
+        <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Transition
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <% @purchase_order.workflow_state.workflow_transitions.each do |t|%>
+              <button name="purchase_order[workflow_state_id]"class="dropdown-item" value="<%=t.target_state_id%>"><%= t.name %></button>
+              <%end%>
       </div>
     </div>
-    <div class="col-sm-4">
+    
+        </div>
+    <div class="col-sm-2">
         <%= submit_btn(form,"float:right;")%>
     </div>
   </div>
-
+  <br/>
+  <%= form.label 'State' %>
+  <br/>
+<%=@purchase_order.workflow_state.name%>
   <%= form.hidden_field :project_id %>
+  <%= form.hidden_field :workflow_state_id %>
+
+      <div class="field">
+    <%= form.label :workflow_id %>
+    <div class="field">
+      <%= form.select :workflow_id, 
+        @available_workflows.map {|d| [d.name, d.id] }, 
+        {readonly: true},
+        {class: 'input-select2-basic'}%>
+    </div>
 
     <div class="field">
     <%= form.label :name %>
@@ -26,10 +48,29 @@
         {prompt: '', readonly: true},
         {class: 'input-select2-basic'}%>
     </div>
+
     <br/>
-    <%= render 'services_form', form: form%>
-    <div class="field">
-    <%= render 'efforts_form', form: form%>
+    
+
+      <ul class="nav nav-tabs" id="modalTab" role="tablist" style="padding-top: 10px;">
+    <li class="nav-item">
+      <a class="nav-link active" id="services-tab" data-toggle="tab" href="#services" role="tab" aria-controls="services" aria-selected="true">Services</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="efforts-tab" data-toggle="tab" href="#efforts" role="tab" aria-controls="efforts" aria-selected="true">Efforts</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabModalContent">
+    <div class="tab-pane fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'services_form', form: form%>
+      </div>
     </div>
+    <div class="tab-pane fade" id="efforts" role="tabpanel" aria-labelledby="efforts-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'efforts_form'%>
+      </div>
+    </div>
+</div>
   </div>
 <% end %>

@@ -10,7 +10,7 @@
   </thead>
 
   <tbody>
-    <% @workflows.where(category: 'invoice').each do |role| %>
+    <% @workflows.where(category: 'work order').each do |role| %>
       <tr>
         <td><%=link_to role.id, role%></td>
         <td><%= role.name.capitalize %></td>

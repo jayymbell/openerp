@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Actions
+        </a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <%= link_to 'New Transitions', new_workflow_transition_path(workflow_id: @workflow.id), class: "dropdown-item", remote: true%>
+        </div>
+      </li>
+    </ul>
+</nav>
+<br/> 
+<table class="table table-striped">
+        <thead>
+            <th>Name</th>
+            <th></th>
+        </thead>
+                <tbody>
+    <%@workflow.workflow_transitions.order(:name).each do |d| %>
+            <tr>
+                <td><%=link_to d.name, edit_workflow_transition_path(d), remote: true%></td>
+                <td><%=delete_btn(d)%></td>
+            </tr>
+        
+    <%end%>
+    </tbody>
+</table>

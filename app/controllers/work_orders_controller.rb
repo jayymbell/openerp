@@ -16,12 +16,14 @@ class WorkOrdersController < ApplicationController
     @work_order.project = Project.find(params[:project_id])
     set_available_employees
     set_available_invoices
+    set_available_workflows
   end
 
   # GET /work_orders/1/edit
   def edit
     set_available_employees
     set_available_invoices
+    set_available_workflows
   end
 
   # POST /work_orders or /work_orders.json
@@ -37,6 +39,7 @@ class WorkOrdersController < ApplicationController
       else
         set_available_employees
         set_available_invoices
+        set_available_workflows
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @work_order.errors, status: :unprocessable_entity }
         format.js {render 'new'}
@@ -57,6 +60,7 @@ class WorkOrdersController < ApplicationController
       else
         set_available_employees
         set_available_invoices
+        set_available_workflows
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @work_order.errors, status: :unprocessable_entity }
         format.js {render 'edit'}
@@ -144,9 +148,13 @@ class WorkOrdersController < ApplicationController
       end
     end
 
+    def set_available_workflows
+      @available_workflows = Workflow.where(category: 'work order')
+    end
+
 
     # Only allow a list of trusted parameters through.
     def work_order_params
-      params.require(:work_order).permit(:name, :description, :project_id, :requester_id, :assignee_id, :initial_estimate,work_order_efforts_attributes: [:id, :employee_id, :hours, :short_description, :long_description, :completed_on], work_order_comments_attributes: [:id, :comment, :user_id], work_order_invoices_attributes: [:id, :invoice_id, :allocation])
+      params.require(:work_order).permit(:name, :description, :project_id, :requester_id, :assignee_id, :workflow_id, :workflow_state_id, :initial_estimate,work_order_efforts_attributes: [:id, :employee_id, :hours, :short_description, :long_description, :completed_on], work_order_comments_attributes: [:id, :comment, :user_id], work_order_invoices_attributes: [:id, :invoice_id, :allocation])
     end
 end

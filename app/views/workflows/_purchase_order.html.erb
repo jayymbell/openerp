@@ -5,6 +5,7 @@
       <th>Name</th>
       <th>Is active</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -14,6 +15,7 @@
         <td><%=link_to role.id, role%></td>
         <td><%= role.name.capitalize %></td>
         <td><%= boolean_icon(role.is_active) %></td>
+        <td><%= duplicate_btn(role) %></td>
         <td><%= delete_btn(role) %></td>
       </tr>
     <% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_20_190646) do
+ActiveRecord::Schema.define(version: 2021_06_21_180133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,8 +132,12 @@ ActiveRecord::Schema.define(version: 2021_06_20_190646) do
     t.date "starts_on"
     t.bigint "project_id"
     t.string "name"
+    t.bigint "workflow_id"
+    t.bigint "workflow_state_id"
     t.index ["project_id"], name: "index_invoices_on_project_id"
     t.index ["purchase_order_id"], name: "index_invoices_on_purchase_order_id"
+    t.index ["workflow_id"], name: "index_invoices_on_workflow_id"
+    t.index ["workflow_state_id"], name: "index_invoices_on_workflow_state_id"
   end
 
   create_table "jobs", force: :cascade do |t|
@@ -281,8 +285,12 @@ ActiveRecord::Schema.define(version: 2021_06_20_190646) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "project_id"
     t.string "name"
+    t.bigint "workflow_id"
+    t.bigint "workflow_state_id"
     t.index ["customer_id"], name: "index_purchase_orders_on_customer_id"
     t.index ["project_id"], name: "index_purchase_orders_on_project_id"
+    t.index ["workflow_id"], name: "index_purchase_orders_on_workflow_id"
+    t.index ["workflow_state_id"], name: "index_purchase_orders_on_workflow_state_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -373,9 +381,13 @@ ActiveRecord::Schema.define(version: 2021_06_20_190646) do
     t.decimal "remaining_estimate"
     t.bigint "requester_id"
     t.bigint "assignee_id"
+    t.bigint "workflow_id"
+    t.bigint "workflow_state_id"
     t.index ["assignee_id"], name: "index_work_orders_on_assignee_id"
     t.index ["project_id"], name: "index_work_orders_on_project_id"
     t.index ["requester_id"], name: "index_work_orders_on_requester_id"
+    t.index ["workflow_id"], name: "index_work_orders_on_workflow_id"
+    t.index ["workflow_state_id"], name: "index_work_orders_on_workflow_state_id"
   end
 
   create_table "workflow_states", force: :cascade do |t|

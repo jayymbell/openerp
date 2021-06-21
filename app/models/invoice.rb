@@ -1,6 +1,7 @@
 class Invoice < ApplicationRecord
   belongs_to :project
   belongs_to :purchase_order
+  belongs_to :workflow_state
   has_many :invoice_lines, dependent: :destroy
   has_many :work_order_invoices, dependent: :destroy
 

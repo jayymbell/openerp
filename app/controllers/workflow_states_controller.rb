@@ -15,6 +15,7 @@ class WorkflowStatesController < ApplicationController
   # GET /workflow_states/new
   def new
     @workflow_state = WorkflowState.new
+    @workflow_state.workflow = params[:workflow_id].present? ? Workflow.find(params[:workflow_id]) : nil
   end
 
   # GET /workflow_states/1/edit
@@ -28,11 +29,14 @@ class WorkflowStatesController < ApplicationController
 
     respond_to do |format|
       if @workflow_state.save
+        flash_message(:success, "Workflow state was successfully created.")
         format.html { redirect_to @workflow_state, notice: 'Workflow state was successfully created.' }
         format.json { render :show, status: :created, location: @workflow_state }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new }
         format.json { render json: @workflow_state.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -42,11 +46,14 @@ class WorkflowStatesController < ApplicationController
   def update
     respond_to do |format|
       if @workflow_state.update(workflow_state_params)
+        flash_message(:success, "Workflow state was successfully updated.")
         format.html { redirect_to @workflow_state, notice: 'Workflow state was successfully updated.' }
         format.json { render :show, status: :ok, location: @workflow_state }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit }
         format.json { render json: @workflow_state.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -56,8 +63,10 @@ class WorkflowStatesController < ApplicationController
   def destroy
     @workflow_state.destroy
     respond_to do |format|
+      flash_message(:success, "Workflow state was successfully deleted.")
       format.html { redirect_to workflow_states_url, notice: 'Workflow state was successfully destroyed.' }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 

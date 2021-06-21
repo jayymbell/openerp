@@ -19,12 +19,14 @@ class InvoicesController < ApplicationController
     @invoice.project = Project.find(params[:project_id])
     set_available_purchase_orders
     set_available_work_orders
+    set_available_workflows
   end
 
   # GET /invoices/1/edit
   def edit
     set_available_purchase_orders
     set_available_work_orders
+    set_available_workflows
   end
 
   # POST /invoices
@@ -33,6 +35,7 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.new(invoice_params)
     set_available_purchase_orders
     set_available_work_orders
+    set_available_workflows
     respond_to do |format|
       if @invoice.save
         flash_message(:success, "Invoice was successfully created.'")
@@ -58,6 +61,7 @@ class InvoicesController < ApplicationController
         format.json { render :show, status: :ok, location: @invoice }
         format.js {render js:'window.location.reload();'}
       else
+        set_available_workflows
         format.html { render :edit }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }
         format.js {render 'edit'}
@@ -127,8 +131,13 @@ class InvoicesController < ApplicationController
       end
     end
 
+    def set_available_workflows
+      @available_workflows = Workflow.where(category: 'invoice')
+    end
+
+
     # Only allow a list of trusted parameters through.
     def invoice_params
-      params.require(:invoice).permit(:name, :starts_on, :date, :ends_on, :total, :project_id, :purchase_order_id,  invoice_lines_attributes: [:id, :short_description, :long_description, :total],  work_order_invoices_attributes: [:id, :work_order_id, :allocation])
+      params.require(:invoice).permit(:name, :starts_on, :date, :ends_on, :total, :project_id, :purchase_order_id, :workflow_id, :workflow_state_id, invoice_lines_attributes: [:id, :short_description, :long_description, :total],  work_order_invoices_attributes: [:id, :work_order_id, :allocation])
     end
 end

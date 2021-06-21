@@ -4,12 +4,36 @@
     <div class="col-sm-8">
       <div class="field">
         <%= form.hidden_field :project_id %>
+
+                <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Transition
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <% @invoice.workflow_state.workflow_transitions.each do |t|%>
+              <button name="invoice[workflow_state_id]"class="dropdown-item" value="<%=t.target_state_id%>"><%= t.name %></button>
+              <%end%>
+      </div>
+    </div>
       </div>
     </div>
     <div class="col-sm-4">
         <%= submit_btn(form,"float:right;")%>
     </div>
   </div>
+    <br/>
+  <%= form.label 'State' %>
+  <br/>
+<%=@invoice.workflow_state.name%>
+
+          <div class="field">
+    <%= form.label :workflow_id %>
+    <div class="field">
+      <%= form.select :workflow_id, 
+        @available_workflows.map {|d| [d.name, d.id] }, 
+        {readonly: true},
+        {class: 'input-select2-basic'}%>
+    </div>
 
   <div class="field">
     <%= form.label :purchase_order_id %>

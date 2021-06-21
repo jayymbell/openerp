@@ -16,7 +16,7 @@
     <%= form.label :category %>
     <div class="field">
       <%= form.select :category, 
-        ['purchase order', 'invoice'].map{|p| [p.capitalize,p] }, 
+        ['purchase order', 'invoice', 'work order'].map{|p| [p.capitalize,p] }, 
         {prompt: ''},
         {class: 'input-select2-basic'}%>
     </div>

@@ -1,4 +1,4 @@
-<label>Services</label>
+
     <div class="field">
 
       <table class="table table-striped table-condensed" id="purchaseOrderServices">
@@ -13,7 +13,7 @@
 
         <tbody>
           <tr>
-              <td style="width: 25%;">
+              <td >
               <%= select_tag :service_id, 
           options_from_collection_for_select(@availabe_services ,"id", "name"),
           {class: 'input-select2-basic', id: 'pos-service'}%>
@@ -33,7 +33,7 @@
           </tr>
           <% @purchase_order.purchase_order_services.order(:id).each_with_index do |pos, index| %>
             <tr id="pos-<%=index%>">
-              <td style="width: 50;">
+              <td>
               <%= hidden_field_tag 'purchase_order[purchase_order_services_attributes]['+index.to_s+'][id]',pos.id%>
               <%= text_field_tag '', pos.service.name, readonly: true%>
               </td>
@@ -44,7 +44,7 @@
               <%end%>
               <%= file_field_tag 'purchase_order[purchase_order_services_attributes]['+index.to_s+'][tos_file]',class: "form-control-file pos-input"%>
               </td>
-              <td>
+              <td style="width: 22.5%;">
                 <div class="input-group">
                 <div class="input-group-prepend">
                   <div class="input-group-text">$</div>
