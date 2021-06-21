@@ -56,6 +56,7 @@ class InvoicesController < ApplicationController
   # PATCH/PUT /invoices/1.json
   def update
     delete_work_order_invoices
+    delete_invoice_lines
     respond_to do |format|
       if @invoice.update(invoice_params)
         flash_message(:success, "Invoice was successfully updated.'")
@@ -131,6 +132,24 @@ class InvoicesController < ApplicationController
           end
         else
           @invoice.work_order_invoices.destroy_all
+        end
+      end
+    end
+
+    def delete_invoice_lines
+      @invoice.invoice_lines.each do |woe|
+        remove_woi = true
+        if invoice_params[:invoice_lines_attributes].present?
+          invoice_params[:invoice_lines_attributes].each do |p|
+            if p[1][:id].to_s == woe.id.to_s 
+              remove_woi = false
+            end
+          end
+          if remove_woi
+            @invoice.invoice_lines.delete(woe)
+          end
+        else
+          @invoice.invoice_lines.destroy_all
         end
       end
     end
