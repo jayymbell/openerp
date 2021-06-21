@@ -39,9 +39,7 @@
   </div>
   </div>
 
-  <%= render 'invoice_lines_form', form: form%>
-
-  <div class="field">
+    <div class="field">
     <%= form.label :total %>
     <div class="input-group">
                 <div class="input-group-prepend">
@@ -50,4 +48,26 @@
                 <%= form.number_field :total, step: '0.01' %>
               </div>
   </div>
+
+    <ul class="nav nav-tabs" id="modalTab" role="tablist" style="padding-top: 10px;">
+    <li class="nav-item">
+      <a class="nav-link active" id="lines-tab" data-toggle="tab" href="#lines" role="tab" aria-controls="lines" aria-selected="true">Lines</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="invoice-work-orders-tab" data-toggle="tab" href="#invoice-work-orders" role="tab" aria-controls="invoice-work-orders" aria-selected="true">Work Orders</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabModalContent">
+    <div class="tab-pane fade show active" id="lines" role="tabpanel" aria-labelledby="lines-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'invoice_lines_form', form: form%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="invoice-work-orders" role="tabpanel" aria-labelledby="invoice-work-orders-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'work_orders_form', form: form%>
+      </div>
+    </div>
+</div>
+
 <% end %>

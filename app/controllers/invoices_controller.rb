@@ -18,10 +18,13 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.new
     @invoice.project = Project.find(params[:project_id])
     set_available_purchase_orders
+    set_available_work_orders
   end
 
   # GET /invoices/1/edit
   def edit
+    set_available_purchase_orders
+    set_available_work_orders
   end
 
   # POST /invoices
@@ -29,7 +32,7 @@ class InvoicesController < ApplicationController
   def create
     @invoice = Invoice.new(invoice_params)
     set_available_purchase_orders
-
+    set_available_work_orders
     respond_to do |format|
       if @invoice.save
         flash_message(:success, "Invoice was successfully created.'")
@@ -47,6 +50,7 @@ class InvoicesController < ApplicationController
   # PATCH/PUT /invoices/1
   # PATCH/PUT /invoices/1.json
   def update
+    delete_work_order_invoices
     respond_to do |format|
       if @invoice.update(invoice_params)
         flash_message(:success, "Invoice was successfully updated.'")
@@ -91,6 +95,10 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def set_available_work_orders
+    @available_work_orders = @invoice.project.present? ? @invoice.project.work_orders : nil
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_invoice
@@ -101,8 +109,26 @@ class InvoicesController < ApplicationController
       @available_purchase_orders = @invoice.project.present? ? @invoice.project.purchase_orders : nil
     end
 
+    def delete_work_order_invoices
+      @invoice.work_order_invoices.each do |woe|
+        remove_woi = true
+        if invoice_params[:work_order_invoices_attributes].present?
+          invoice_params[:work_order_invoices_attributes].each do |p|
+            if p[1][:id].to_s == woe.id.to_s 
+              remove_woi = false
+            end
+          end
+          if remove_woi
+            @invoice.work_order_invoices.delete(woe)
+          end
+        else
+          @invoice.work_order_invoices.destroy_all
+        end
+      end
+    end
+
     # Only allow a list of trusted parameters through.
     def invoice_params
-      params.require(:invoice).permit(:name, :starts_on, :date, :ends_on, :total, :project_id, :purchase_order_id,  invoice_lines_attributes: [:id, :short_description, :long_description, :total])
+      params.require(:invoice).permit(:name, :starts_on, :date, :ends_on, :total, :project_id, :purchase_order_id,  invoice_lines_attributes: [:id, :short_description, :long_description, :total],  work_order_invoices_attributes: [:id, :work_order_id, :allocation])
     end
 end
