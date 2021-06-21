@@ -63,6 +63,8 @@ class InvoicesController < ApplicationController
         format.json { render :show, status: :ok, location: @invoice }
         format.js {render js:'window.location.reload();'}
       else
+        set_available_purchase_orders
+        set_available_work_orders
         set_available_workflows
         format.html { render :edit }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }
