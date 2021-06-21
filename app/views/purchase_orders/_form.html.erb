@@ -2,6 +2,7 @@
   <%= render 'layouts/form_errors', object: form.object %>
   <div class="row">
     <div class="col-sm-10">
+    <%if params[:action] == "edit"%>
         <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Transition
@@ -12,6 +13,7 @@
               <%end%>
       </div>
     </div>
+    <%end%>
     
         </div>
     <div class="col-sm-2">
@@ -19,9 +21,11 @@
     </div>
   </div>
   <br/>
+  <%if params[:action] == "edit"%>
   <%= form.label 'State' %>
   <br/>
 <%=@purchase_order.workflow_state.name%>
+<%end%>
   <%= form.hidden_field :project_id %>
   <%= form.hidden_field :workflow_state_id %>
 
@@ -59,6 +63,9 @@
     <li class="nav-item">
       <a class="nav-link" id="efforts-tab" data-toggle="tab" href="#efforts" role="tab" aria-controls="efforts" aria-selected="true">Efforts</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="true">Events</a>
+    </li>
 </ul>
 <div class="tab-content" id="myTabModalContent">
     <div class="tab-pane fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">
@@ -69,6 +76,11 @@
     <div class="tab-pane fade" id="efforts" role="tabpanel" aria-labelledby="efforts-tab">
       <div class="container-fluid" style="padding-top: 10px;">
         <%= render 'efforts_form'%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'events'%>
       </div>
     </div>
 </div>

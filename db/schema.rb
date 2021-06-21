@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_21_180133) do
+ActiveRecord::Schema.define(version: 2021_06_21_222500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,16 @@ ActiveRecord::Schema.define(version: 2021_06_21_180133) do
     t.boolean "is_active"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "invoice_events", force: :cascade do |t|
+    t.bigint "invoice_id", null: false
+    t.string "action"
+    t.bigint "actor_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["actor_id"], name: "index_invoice_events_on_actor_id"
+    t.index ["invoice_id"], name: "index_invoice_events_on_invoice_id"
   end
 
   create_table "invoice_lines", force: :cascade do |t|
@@ -256,6 +266,16 @@ ActiveRecord::Schema.define(version: 2021_06_21_180133) do
     t.index ["purchase_order_id"], name: "index_purchase_order_efforts_on_purchase_order_id"
   end
 
+  create_table "purchase_order_events", force: :cascade do |t|
+    t.bigint "purchase_order_id", null: false
+    t.string "action"
+    t.bigint "actor_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["actor_id"], name: "index_purchase_order_events_on_actor_id"
+    t.index ["purchase_order_id"], name: "index_purchase_order_events_on_purchase_order_id"
+  end
+
   create_table "purchase_order_product_assemblies", force: :cascade do |t|
     t.bigint "purchase_order_id", null: false
     t.bigint "product_assembly_id", null: false
@@ -361,6 +381,16 @@ ActiveRecord::Schema.define(version: 2021_06_21_180133) do
     t.index ["work_order_id"], name: "index_work_order_efforts_on_work_order_id"
   end
 
+  create_table "work_order_events", force: :cascade do |t|
+    t.bigint "work_order_id", null: false
+    t.string "action"
+    t.bigint "actor_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["actor_id"], name: "index_work_order_events_on_actor_id"
+    t.index ["work_order_id"], name: "index_work_order_events_on_work_order_id"
+  end
+
   create_table "work_order_invoices", force: :cascade do |t|
     t.bigint "work_order_id", null: false
     t.bigint "invoice_id", null: false
@@ -435,6 +465,8 @@ ActiveRecord::Schema.define(version: 2021_06_21_180133) do
   add_foreign_key "employee_jobs", "jobs"
   add_foreign_key "employees", "employees", column: "supervisor_id"
   add_foreign_key "employees", "people"
+  add_foreign_key "invoice_events", "invoices"
+  add_foreign_key "invoice_events", "users", column: "actor_id"
   add_foreign_key "invoice_lines", "invoices"
   add_foreign_key "product_assemblies", "products"
   add_foreign_key "product_assembly_components", "components"
@@ -448,6 +480,8 @@ ActiveRecord::Schema.define(version: 2021_06_21_180133) do
   add_foreign_key "project_employees", "employees"
   add_foreign_key "project_employees", "projects"
   add_foreign_key "purchase_order_efforts", "employees"
+  add_foreign_key "purchase_order_events", "purchase_orders"
+  add_foreign_key "purchase_order_events", "users", column: "actor_id"
   add_foreign_key "purchase_order_product_assemblies", "product_assemblies"
   add_foreign_key "purchase_order_product_assemblies", "purchase_orders"
   add_foreign_key "purchase_order_services", "purchase_orders"
@@ -460,6 +494,8 @@ ActiveRecord::Schema.define(version: 2021_06_21_180133) do
   add_foreign_key "work_order_comments", "work_orders"
   add_foreign_key "work_order_efforts", "employees"
   add_foreign_key "work_order_efforts", "work_orders"
+  add_foreign_key "work_order_events", "users", column: "actor_id"
+  add_foreign_key "work_order_events", "work_orders"
   add_foreign_key "work_order_invoices", "invoices"
   add_foreign_key "work_order_invoices", "work_orders"
   add_foreign_key "work_orders", "projects"

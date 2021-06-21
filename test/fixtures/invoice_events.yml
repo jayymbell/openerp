@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  invoice: one
+  action: MyString
+  actor: one
+
+two:
+  invoice: two
+  action: MyString
+  actor: two

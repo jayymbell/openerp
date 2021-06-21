@@ -1,5 +1,6 @@
 class WorkOrdersController < ApplicationController
   before_action :set_work_order, only: [:show, :edit, :update, :destroy, :duplicate]
+  after_action :log_event, only: [:update, :create]
 
   # GET /work_orders or /work_orders.json
   def index
@@ -29,7 +30,7 @@ class WorkOrdersController < ApplicationController
   # POST /work_orders or /work_orders.json
   def create
     @work_order = WorkOrder.new(work_order_params)
-
+    @work_order.workflow_state = @work_order.workflow.workflow_states.find_by(is_start: true)
     respond_to do |format|
       if @work_order.save
         flash_message(:success, "Work order was successfully created.'")
@@ -156,5 +157,11 @@ class WorkOrdersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def work_order_params
       params.require(:work_order).permit(:name, :description, :project_id, :requester_id, :assignee_id, :workflow_id, :workflow_state_id, :initial_estimate,work_order_efforts_attributes: [:id, :employee_id, :hours, :short_description, :long_description, :completed_on], work_order_comments_attributes: [:id, :comment, :user_id], work_order_invoices_attributes: [:id, :invoice_id, :allocation])
+    end
+
+    def log_event
+      if @work_order.saved_change_to_workflow_state_id?
+        WorkOrderEvent.create(work_order: @work_order, action: @work_order.workflow_state.name, actor: @current_user)
+      end
     end
 end

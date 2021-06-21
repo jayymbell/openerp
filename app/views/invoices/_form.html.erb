@@ -2,9 +2,10 @@
   <%= render 'layouts/form_errors', object: form.object %>
   <div class="row">
     <div class="col-sm-8">
+    
       <div class="field">
         <%= form.hidden_field :project_id %>
-
+<%if params[:action] == "edit"%>
                 <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Transition
@@ -15,6 +16,7 @@
               <%end%>
       </div>
     </div>
+    <%end%>
       </div>
     </div>
     <div class="col-sm-4">
@@ -22,9 +24,11 @@
     </div>
   </div>
     <br/>
+    <%if params[:action] == "edit"%>
   <%= form.label 'State' %>
   <br/>
 <%=@invoice.workflow_state.name%>
+<%end%>
 
           <div class="field">
     <%= form.label :workflow_id %>

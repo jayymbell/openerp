@@ -1,6 +1,7 @@
 class PurchaseOrdersController < ApplicationController
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy, :duplicate]
   before_action :set_available_services, only: [:new, :edit, :update, :create]
+  after_action :log_event, only: [:update, :create]
 
   # GET /purchase_orders
   # GET /purchase_orders.json
@@ -35,8 +36,8 @@ class PurchaseOrdersController < ApplicationController
   # POST /purchase_orders.json
   def create
     @purchase_order = PurchaseOrder.new(purchase_order_params)
+    @purchase_order.workflow_state = @purchase_order.workflow.workflow_states.find_by(is_start: true)
     respond_to do |format|
-      set_file_uploads
       if @purchase_order.save
         flash_message(:success, "Purchase order successfully created.")
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully created.' }
@@ -93,7 +94,6 @@ class PurchaseOrdersController < ApplicationController
     @purchase_order_dup = @purchase_order.duplicate
     puts @purchase_order_dup.inspect
     respond_to do |format|
-      set_file_uploads
       if @purchase_order_dup.save
         flash_message(:success, "Purchase order successfully duplicated.")
         format.html { redirect_to @purchase_order_dup, notice: 'Purchase order was successfully duplicated.' }
@@ -183,8 +183,9 @@ class PurchaseOrdersController < ApplicationController
       end
     end
 
-    def set_file_uploads
-      
-        
-  end
+    def log_event
+      if @purchase_order.saved_change_to_workflow_state_id?
+        PurchaseOrderEvent.create(purchase_order: @purchase_order, action: @purchase_order.workflow_state.name, actor: @current_user)
+      end
+    end
 end

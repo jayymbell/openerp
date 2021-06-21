@@ -4,8 +4,10 @@ class PurchaseOrder < ApplicationRecord
   has_many :invoices
   has_many :purchase_order_services, dependent: :destroy
   has_many :purchase_order_efforts, dependent: :destroy
+  has_many :purchase_order_events, dependent: :destroy
   has_many :invoices
   belongs_to :workflow_state
+  belongs_to :workflow
 
   accepts_nested_attributes_for :purchase_order_services, :allow_destroy => true
   accepts_nested_attributes_for :purchase_order_efforts, :allow_destroy => true

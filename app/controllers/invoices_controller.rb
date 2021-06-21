@@ -1,6 +1,7 @@
 class InvoicesController < ApplicationController
   before_action :set_invoice, only: [:show, :edit, :update, :destroy, :duplicate]
   before_action :set_available_purchase_orders, only: [:edit, :update]
+  after_action :log_event, only: [:update, :create]
 
   # GET /invoices
   # GET /invoices.json
@@ -33,6 +34,7 @@ class InvoicesController < ApplicationController
   # POST /invoices.json
   def create
     @invoice = Invoice.new(invoice_params)
+    @invoice.workflow_state = @invoice.workflow.workflow_states.find_by(is_start: true)
     set_available_purchase_orders
     set_available_work_orders
     set_available_workflows
@@ -139,5 +141,11 @@ class InvoicesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def invoice_params
       params.require(:invoice).permit(:name, :starts_on, :date, :ends_on, :total, :project_id, :purchase_order_id, :workflow_id, :workflow_state_id, invoice_lines_attributes: [:id, :short_description, :long_description, :total],  work_order_invoices_attributes: [:id, :work_order_id, :allocation])
+    end
+
+    def log_event
+      if @invoice.saved_change_to_workflow_state_id?
+        InvoiceEvent.create(invoice: @invoice, action: @invoice.workflow_state.name, actor: @current_user)
+      end
     end
 end
