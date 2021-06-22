@@ -24,7 +24,8 @@
     <%= form.label :description %>
     <%= form.text_area :description %>
   </div>
-
+<div class="row">
+  <div class="col-sm-6">
    <div class="field">
     <%= form.label :source_state_id %>
     <div class="field">
@@ -34,7 +35,8 @@
         {class: 'input-select2-basic'}%>
     </div>
   </div>
-
+  </div>
+<div class="col-sm-6">
   <div class="field">
     <%= form.label :target_state_id %>
     <div class="field">
@@ -44,5 +46,18 @@
         {class: 'input-select2-basic'}%>
     </div>
   </div>
-
+</div>
+</div>
+  <ul class="nav nav-tabs" id="modalTab" role="tablist" style="padding-top: 10px;">
+    <li class="nav-item">
+      <a class="nav-link active" id="roles-tab" data-toggle="tab" href="#roles" role="tab" aria-controls="roles" aria-selected="true">Roles</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabModalContent">
+    <div class="tab-pane fade show active" id="roles" role="tabpanel" aria-labelledby="roles-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'roles_form', form: form%>
+      </div>
+    </div>
+</div>
 <% end %>

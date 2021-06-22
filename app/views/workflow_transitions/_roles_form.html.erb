@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-3">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="v-pills-departments-tab" data-toggle="pill" href="#v-pills-departments" role="tab" aria-controls="v-pills-departments" aria-selected="true">Department</a>
+      <a class="nav-link" id="v-pills-projects-tab" data-toggle="pill" href="#v-pills-projects" role="tab" aria-controls="v-pills-projects" aria-selected="false">Project</a>
+      <a class="nav-link" id="v-pills-services-tab" data-toggle="pill" href="#v-pills-services" role="tab" aria-controls="v-pills-services" aria-selected="false">Service</a>
+    </div>
+  </div>
+  <div class="col-9">
+    <div class="tab-content" id="v-pills-tabContent">
+      <div class="tab-pane fade show active" id="v-pills-departments" role="tabpanel" aria-labelledby="v-pills-departments-tab" style="padding-left: 10px;">
+            <%= form.collection_check_boxes(:role_ids, Role.where(category: 'department'), :id, :name) do |b| %>
+      <%=b.check_box %> <%=b.label%>
+      </br>
+      <%end%>
+      </div>
+      <div class="tab-pane fade" id="v-pills-projects" role="tabpanel" aria-labelledby="v-pills-projects-tab" style="padding-left: 10px;">
+      <%= form.collection_check_boxes(:role_ids, Role.where(category: 'project'), :id, :name) do |b| %>
+      <%=b.check_box %> <%=b.label%>
+      </br>
+      <%end%>
+      </div>
+      <div class="tab-pane fade" id="v-pills-services" role="tabpanel" aria-labelledby="v-pills-services-tab" style="padding-left: 10px;">
+                  <%= form.collection_check_boxes(:role_ids, Role.where(category: 'service'), :id, :name) do |b| %>
+      <%=b.check_box %> <%=b.label%>
+      </br>
+      <%end%>
+      </div>
+    </div>
+  </div>
+</div>
