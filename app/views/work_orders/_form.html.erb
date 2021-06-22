@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm-10">
     <%= form.hidden_field :project_id%>
-    <%if params[:action] == "edit"%>
+    <%if params[:action] == "edit" && @work_order.workflow_state.workflow_transitions.any?%>
         <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Transition
