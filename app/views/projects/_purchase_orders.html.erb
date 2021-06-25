@@ -16,6 +16,7 @@
             <th>ID</th>
             <th>State</th>
             <th>Name</th>
+            <th>Weeks</th>
             <th>Customer</th>
             <th>Amount Invoiced</th>
             <th>Total</th>
@@ -28,6 +29,7 @@
                 <td><%= link_to d.id, edit_purchase_order_path(d), remote: true%></td>
                 <td><%=d.workflow_state.name%></td>
                 <td><%=d.name%></td>
+                <td><%=d.ends_on.present? ? (d.ends_on - d.starts_on).days.in_weeks : ''%></td>
                 <td><%=d.customer.person.name%></td>
                 <td><%= number_to_currency(d.total_amount_invoiced)%></td>
                 <td><%= number_to_currency(d.total)%></td>

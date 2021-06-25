@@ -1,0 +1,135 @@
+<!-- Modal -->
+                <div class="modal fade" id="employee-allocation-modal-<%=employee.id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Allocations</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                      <h3>
+                      <%=employee.person.name%>
+                      </h3>
+                      <button class="btn btn-outline-primary" style="float: right;" id="submit" onclick="getEfforts(<%=employee.id%>)">Submit</button>
+                      <br/>
+                      <br/>
+                      <div class="row">
+                        <div class="col-sm-6">
+                        <label>Start</label>
+                        <input type="date" class="allocation-start" id="start-<%=employee.id%>"/>
+                        </div>
+                        <div class="col-sm-6">
+                        <label>End</label>
+                        <input type="date" class="allocation-end" id="end-<%=employee.id%>"/>
+                        </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Expected Allocation
+                                    </div>  
+                                    <div class="card-body">  
+                                    <span id="employee-<%=employee.id%>-allocation"></span> Hours
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Current Allocation
+                                    </div>  
+                                    <div class="card-body">  
+                                    <span id="employee-<%=employee.id%>-current-allocation"></span> Hours
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="card" >
+                                    <div class="card-header">
+                                        Available Allocation
+                                    </div>  
+                                    <div class="card-body">  
+                                    <span id="employee-<%=employee.id%>-avail-allocation"></span> Hours
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h4>Projects</h4>
+                        <table class="table table-condensed" id="po-table-<%=employee.id%>">
+                        <%employee.project_employees.includes(:project).each do |pe| %>
+                            <tr>
+                                <td><label><%= link_to pe.project.name, project_path(pe.project) %></label></td>
+                                <% employee.purchase_orders.where(project_id: pe.project.id).each do |po|%>
+                                    <tr class="po-line">
+                                        <td><%=po.name%> <em>[<%=po.workflow_state.name%>] </em><span style="float: right;"><span id="po-<%= po.id%>-starts-on" class="po-date"><%=po.starts_on%></span> - <span id="po-<%= po.id%>-ends-on" class="po-date"><%=po.ends_on%></span></span></td>
+                                        <% employee.purchase_order_efforts.where(purchase_order_id: po.id).each do |poe|%>
+                                            <tr class="po-line">
+                                                <td style="padding-left: 30px;"><span class="po-allocation po-<%=employee.id%>-allocation"></span> hours<span style="float: right;"><%=poe.job.name%> <span class="po-hours"><%=poe.hours.round%></span> Hours</span></td>
+                                            </tr>
+                                        <%end%>
+                                    </tr>
+                                <%end%>
+                                
+                            </tr>
+                        <%end%>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <script>
+                $(document).ready(function(){
+                    var date = moment().format("yyyy-MM-DD")
+                    $(".allocation-start").val(date)
+                    $(".allocation-end").val(date)
+                    getEfforts(<%=employee.id%>);
+                });
+
+                function getEfforts(id){
+                    var search_start_date  = moment($('#start-'+id).val())
+                    var search_end_date  = moment($('#end-'+id).val())
+                    var allocation = Math.round((search_end_date.diff(search_start_date, 'days') + 1) * 5/7 * 6)
+                    var po_start_date = null
+                    var po_end_date = null
+
+
+                    $('#employee-'+id+'-allocation').text(allocation.toString())
+
+                    $('#po-table-'+id+' .po-line').each(function() {
+                        if ($(this).find('.po-date').length){
+                            po_start_date = moment($(this).find('.po-date')[0].innerText)
+                            po_end_date = moment($(this).find('.po-date')[1].innerText)
+      
+                        }
+
+                        var a = ((po_end_date.diff(po_start_date, 'days') + 1) * 5/7 * 6)
+                        a = Math.round((Number($(this).find('.po-hours').text())/Number(a)) * Number($('#employee-'+id+'-allocation').text()))
+                        if (a > Number($(this).find('.po-hours').text())){
+                            a = Number($(this).find('.po-hours').text())
+                        }
+                        $(this).find('.po-allocation').text(a)
+
+
+
+                        if (po_start_date && po_end_date && (po_start_date.isBetween(search_start_date, search_end_date, null , []) || po_end_date.isBetween(search_start_date,search_end_date, null, [])) || (search_start_date.isBetween(po_start_date, po_end_date, null , []) || search_end_date.isBetween(po_start_date,po_end_date, null, []))){
+                            $(this).show()
+                        }
+                        else{
+                             $(this).hide()
+                        }
+                        
+                    });
+
+                     var current_allocation = 0
+                    $('.po-'+id+'-allocation:visible').each(function() {
+                        current_allocation = current_allocation + Number($(this).text())
+                    })
+                    var avail_allocation = allocation - current_allocation
+                    $('#employee-'+id+'-current-allocation').text(Math.round(current_allocation/allocation * 100).toString() + "% " + current_allocation.toString())
+                    $('#employee-'+id+'-avail-allocation').text(avail_allocation)
+                }
+                </script>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_21_234044) do
+ActiveRecord::Schema.define(version: 2021_06_23_045324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -307,6 +307,8 @@ ActiveRecord::Schema.define(version: 2021_06_21_234044) do
     t.string "name"
     t.bigint "workflow_id"
     t.bigint "workflow_state_id"
+    t.date "starts_on"
+    t.date "ends_on"
     t.index ["customer_id"], name: "index_purchase_orders_on_customer_id"
     t.index ["project_id"], name: "index_purchase_orders_on_project_id"
     t.index ["workflow_id"], name: "index_purchase_orders_on_workflow_id"

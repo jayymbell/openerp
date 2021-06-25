@@ -123,7 +123,7 @@ class PurchaseOrdersController < ApplicationController
           p[1][:tos_file] = p[1][:tos_file].read unless p[1][:tos_file].blank? || p[1][:tos_file].instance_of?(String)
         end
       end
-      params.require(:purchase_order).permit(:customer_id, :project_id, :name, :workflow_id, :workflow_state_id, purchase_order_services_attributes: [:id, :service_id, :total, :tos_file, :tos_file_type, :tos_file_data], purchase_order_efforts_attributes: [:id, :employee_id, :total, :job_id, :hours])
+      params.require(:purchase_order).permit(:customer_id, :project_id, :name, :workflow_id, :workflow_state_id, :starts_on, :ends_on, purchase_order_services_attributes: [:id, :service_id, :total, :tos_file, :tos_file_type, :tos_file_data], purchase_order_efforts_attributes: [:id, :employee_id, :total, :job_id, :hours])
     end
 
     def set_available_customers

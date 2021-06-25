@@ -16,6 +16,7 @@
             <th>Name</th>
             <th>Is active</th>
             <th></th>
+            <th></th>
         </thead>
         <tbody>
     <%@department.employee_departments.each do |e| %>
@@ -23,6 +24,12 @@
                 <td><%= link_to e.employee.id, e.employee.person%></td>
                 <td><%=e.employee.person.name%></td>
                 <td><%=boolean_icon(e.is_active)%></td>
+                <td>
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#employee-allocation-modal-<%=e.employee.id%>">
+                  Allocations
+                </button>
+                <%= render 'allocations', employee: e.employee%>
+                </td>
                 <td><%=delete_btn(e)%></td>
             </tr>
     <%end%>
