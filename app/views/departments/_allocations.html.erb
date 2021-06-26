@@ -68,7 +68,7 @@
                                         <td><%=po.name%> <em>[<%=po.workflow_state.name%>] </em><span style="float: right;"><span id="po-<%= po.id%>-starts-on" class="po-date"><%=po.starts_on%></span> - <span id="po-<%= po.id%>-ends-on" class="po-date"><%=po.ends_on%></span></span></td>
                                         <% employee.purchase_order_efforts.where(purchase_order_id: po.id).each do |poe|%>
                                             <tr class="po-line">
-                                                <td style="padding-left: 30px;"><span class="po-allocation po-<%=employee.id%>-allocation"></span> hours<span style="float: right;"><%=poe.job.name%> <span class="po-hours"><%=poe.hours.try(:round)%></span> Hours</span></td>
+                                                <td style="padding-left: 30px;"><label class="po-allocation po-<%=employee.id%>-allocation"></label> hours<span style="float: right;"><%=poe.job.name%> <span class="po-hours text-primary"><%=poe.hours.try(:round)%></span> Hours</span></td>
                                             </tr>
                                         <%end%>
                                     </tr>
