@@ -68,7 +68,7 @@
                                         <td><%=po.name%> <em>[<%=po.workflow_state.name%>] </em><span style="float: right;"><span id="po-<%= po.id%>-starts-on" class="po-date"><%=po.starts_on%></span> - <span id="po-<%= po.id%>-ends-on" class="po-date"><%=po.ends_on%></span></span></td>
                                         <% employee.purchase_order_efforts.where(purchase_order_id: po.id).each do |poe|%>
                                             <tr class="po-line">
-                                                <td style="padding-left: 30px;"><span class="po-allocation po-<%=employee.id%>-allocation"></span> hours<span style="float: right;"><%=poe.job.name%> <span class="po-hours"><%=poe.hours.round%></span> Hours</span></td>
+                                                <td style="padding-left: 30px;"><span class="po-allocation po-<%=employee.id%>-allocation"></span> hours<span style="float: right;"><%=poe.job.name%> <span class="po-hours"><%=poe.hours.try(:round)%></span> Hours</span></td>
                                             </tr>
                                         <%end%>
                                     </tr>
@@ -95,7 +95,8 @@
                     var allocation = Math.round((search_end_date.diff(search_start_date, 'days') + 1) * 5/7 * 6)
                     var po_start_date = null
                     var po_end_date = null
-
+                    var current_allocation = 0
+                    var avail_allocation = allocation
 
                     $('#employee-'+id+'-allocation').text(allocation.toString())
 
@@ -117,6 +118,7 @@
 
                         if (po_start_date && po_end_date && (po_start_date.isBetween(search_start_date, search_end_date, null , []) || po_end_date.isBetween(search_start_date,search_end_date, null, [])) || (search_start_date.isBetween(po_start_date, po_end_date, null , []) || search_end_date.isBetween(po_start_date,po_end_date, null, []))){
                             $(this).show()
+                            current_allocation = current_allocation +  Number($(this).find('.po-'+id+'-allocation').text())
                         }
                         else{
                              $(this).hide()
@@ -124,11 +126,7 @@
                         
                     });
 
-                     var current_allocation = 0
-                    $('.po-'+id+'-allocation:visible').each(function() {
-                        current_allocation = current_allocation + Number($(this).text())
-                    })
-                    var avail_allocation = allocation - current_allocation
+                    avail_allocation = avail_allocation - current_allocation
                     $('#employee-'+id+'-current-allocation').text(Math.round(current_allocation/allocation * 100).toString() + "% " + current_allocation.toString())
                     $('#employee-'+id+'-avail-allocation').text(avail_allocation)
                 }
