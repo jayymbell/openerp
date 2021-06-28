@@ -20,4 +20,19 @@
     <%= form.label :description %>
     <%= form.text_area :description %>
   </div>
+  <div class="row">
+    <div class="col-sm-6">
+        <div class="field">
+  <div class="field">
+  <%= form.label :rate %>
+  <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">$</div>
+      </div>
+      <%= form.number_field :rate %>
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
 <% end %>

@@ -81,6 +81,13 @@
     <li class="nav-item">
       <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="true">Events</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" id="po-invoices-tab" data-toggle="tab" href="#po-invoices" role="tab" aria-controls="po-invoices" aria-selected="true">Invoices</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="po-work-orders-tab" data-toggle="tab" href="#po-work-orders" role="tab" aria-controls="po-work-orders" aria-selected="true">Work Orders</a>
+    </li>
+</ul>
 </ul>
 <div class="tab-content" id="myTabModalContent">
     <div class="tab-pane fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">
@@ -96,6 +103,16 @@
     <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
       <div class="container-fluid" style="padding-top: 10px;">
         <%= render 'events'%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="po-invoices" role="tabpanel" aria-labelledby="po-invoices-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'invoices'%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="po-work-orders" role="tabpanel" aria-labelledby="po-work-orders-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'work_orders'%>
       </div>
     </div>
 </div>

@@ -1,31 +1,26 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Work Orders</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Project</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @work_orders.each do |work_order| %>
-      <tr>
-        <td><%= work_order.name %></td>
-        <td><%= work_order.description %></td>
-        <td><%= work_order.project_id %></td>
-        <td><%= link_to 'Show', work_order %></td>
-        <td><%= link_to 'Edit', edit_work_order_path(work_order) %></td>
-        <td><%= link_to 'Destroy', work_order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+<table class="table table-striped table-condensed table-datatable">
+        <thead>
+            <th>ID</th>
+            <th>Project</th>
+            <th>Name</th>
+            <th>Requested By</th>
+            <th>State</th>
+            <th>Estimate</th>
+            <th>Total Efforts</th>
+        </thead>
+                <tbody>
+    <%@work_orders.order(:name).each do |d| %>
+            <tr>
+                <td><%= link_to d.id, edit_work_order_path(d), remote: true%></td>
+                <td><%= d.project.name %></td>
+                <td><%= d.name %></td>
+                <td><%= d.requester.person.name unless d.requester.nil? %></td>
+                <td><%=d.workflow_state.name%></td>
+                <td><%= d.initial_estimate %></td>
+                <td><%= d.work_order_efforts.sum(:hours) %></td>
+            </tr>
+        
+    <%end%>
+    </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Work Order', new_work_order_path %>

@@ -1,0 +1,23 @@
+<table class="table table-striped">
+        <thead>
+            <th>ID</th>
+            <th>State</th>
+            <th>Estimate</th>
+            <th>Total Efforts</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+        </thead>
+                <tbody>
+    <%@purchase_order.work_orders.order(:name).each do |d| %>
+            <tr>
+                <td><%= d.id %></td>
+                <td><%=d.workflow_state.name%></td>
+                <td><%= d.initial_estimate %></td>
+                <td><%= d.work_order_efforts.sum(:hours) %></td>
+                <td><%= d.created_at %></td>
+                <td><%= d.updated_at %></td>
+            </tr>
+        
+    <%end%>
+    </tbody>
+</table>

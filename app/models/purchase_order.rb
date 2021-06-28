@@ -6,6 +6,8 @@ class PurchaseOrder < ApplicationRecord
   has_many :purchase_order_efforts, dependent: :destroy
   has_many :purchase_order_events, dependent: :destroy
   has_many :invoices
+  has_many :work_order_invoices, through: :invoices
+  has_many :work_orders, through: :work_order_invoices
   belongs_to :workflow_state
   belongs_to :workflow
 

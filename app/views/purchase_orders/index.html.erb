@@ -1,27 +1,28 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Purchase Orders</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Customer</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @purchase_orders.each do |purchase_order| %>
-      <tr>
-        <td><%= purchase_order.customer_id %></td>
-        <td><%= link_to 'Show', purchase_order %></td>
-        <td><%= link_to 'Edit', edit_purchase_order_path(purchase_order) %></td>
-        <td><%= link_to 'Destroy', purchase_order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+<table class="table table-striped table-condensed table-datatable">
+        <thead>
+            <th>ID</th>
+            <th>Project</th>
+            <th>State</th>
+            <th>Name</th>
+            <th>Weeks</th>
+            <th>Customer</th>
+            <th>Amount Invoiced</th>
+            <th>Total</th>
+        </thead>
+                <tbody>
+    <%@purchase_orders.order(starts_on: :desc).each do |d| %>
+            <tr>
+                <td><%= link_to d.id, edit_purchase_order_path(d), remote: true%></td>
+                <td><%=d.project.name%></td>
+                <td><%=d.workflow_state.name%></td>
+                <td><%=d.name%></td>
+                <td><%=d.ends_on.present? ? (d.ends_on - d.starts_on).days.in_weeks : ''%></td>
+                <td><%=d.customer.person.name%></td>
+                <td><%= number_to_currency(d.total_amount_invoiced)%></td>
+                <td><%= number_to_currency(d.total)%></td>
+            </tr>
+        
+    <%end%>
+    </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Purchase Order', new_purchase_order_path %>

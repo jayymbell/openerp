@@ -1,22 +1,17 @@
-<h1>Invoices</h1>
-<table class="table table-striped table-condensed table-datatable">
+<table class="table table-striped">
         <thead>
             <th>ID</th>
-            <th>Project</th>
             <th>State</th>
-            <th>Purchase Order</th>
             <th>Name</th>
             <th>Starts On</th>
             <th>Ends On</th>
             <th>Total</th>
         </thead>
                 <tbody>
-    <%@invoices.order(starts_on: :desc).each do |d| %>
+    <%@purchase_order.invoices.order(starts_on: :desc).each do |d| %>
             <tr>
-                <td><%= link_to d.id, edit_invoice_path(d), remote: true%></td>
-                <td><%=d.project.name%></td>
+                <td><%=  d.id %></td>
                 <td><%=d.workflow_state.name%></td>
-                <td>#<%=d.purchase_order.id%> - <%=d.purchase_order.customer.person.name%> <%= d.purchase_order.name%></td>
                 <td><%=d.name%></td>
                 <td><%=d.starts_on%></td>
                 <td><%=d.ends_on%></td>

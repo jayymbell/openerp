@@ -53,6 +53,38 @@
               </p>
             <%end%>
           </li>
+          <li class="nav-item">
+            <%= link_to projects_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-umbrella"></i>
+              <p>
+                Projects
+              </p>
+            <%end%>
+          </li>
+          <li class="nav-item">
+            <%= link_to purchase_orders_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-shopping-cart"></i>
+              <p>
+                Purchase Orders
+              </p>
+            <%end%>
+          </li>
+          <li class="nav-item">
+            <%= link_to work_orders_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-wrench"></i>
+              <p>
+                Work Orders
+              </p>
+            <%end%>
+          </li>
+          <li class="nav-item">
+            <%= link_to invoices_path, class: 'nav-link' do%>
+              <i class="nav-icon fa fa-receipt"></i>
+              <p>
+                Invoices
+              </p>
+            <%end%>
+          </li>
           <%end%>
         </ul>
       </nav>

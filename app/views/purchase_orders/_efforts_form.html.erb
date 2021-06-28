@@ -4,8 +4,8 @@
       <table class="table table-striped table-condensed" id="purchaseOrderEfforts">
         <thead>
           <tr>
-            <th>Job</th>
             <th>Employee</th>
+            <th>Job</th>
             <th>Hours</th>
             <th>Total</th>
             <th></th>
@@ -14,15 +14,15 @@
 
         <tbody>
           <tr>
-              <td style="width: 25%;">
-              <%= select_tag :job_id, 
-          options_for_select(@available_jobs.map {|d| [d.name, d.id] }), 
-        {class: 'input-select2-basic', id: 'poe-job'}%>
-              </td>
-              <td style="width: 20%;">
+            <td style="width: 20%;">
               <%= select_tag :employee_id, 
           options_for_select(@available_employees.map {|d| [d.person.name, d.id] }), 
         {class: 'input-select2-basic', id: 'poe-employee', prompt: ''}%>
+              </td>
+              <td style="width: 25%;">
+              <%= select_tag :job_id, 
+          options_for_select(@available_jobs.map {|d| [d.name, d.id] }), 
+        {class: 'input-select2-basic', id: 'poe-job', prompt: ''}%>
               </td>
               <td>
                 <div class="input-group">
@@ -44,12 +44,12 @@
           </tr>
           <% @purchase_order.purchase_order_efforts.each_with_index do |poe, index| %>
             <tr id="poe-<%=index%>">
+              <td style="width: 20%;">
+                <%= hidden_field_tag 'purchase_order[purchase_order_efforts_attributes]['+index.to_s+'][id]',poe.id%>
+                <%= text_field_tag '', poe.employee.present? ? poe.employee.person.name : '', readonly: true%>
+              </td>
               <td style="width: 25%;">
               <%= text_field_tag '', poe.job.name, readonly: true%>
-              </td>
-              <td style="width: 20%;">
-              <%= hidden_field_tag 'purchase_order[purchase_order_efforts_attributes]['+index.to_s+'][id]',poe.id%>
-              <%= text_field_tag '', poe.employee.present? ? poe.employee.person.name : '', readonly: true%>
               </td>
               <td>
                 <div class="input-group">
@@ -86,19 +86,6 @@
           .append($('<input>')
           .prop('readonly', 'true')
           .addClass('form-control')
-          .prop('name',"purchase_order[purchase_order_efforts_attributes]["+index+"][job_id]" )
-          .prop('type', 'hidden')
-          .val($('#poe-job option:selected').val())
-          )
-          .append($('<input>')
-          .prop('readonly', 'true')
-          .addClass('form-control')
-          .val($('#poe-job option:selected').text())
-          ))
-        .append($('<td>')
-          .append($('<input>')
-          .prop('readonly', 'true')
-          .addClass('form-control')
           .prop('name',"purchase_order[purchase_order_efforts_attributes]["+index+"][employee_id]" )
           .prop('type', 'hidden')
           .val($('#poe-employee option:selected').val())
@@ -108,7 +95,19 @@
           .addClass('form-control')
           .val($('#poe-employee option:selected').text())
           ))
-
+        .append($('<td>')
+          .append($('<input>')
+          .prop('readonly', 'true')
+          .addClass('form-control')
+          .prop('name',"purchase_order[purchase_order_efforts_attributes]["+index+"][job_id]" )
+          .prop('type', 'hidden')
+          .val($('#poe-job option:selected').val())
+          )
+          .append($('<input>')
+          .prop('readonly', 'true')
+          .addClass('form-control')
+          .val($('#poe-job option:selected').text())
+          ))
         .append($('<td>')
           .append($('<div>')
           .addClass('input-group')
