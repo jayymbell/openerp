@@ -1,0 +1,11 @@
+$('#dialog h3').html("Edit Service Action");
+
+$('.modal-body').html('<%= j render("form", service_action: @service_action) %>');
+
+$('#dialog').modal("show");
+
+$('#dialog').on('shown.bs.modal', function () {
+    $('.first_input').focus()
+})
+
+$('.input-select2-basic').select2();

@@ -1,21 +1,15 @@
-<%= form_with(model: service_action) do |form| %>
-  <% if service_action.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(service_action.errors.count, "error") %> prohibited this service_action from being saved:</h2>
-
-      <ul>
-        <% service_action.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<%= form_with(model: service_action, remote: true) do |form| %>
+  <%= render 'layouts/form_errors', object: form.object %>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="field">
+        <%= form.hidden_field :service_id %>
+      </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :service_id %>
-    <%= form.text_field :service_id %>
+    <div class="col-sm-4">
+        <%= submit_btn(form,"float:right;")%>
+    </div>
   </div>
-
   <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name %>
@@ -29,9 +23,5 @@
   <div class="field">
     <%= form.label :url %>
     <%= form.text_field :url %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
   </div>
 <% end %>

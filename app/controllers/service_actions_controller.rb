@@ -13,6 +13,7 @@ class ServiceActionsController < ApplicationController
   # GET /service_actions/new
   def new
     @service_action = ServiceAction.new
+    @service_action.service = params[:service_id].present? ? Service.find(params[:service_id]) : nil
   end
 
   # GET /service_actions/1/edit
@@ -25,11 +26,14 @@ class ServiceActionsController < ApplicationController
 
     respond_to do |format|
       if @service_action.save
+        flash_message(:success, "Service action successfully created.")
         format.html { redirect_to @service_action, notice: "Service action was successfully created." }
         format.json { render :show, status: :created, location: @service_action }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @service_action.errors, status: :unprocessable_entity }
+        format.js {render 'new'}
       end
     end
   end
@@ -38,11 +42,14 @@ class ServiceActionsController < ApplicationController
   def update
     respond_to do |format|
       if @service_action.update(service_action_params)
+        flash_message(:success, "Service action successfully updated.")
         format.html { redirect_to @service_action, notice: "Service action was successfully updated." }
         format.json { render :show, status: :ok, location: @service_action }
+        format.js {render js:'window.location.reload();'}
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @service_action.errors, status: :unprocessable_entity }
+        format.js {render 'edit'}
       end
     end
   end
@@ -53,6 +60,7 @@ class ServiceActionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to service_actions_url, notice: "Service action was successfully destroyed." }
       format.json { head :no_content }
+      format.js {render js:'window.location.reload();'}
     end
   end
 
