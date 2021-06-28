@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :service_actions
   resources :work_order_invoices
   resources :account_activations, only: [:create, :edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]

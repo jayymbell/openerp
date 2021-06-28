@@ -27,11 +27,19 @@
     <li class="nav-item">
       <a class="nav-link active" id="employee-tab" data-toggle="tab" href="#employee" role="tab" aria-controls="employee" aria-selected="true">Employees</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" id="actions-tab" data-toggle="tab" href="#actions" role="tab" aria-controls="actions">Actions</a>
+    </li>
 </ul>
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="employee" role="tabpanel" aria-labelledby="employee-tab">
       <div class="container-fluid" style="padding-top: 10px;">
         <%= render 'employees'%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="actions" role="tabpanel" aria-labelledby="actions-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'actions'%>
       </div>
     </div>
 </div>
