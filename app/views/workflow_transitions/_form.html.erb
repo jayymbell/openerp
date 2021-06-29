@@ -52,11 +52,19 @@
     <li class="nav-item">
       <a class="nav-link active" id="roles-tab" data-toggle="tab" href="#roles" role="tab" aria-controls="roles" aria-selected="true">Roles</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" id="actions-tab" data-toggle="tab" href="#actions" role="tab" aria-controls="actions"">Service Actions</a>
+    </li>
 </ul>
 <div class="tab-content" id="myTabModalContent">
     <div class="tab-pane fade show active" id="roles" role="tabpanel" aria-labelledby="roles-tab">
       <div class="container-fluid" style="padding-top: 10px;">
         <%= render 'roles_form', form: form%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="actions" role="tabpanel" aria-labelledby="actions-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'actions_form', form: form%>
       </div>
     </div>
 </div>

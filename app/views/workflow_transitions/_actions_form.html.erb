@@ -1,0 +1,4 @@
+        <%= form.collection_check_boxes(:service_action_ids, ServiceAction.all, :id, :name) do |b| %>
+      <%=b.check_box %> <%=b.label%>
+      </br>
+      <%end%>

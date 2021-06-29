@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_28_163147) do
+ActiveRecord::Schema.define(version: 2021_06_29_163953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -443,6 +443,15 @@ ActiveRecord::Schema.define(version: 2021_06_28_163147) do
     t.index ["workflow_id"], name: "index_workflow_states_on_workflow_id"
   end
 
+  create_table "workflow_transition_actions", force: :cascade do |t|
+    t.bigint "workflow_transition_id", null: false
+    t.bigint "service_action_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_action_id"], name: "index_workflow_transition_actions_on_service_action_id"
+    t.index ["workflow_transition_id"], name: "index_workflow_transition_actions_on_workflow_transition_id"
+  end
+
   create_table "workflow_transition_roles", force: :cascade do |t|
     t.bigint "workflow_transition_id", null: false
     t.bigint "role_id", null: false
@@ -525,6 +534,8 @@ ActiveRecord::Schema.define(version: 2021_06_28_163147) do
   add_foreign_key "work_orders", "users", column: "assignee_id"
   add_foreign_key "work_orders", "users", column: "requester_id"
   add_foreign_key "workflow_states", "workflows"
+  add_foreign_key "workflow_transition_actions", "service_actions"
+  add_foreign_key "workflow_transition_actions", "workflow_transitions"
   add_foreign_key "workflow_transition_roles", "roles"
   add_foreign_key "workflow_transition_roles", "workflow_transitions"
   add_foreign_key "workflow_transitions", "workflow_states", column: "source_state_id"

@@ -86,6 +86,6 @@ class WorkflowTransitionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def workflow_transition_params
-      params.require(:workflow_transition).permit(:workflow_id, :name, :description, :source_state_id, :target_state_id, role_ids:[])
+      params.require(:workflow_transition).permit(:workflow_id, :name, :description, :source_state_id, :target_state_id, role_ids:[], service_action_ids:[])
     end
 end
