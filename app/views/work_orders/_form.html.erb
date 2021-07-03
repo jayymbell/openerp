@@ -88,6 +88,9 @@
     <li class="nav-item">
       <a class="nav-link" id=events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="true">Events</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" id=wo-people-tab" data-toggle="tab" href="#wo-people" role="tab" aria-controls="wo-people" aria-selected="true">People</a>
+    </li>
 </ul>
 <div class="tab-content" id="myTabModalContent">
     <div class="tab-pane fade show active" id="comments" role="tabpanel" aria-labelledby="comments-tab">
@@ -108,6 +111,11 @@
     <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events">
       <div class="container-fluid" style="padding-top: 10px;">
         <%= render 'events'%>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="wo-people" role="tabpanel" aria-labelledby="wo-people">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'people'%>
       </div>
     </div>
 </div>

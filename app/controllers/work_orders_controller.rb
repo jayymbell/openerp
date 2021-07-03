@@ -53,6 +53,7 @@ class WorkOrdersController < ApplicationController
     respond_to do |format|
       delete_work_order_efforts
       delete_work_order_invoices
+      delete_work_order_people
       if @work_order.update(work_order_params)
         flash_message(:success, "Work order was successfully updated.'")
         format.html { redirect_to @work_order, notice: "Work order was successfully updated." }
@@ -105,6 +106,7 @@ class WorkOrdersController < ApplicationController
 
     def set_available_employees
       @available_employees = @work_order.project.present? ? @work_order.project.employees : nil
+      @available_people = Person.all
     end
 
     def set_available_invoices
@@ -126,6 +128,25 @@ class WorkOrdersController < ApplicationController
           end
         else
           @work_order.work_order_efforts.destroy_all
+        end
+      end
+    end
+
+    def delete_work_order_people
+      @work_order.work_order_people.each do |wop|
+        remove_wop = true
+        puts work_order_params.inspect
+        if work_order_params[:work_order_people_attributes].present?
+          work_order_params[:work_order_people_attributes].each do |p|
+            if p[1][:id].to_s == woe.id.to_s 
+              remove_wop = false
+            end
+          end
+          if remove_wop
+            @work_order.work_order_people.delete(woe)
+          end
+        else
+          @work_order.work_order_people.destroy_all
         end
       end
     end
@@ -156,7 +177,7 @@ class WorkOrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def work_order_params
-      params.require(:work_order).permit(:name, :description, :project_id, :requester_id, :assignee_id, :workflow_id, :workflow_state_id, :initial_estimate,work_order_efforts_attributes: [:id, :employee_id, :hours, :short_description, :long_description, :completed_on], work_order_comments_attributes: [:id, :comment, :user_id], work_order_invoices_attributes: [:id, :invoice_id, :allocation])
+      params.require(:work_order).permit(:name, :description, :project_id, :requester_id, :assignee_id, :workflow_id, :workflow_state_id, :initial_estimate,work_order_efforts_attributes: [:id, :employee_id, :hours, :short_description, :long_description, :completed_on], work_order_comments_attributes: [:id, :comment, :user_id], work_order_invoices_attributes: [:id, :invoice_id, :allocation], person_ids:[])
     end
 
     def log_event
