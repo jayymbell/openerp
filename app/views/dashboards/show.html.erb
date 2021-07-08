@@ -1,2 +1,44 @@
-<h1>Dashboards#show</h1>
-<p>Find me in app/views/dashboards/show.html.erb</p>
+<h1>Dashboard</h1>
+<div class="row">
+    <div class="col-sm-2" style="padding-top: 60px;">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+      <%= link_to 'All', root_path, class: "nav-link #{@project.nil? ? 'active' : ''}"%>
+      <%is_active = ""%>
+      <%Project.all.order(:name).each do |project|%>
+        <%= link_to project.abbreviation, root_path(project_id: project.id), class: "nav-link #{@project.present? && @project.id == project.id ? 'active' : ''}"%>
+      <%end%>
+    </div>
+    </div>
+    <div class="col-sm-10">
+
+<ul class="nav nav-tabs" id="myTab" role="tablist" style="padding-top: 10px;">
+    <%if @current_user.person.employee.present?%>
+        <li class="nav-item">
+        <a class="nav-link active" id="employee-tab" data-toggle="tab" href="#employee" role="tab" aria-controls="employee" aria-selected="true">Employee</a>
+        </li>
+    <%end%>
+    <%if @current_user.person.customer.present?%>
+    <li class="nav-item">
+      <a class="nav-link" id="customer-tab" data-toggle="tab" href="#customer" role="tab" aria-controls="customer" aria-selected="true">Customer</a>
+    </li>
+    <%end%>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <%if @current_user.person.employee.present?%>
+        <div class="tab-pane fade show active" id="employee" role="tabpanel" aria-labelledby="employee-tab">
+        <div class="container-fluid" style="padding-top: 10px;">
+            <%= render 'employee'%>
+        </div>
+        </div>
+    <%end%>
+    <%if @current_user.person.customer.present?%>
+    <div class="tab-pane fade show" id="customer" role="tabpanel" aria-labelledby="customer-tab">
+      <div class="container-fluid" style="padding-top: 10px;">
+        <%= render 'customer'%>
+      </div>
+    </div>
+    <%end%>
+</div>
+    </div>
+</div>

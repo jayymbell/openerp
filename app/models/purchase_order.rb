@@ -27,5 +27,9 @@ class PurchaseOrder < ApplicationRecord
   def total_amount_invoiced
     invoices.sum(:total)
   end
+
+  def duration
+    (self.ends_on - self.starts_on).to_i + 1
+  end
   
 end
